@@ -1,0 +1,67 @@
+{
+  
+    "diffservices":[
+      {
+        "id":1,
+        "name": "Service 1",
+        "icon": "../assets/community.png" 
+      },
+      {
+        "id":2,
+        "name": "Service 2",
+        "icon": "../assets/community.png"
+      },
+    
+      {
+          "id":3,
+          "name": "Service 3",
+          "icon": "../assets/community.png"
+        },
+    
+        {
+          "id":4,
+          "name": "Service 4",
+          "icon": "../assets/community.png"
+        },
+    
+        {
+          "id":5,
+          "name": "Service 5",
+          "icon": "../assets/community.png"
+        },
+        
+        {
+          "id":6,
+          "name": "Service 6",
+          "icon": "../assets/community.png"
+        },
+  
+        {
+          "id":7,
+          "name": "Service 7",
+          "icon": "../assets/community.png"
+        },
+  
+        {
+          "id":8,
+          "name": "Service 8",
+          "icon": "../assets/community.png"
+        },
+        
+        {
+          "id":9,
+          "name": "Service 9",
+          "icon": "../assets/community.png"
+        },
+        
+        {
+          "id":10,
+          "name": "Service 10",
+          "icon": "../assets/community.png"
+        }
+    ]
+    
+  }
+      
+      
+    

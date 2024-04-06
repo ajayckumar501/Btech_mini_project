@@ -1,0 +1,80 @@
+{
+  
+    "diffreceivers":[
+      {
+        "id":1,
+        "usericon":"../assets/usericon.png",
+        "receivername": "Reciever 1",
+        "messageicon": "../assets/messageicon.png"
+      },
+
+      {
+        "id":2,
+        "usericon":"../assets/usericon.png",
+        "receivername": "Reciever 2",
+        "messageicon": "../assets/messageicon.png"
+      },
+
+      {
+        "id":3,
+        "usericon":"../assets/usericon.png",
+        "receivername": "Reciever 3",
+        "messageicon": "../assets/messageicon.png"
+      },
+
+      {
+        "id":4,
+        "usericon":"../assets/usericon.png",
+        "receivername": "Reciever 4",
+        "messageicon": "../assets/messageicon.png"
+      },
+
+      {
+        "id":5,
+        "usericon":"../assets/usericon.png",
+        "receivername": "Reciever 5",
+        "messageicon": "../assets/messageicon.png"
+      },
+
+      {
+        "id":6,
+        "usericon":"../assets/usericon.png",
+        "receivername": "Reciever 6",
+        "messageicon": "../assets/messageicon.png"
+      },
+
+      {
+        "id":7,
+        "usericon":"../assets/usericon.png",
+        "receivername": "Reciever 7",
+        "messageicon": "../assets/messageicon.png"
+      },
+
+      {
+        "id":8,
+        "usericon":"../assets/usericon.png",
+        "receivername": "Reciever 8",
+        "messageicon": "../assets/messageicon.png"
+      },
+      
+      {
+        "id":9,
+        "usericon":"../assets/usericon.png",
+        "receivername": "Reciever 9",
+        "messageicon": "../assets/messageicon.png"
+      },
+
+      {
+        "id":10,
+        "usericon":"../assets/usericon.png",
+        "receivername": "Reciever 10",
+        "messageicon": "../assets/messageicon.png"
+      }
+    
+      
+    ]
+    
+  }
+      
+      
+    
