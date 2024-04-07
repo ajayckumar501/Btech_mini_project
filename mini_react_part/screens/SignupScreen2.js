@@ -7,20 +7,20 @@ const SignupScreen2 = () => {
     return (
 
         <View style={styles.maincontainer}>
-            <View>
+            {/* <View> */}
                 <ScrollView contentContainerStyle={styles.scrollViewContent} showsVerticalScrollIndicator={false}>
 
                     <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 15, color: "#575757" }}>Select role</Text>
                     <ServiceSelectbox style={{ marginRight: 15 }} />
 
 
-                    <View style={styles.uploadview}>
+                    {/* <View style={styles.uploadview}>
                         <Text style={{ fontSize: 16, fontWeight: "700", color: "#8A8888" }}>Upload valid documnets</Text>
                         <Pressable>
                             <Image source={require("../assets/Upload.png")} style={styles.image} />
                         </Pressable>
 
-                    </View>
+                    </View> */}
 
 
                     <SelectServicelist />
@@ -29,7 +29,7 @@ const SignupScreen2 = () => {
                         <Text style={styles.tbuttontext}>next</Text>
                     </Pressable>
                 </ScrollView>
-            </View>
+            {/* </View> */}
 
 
             <View>
@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         marginTop: 50,
+        // flex:1,
 
     },
 
