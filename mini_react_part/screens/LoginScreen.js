@@ -15,7 +15,7 @@ const Login = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   //function
   // btn funcn
-  const handleSubmit = async() =>{
+  const handleSubmit = () =>{
     try {
       setLoading(true);
       if (!username || !password) {
@@ -24,24 +24,30 @@ const Login = ({ navigation }) => {
         return;
       }
       setLoading(false);
-      const response = await axios.post("http://localhost:8080/api/v1/auth/login", {username, password},{
+      axios.post("http://localhost:8080/api/v1/auth/login", {username, password},{
         headers:{
           "Content-Type":'application/json'
         }
       })
-      if (response.data && response.data.message)
-      {
-        alert(JSON.stringify(response.data.message));
-      }
+      .then(function(response){
+         if (response.data && response.data.message)
+         {
+           alert(JSON.stringify(response.data.message));
+         }
       //setLoginResponse(response.data);
-      AsyncStorage.setItem("@auth", JSON.stringify(response));
-      if(response.data.success)
-      {
-         navigation.navigate("SignupScreen2");
-      }
-      console.log("Login Data==> ", { username, password });
+         AsyncStorage.setItem("@auth", JSON.stringify(response));
+         if(response.data.success)
+         {
+            navigation.navigate("SignupScreen2");
+         }
+         console.log("Login Data==> ", { username, password });
+        })
+        .catch(function(error){
+          console.error("Error occured:",error);
+        });
       }
       catch (error) {
+        console.log("fuck");
       alert(error.response.data.message);
       setLoading(false);
       console.log(error);
