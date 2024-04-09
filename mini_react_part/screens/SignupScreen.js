@@ -57,6 +57,7 @@ const Register = ({ navigation }) => {
   };
   return (
     <View style={styles.container}>
+
       <Text style={styles.pageTitle}>Register</Text>
       <View style={{ marginHorizontal: 20 }}>
         <InputBox 
@@ -110,7 +111,12 @@ const Register = ({ navigation }) => {
           LOGIN
         </Text>{" "}
       </Text>
-    </View>
+     </View>
+
+
+
+
+
   );
 };
 
@@ -194,36 +200,10 @@ const styles = StyleSheet.create({
       // backgroundColor:"red",
       padding: 10,  
     }
+
+
 });
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     justifyContent: "center",
-//     backgroundColor: "#e1d5c9",
-//   },
-//   pageTitle: {
-//     fontSize: 40,
-//     fontWeight: "bold",
-//     textAlign: "center",
-//     color: "#1e2225",
-//     marginBottom: 20,
-//   },
-//   inputBox: {
-//     height: 40,
-//     marginBottom: 20,
-//     backgroundColor: "#ffffff",
-//     borderRadius: 10,
-//     marginTop: 10,
-//     paddingLeft: 10,
-//     color: "#af9f85",
-//   },
-//   linkText: {
-//     textAlign: "center",
-//   },
-//   link: {
-//     color: "red",
-//   },
-// });
+
 
 export default Register;
