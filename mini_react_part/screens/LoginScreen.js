@@ -5,7 +5,7 @@ import InputBox from "../components/Forms/InputBox";
 import SubmitButton from "../components/Forms/SubmitButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-let apiresponse;
+let apiresponse,username;
 const Login = ({ navigation }) => {
   //global state
   //const [state, setState] = useContext(AuthContext);
@@ -40,7 +40,7 @@ const Login = ({ navigation }) => {
         alert(response.data.message);
       })
       .catch((error) =>{
-        console.error(error);
+        console.error(error.response.data.message);
       });
       //setLoginResponse(response.data);
       AsyncStorage.setItem("@auth", JSON.stringify(apiresponse));
@@ -201,3 +201,4 @@ const styles = StyleSheet.create({
 });
 
 export default Login;
+export {username};

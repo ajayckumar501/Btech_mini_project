@@ -6,12 +6,6 @@ import ServiceList from "../data/ServiceList.json"
 import NavBarbottom from '../components/NavBarbottom'
 const Serviceorganizerdonor = () => {
 
-
-
-
-
-
-
   return (
     <View style={styles.container}>
       <SearchBar style={styles.SearchBartop} />
@@ -42,7 +36,7 @@ const Serviceorganizerdonor = () => {
   )
 }
 
-export default Serviceorganizerdonor
+export default Serviceorganizerdonor;
 
 const styles = StyleSheet.create({
   container: {

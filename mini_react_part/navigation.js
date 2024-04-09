@@ -6,7 +6,7 @@ import SignupScreen2 from './screens/SignupScreen2';
 // import ServiceSelectbox from './components/ServiceSelectbox';
 // import SearchBar from './components/SearchBar';
 //  import Serviceorganizerdonor from './screens/Serviceorganizerdonor';
-// import Serviceorganizerreceiver from './screens/Serviceorganizerreceiver';
+import Serviceorganizerreceiver from './screens/Serviceorganizerreceiver';
 // import Postorganizerdonor from './screens/Postorganizerdonor';
 // import Postorganizerreceiver from './screens/Postorganizerreceiver';
 // import Commitedrecievers from './screens/Commitedrecievers';
@@ -73,10 +73,10 @@ const AppNavigator = () => {
         component={Serviceorganizerdonor} 
       /> */}
 
-{/* <Stack.Screen
+<Stack.Screen
         name="Serviceorganizerreceiver" // we can customize this name
         component={Serviceorganizerreceiver} 
-      /> */}
+      />
 
 {/* <Stack.Screen
         name="Postorganizerdonor" // we can customize this name

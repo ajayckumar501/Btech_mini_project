@@ -41,7 +41,7 @@ const Register = ({ navigation }) => {
         alert(response.data.message);
       })
       .catch((error) =>{
-        console.error(error);
+        console.error(error.response.data.message);
       });
       navigation.navigate("LoginScreen");
       console.log("Register Data==> ", { username,email,phoneno,location,password,confpasswd, });
