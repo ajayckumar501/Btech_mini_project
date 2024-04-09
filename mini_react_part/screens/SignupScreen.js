@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import InputBox from "../components/Forms/InputBox";
 import SubmitButton from "../components/Forms/SubmitButton";
 import axios from "axios";
-let response;
+let apiresponse;
 const Register = ({ navigation }) => {
   // states
   const [username, setUsername] = useState("");
@@ -15,7 +15,7 @@ const Register = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   //function
   // btn funcn
-  const handleSubmit = async() => {
+  const handleSubmit = () => {
     try {
       setLoading(true);
       if (!username || !email || !phoneno|| !location|| !password|| !confpasswd) {
@@ -32,21 +32,18 @@ const Register = ({ navigation }) => {
         confirmpassword:confpasswd
       }
       setLoading(false);
-      response = await axios.post("http://192.168.209.163:8080/api/v1/auth/register",payload,{
+      apiresponse = axios.post("http://192.168.43.175:8080/api/v1/auth/register",payload,{
         headers:{
           "Content-Type":'application/json'
         }
       })
-      /*.then((response) => {
-        console.log(data.message);
+      .then((response) => {
+        alert(response.data.message);
       })
       .catch((error) =>{
         console.error(error);
-      });*/
-      alert(response.message);
-      if(response.success){
-         navigation.navigate("LoginScreen");
-      }
+      });
+      navigation.navigate("LoginScreen");
       console.log("Register Data==> ", { username,email,phoneno,location,password,confpasswd, });
       
     } catch (error) {

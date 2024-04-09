@@ -5,7 +5,7 @@ import InputBox from "../components/Forms/InputBox";
 import SubmitButton from "../components/Forms/SubmitButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-let response;
+let apiresponse;
 const Login = ({ navigation }) => {
   //global state
   //const [state, setState] = useContext(AuthContext);
@@ -16,7 +16,7 @@ const Login = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   //function
   // btn funcn
-  const handleSubmit = async() =>{
+  const handleSubmit = () =>{
     try {
       setLoading(true);
       if (!username || !password) {
@@ -31,18 +31,20 @@ const Login = ({ navigation }) => {
       }
 
       setLoading(false);
-      response = await axios.post("http://192.168.209.163:8080/api/v1/auth/login", payload,{
+      apiresponse =  axios.post("http://192.168.43.175.:8080/api/v1/auth/login", payload,{
         headers:{
           "Content-Type":'application/json'
         }
       })
-      alert(response.message);
+      .then((response) => {
+        alert(response.data.message);
+      })
+      .catch((error) =>{
+        console.error(error);
+      });
       //setLoginResponse(response.data);
-      AsyncStorage.setItem("@auth", JSON.stringify(response));
-      if(response.success)
-      {
-         navigation.navigate("SignupScreen2");
-      }
+      AsyncStorage.setItem("@auth", JSON.stringify(apiresponse));
+      navigation.navigate("SignupScreen2");
       console.log("Login Data==> ", { username, password });
       }
       catch (error) {

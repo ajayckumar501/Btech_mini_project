@@ -54,15 +54,15 @@ const AppNavigator = () => {
         component={Login2ajay} 
       /> */}
 
-      {/* <Stack.Screen
+      <Stack.Screen
         name="SignupScreen" // we can customize this name
         component={SignupScreen} 
-    /> */}
+    /> 
 
-      {/* <Stack.Screen
+       <Stack.Screen
         name="LoginScreen" // we can customize this name
         component={LoginScreen} 
-      />  */}
+      /> 
       <Stack.Screen
         name="SignupScreen2" // we can customize this name
         component={SignupScreen2} 
