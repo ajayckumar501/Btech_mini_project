@@ -1,18 +1,29 @@
-import { StyleSheet, Text, View, ScrollView, TextInput, Pressable, Image } from 'react-native'
-import React from 'react'
-import ServiceSelectbox from '../components/ServiceSelectbox'
-import SelectServicelist from '../components/SelectServicelist'
+import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native';
+import React, { useState } from 'react';
+//import ServiceSelectbox from '../components/ServiceSelectbox';
+import SelectServicelist, { selectedServices } from '../components/SelectServicelist'; // Import SelectServicelist and selectedServices
+import ServiceSelectbox, { selectedRadio } from '../components/ServiceSelectbox';
 
 const SignupScreen2 = () => {
+
+    const [loading, setLoading] = useState(false);
+    const [selectedUserType, setSelectedUserType] = useState(null);
+
+    const handleUserTypeSelect = (userType) => {
+        setSelectedUserType(userType);
+    };
+
+    const handleSubmit = () =>{
+    };
     return (
 
-        <View style={styles.maincontainer}>
+        <ScrollView style={styles.maincontainer}>
             {/* <View> */}
                 <ScrollView contentContainerStyle={styles.scrollViewContent} showsVerticalScrollIndicator={false}>
 
                     <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 15, color: "#575757" }}>Select role</Text>
-                    <ServiceSelectbox style={{ marginRight: 15 }} />
-
+                    <ServiceSelectbox onUserTypeSelect={handleUserTypeSelect} style={{ marginRight: 15 }} />
+                    <Text>Selected role:{selectedRadio}</Text>
 
                     {/* <View style={styles.uploadview}>
                         <Text style={{ fontSize: 16, fontWeight: "700", color: "#8A8888" }}>Upload valid documnets</Text>
@@ -24,6 +35,7 @@ const SignupScreen2 = () => {
 
 
                     <SelectServicelist />
+                    <Text>Selected Services:{selectedServices}</Text>
 
                     <Pressable style={styles.tbutton} >
                         <Text style={styles.tbuttontext}>next</Text>
@@ -32,19 +44,29 @@ const SignupScreen2 = () => {
             {/* </View> */}
 
 
-            <View>
+            <ScrollView>
                 <View style={styles.bottombuttonfield}>
-                    <Pressable style={styles.tbutton} >
+                    {/* <Pressable style={styles.tbutton} >
                         <Text style={styles.tbuttontext}>Sign up</Text>
+                    </Pressable> */}
+                    <Pressable
+                        style={styles.tbutton}
+                        onPress={handleSubmit}
+                        disabled={loading} // Disable if loading is true
+                    >
+                    <Text style={styles.tbuttontext}>
+                    {loading ? 'Loading...' : 'Sign up'} // Adapt text based on loading state
+                    </Text>
                     </Pressable>
+
                 </View>
-            </View>
-        </View>
+            </ScrollView>
+        </ScrollView>
 
     )
 }
 
-export default SignupScreen2
+export default SignupScreen2;
 
 const styles = StyleSheet.create({
 

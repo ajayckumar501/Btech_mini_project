@@ -74,13 +74,13 @@
 // })
 
 
-import { StyleSheet, Text, View, SafeAreaView, FlatList, Image, Pressable } from 'react-native'
-import React, { useState } from 'react'
-import SearchBar from '../components/SearchBar'
+import { StyleSheet, Text, View, SafeAreaView, FlatList, Image, Pressable } from 'react-native';
+import React, { useState } from 'react';
+import SearchBar from '../components/SearchBar';
+import ServiceList from "../data/ServiceList.json";
+let selectedServices;
 
-import ServiceList from "../data/ServiceList.json"
-
-const Serviceorganizerdonor = () => {
+const SelectServicelist = () => {
   const [selectedServices, setSelectedServices] = useState([]);
 
   const handleServicePress = (index) => {
@@ -121,8 +121,6 @@ const Serviceorganizerdonor = () => {
   );
 };
 
-export default Serviceorganizerdonor;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -160,3 +158,6 @@ const styles = StyleSheet.create({
     marginRight: '60%',
   },
 });
+
+export default SelectServicelist;
+export { selectedServices };

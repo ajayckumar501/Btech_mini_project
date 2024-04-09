@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Pressable } from 'react-native';
+let selectedRadio;
 
-const ServiceSelectbox = () => {
+const ServiceSelectbox = ({ onUserTypeSelect }) => {
   const [selectedRadio, setSelectedRadio] = useState(null); // Initial selection
 
   const handleRadioPress = (value) => {
@@ -21,7 +22,10 @@ const ServiceSelectbox = () => {
           <Pressable
             key={option.value}
             style={styles.radioItem}
-            onPress={() => handleRadioPress(option.value)}
+            onPress={() => {
+              handleRadioPress(option.value);
+              onUserTypeSelect(option.value); // Pass selected value to parent
+            }}
           >
             <Text style={styles.radioLabel}>{option.label}</Text>
             <View style={styles.radioIndicatorContainer}>
@@ -33,8 +37,6 @@ const ServiceSelectbox = () => {
     </View>
   );
 };
-
-export default ServiceSelectbox;
 
 const styles = StyleSheet.create({
   maincontainer: {
@@ -85,3 +87,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#02BF9D', 
   },
 });
+
+export default ServiceSelectbox;
+export {selectedRadio};

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import InputBox from "../components/Forms/InputBox";
 import SubmitButton from "../components/Forms/SubmitButton";
 import axios from "axios";
+let response;
 const Register = ({ navigation }) => {
   // states
   const [username, setUsername] = useState("");
@@ -31,7 +32,7 @@ const Register = ({ navigation }) => {
         confirmpassword:confpasswd
       }
       setLoading(false);
-      const response = await axios.post("http://localhost:8080/api/v1/auth/register",payload,{
+      response = await axios.post("http://192.168.209.163:8080/api/v1/auth/register",payload,{
         headers:{
           "Content-Type":'application/json'
         }
@@ -42,8 +43,8 @@ const Register = ({ navigation }) => {
       .catch((error) =>{
         console.error(error);
       });*/
-      alert(response.data.message);
-      if(response.data.success){
+      alert(response.message);
+      if(response.success){
          navigation.navigate("LoginScreen");
       }
       console.log("Register Data==> ", { username,email,phoneno,location,password,confpasswd, });

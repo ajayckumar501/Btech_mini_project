@@ -5,6 +5,7 @@ import InputBox from "../components/Forms/InputBox";
 import SubmitButton from "../components/Forms/SubmitButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+let response;
 const Login = ({ navigation }) => {
   //global state
   //const [state, setState] = useContext(AuthContext);
@@ -15,7 +16,7 @@ const Login = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   //function
   // btn funcn
-  const handleSubmit = () =>{
+  const handleSubmit = async() =>{
     try {
       setLoading(true);
       if (!username || !password) {
@@ -23,31 +24,28 @@ const Login = ({ navigation }) => {
         setLoading(false);
         return;
       }
+
+      const payload={
+        username:username,
+        password:password
+      }
+
       setLoading(false);
-      axios.post("http://localhost:8080/api/v1/auth/login", {username, password},{
+      response = await axios.post("http://192.168.209.163:8080/api/v1/auth/login", payload,{
         headers:{
           "Content-Type":'application/json'
         }
       })
-      .then(function(response){
-         if (response.data && response.data.message)
-         {
-           alert(JSON.stringify(response.data.message));
-         }
+      alert(response.message);
       //setLoginResponse(response.data);
-         AsyncStorage.setItem("@auth", JSON.stringify(response));
-         if(response.data.success)
-         {
-            navigation.navigate("SignupScreen2");
-         }
-         console.log("Login Data==> ", { username, password });
-        })
-        .catch(function(error){
-          console.error("Error occured:",error);
-        });
+      AsyncStorage.setItem("@auth", JSON.stringify(response));
+      if(response.success)
+      {
+         navigation.navigate("SignupScreen2");
+      }
+      console.log("Login Data==> ", { username, password });
       }
       catch (error) {
-        console.log("fuck");
       alert(error.response.data.message);
       setLoading(false);
       console.log(error);

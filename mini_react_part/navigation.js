@@ -2,7 +2,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Login2ajay from './screens/Login2ajay';
 import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
- import SignupScreen2 from './screens/SignupScreen2';
+import SignupScreen2 from './screens/SignupScreen2';
 // import ServiceSelectbox from './components/ServiceSelectbox';
 // import SearchBar from './components/SearchBar';
 //  import Serviceorganizerdonor from './screens/Serviceorganizerdonor';
@@ -54,16 +54,15 @@ const AppNavigator = () => {
         component={Login2ajay} 
       /> */}
 
-      <Stack.Screen
+      {/* <Stack.Screen
         name="SignupScreen" // we can customize this name
         component={SignupScreen} 
-      />
+    /> */}
 
-      <Stack.Screen
+      {/* <Stack.Screen
         name="LoginScreen" // we can customize this name
         component={LoginScreen} 
-      /> 
-      
+      />  */}
       <Stack.Screen
         name="SignupScreen2" // we can customize this name
         component={SignupScreen2} 
