@@ -14,6 +14,8 @@ const SignupScreen2 = () => {
     };
 
     const handleSubmit = () =>{
+        console.log(selectedUserType);
+        console.log(selectedServices);
     };
     return (
 
@@ -23,7 +25,7 @@ const SignupScreen2 = () => {
 
                     <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 15, color: "#575757" }}>Select role</Text>
                     <ServiceSelectbox onUserTypeSelect={handleUserTypeSelect} style={{ marginRight: 15 }} />
-                    <Text>Selected role:{selectedRadio}</Text>
+                    <Text>Selected role:{selectedUserType}</Text>
 
                     {/* <View style={styles.uploadview}>
                         <Text style={{ fontSize: 16, fontWeight: "700", color: "#8A8888" }}>Upload valid documnets</Text>
