@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import InputBox from "../components/Forms/InputBox";
 import SubmitButton from "../components/Forms/SubmitButton";
 import axios from "axios";
-let apiresponse;
+let apiresponse,payload;
 const Register = ({ navigation }) => {
   // states
   const [username, setUsername] = useState("");
@@ -23,7 +23,7 @@ const Register = ({ navigation }) => {
         setLoading(false);
         return;
       }
-      const payload={
+      payload={
         username:username,
         email:email,
         phone:phoneno,
@@ -32,20 +32,20 @@ const Register = ({ navigation }) => {
         confirmpassword:confpasswd
       }
       setLoading(false);
-      apiresponse = axios.post("http://192.168.43.175:8080/api/v1/auth/register",payload,{
+      apiresponse = axios.post("http://192.168.209.163:8080/api/v1/auth/register",payload,{
         headers:{
           "Content-Type":'application/json'
         }
       })
       .then((response) => {
         alert(response.data.message);
+        navigation.navigate("SignupScreen2");
+        console.log("Register Data==> ", { username,email,phoneno,location,password,confpasswd, });
       })
       .catch((error) =>{
         console.error(error.response.data.message);
       });
-      navigation.navigate("LoginScreen");
-      console.log("Register Data==> ", { username,email,phoneno,location,password,confpasswd, });
-      
+
     } catch (error) {
       alert(error.response.data.message);
       setLoading(false);
@@ -98,7 +98,7 @@ const Register = ({ navigation }) => {
       </View>
       {/* <Text>{JSON.stringify({ name, email, password }, null, 4)}</Text> */}
       <SubmitButton
-        btnTitle="Register"
+        btnTitle="Next"
         loading={loading}
         handleSubmit={handleSubmit}
       />
@@ -204,3 +204,4 @@ const styles = StyleSheet.create({
 
 
 export default Register;
+export {payload};

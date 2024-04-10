@@ -1,6 +1,7 @@
 const express = require("express");
 const {
   registerController,
+  registerSubmitController,
   loginController,
   updateUserController,
   requireSingIn,
@@ -12,6 +13,7 @@ const router = express.Router();
 //routes
 // REGISTER || POST
 router.post("/register", registerController);
+router.post("/register2", registerSubmitController);
 
 // LOGIN || POST
 router.post("/login", loginController);

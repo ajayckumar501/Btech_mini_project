@@ -80,7 +80,7 @@ import SearchBar from '../components/SearchBar';
 import ServiceList from "../data/ServiceList.json";
 let selectedServices;
 
-const SelectServicelist = () => {
+const SelectServicelist = ({onUserServiceSelect}) => {
   const [selectedServices, setSelectedServices] = useState([]);
 
   const handleServicePress = (index) => {
@@ -109,8 +109,11 @@ const SelectServicelist = () => {
               styles.serviceboxflat,
               selectedServices.includes(index) && { backgroundColor: '#02BF9D' },
             ]}
-            onPress={() => handleServicePress(index)}
-          >
+            onPress={() => {
+                 handleServicePress(index);
+                 onUserServiceSelect(index);
+                 }
+            }>
             <Text style={styles.servicetext}>{item.name}</Text>
           </Pressable>
         )}

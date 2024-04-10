@@ -63,6 +63,39 @@ const registerController = async (req, res) => {
         message: "User already registered With this username",
       });
     }
+
+    return res.status(201).send({
+      success: true,
+      message: "Navigating to next page",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({
+      success: false,
+      message: "Error in Register API",
+      error,
+    });
+  }
+};
+
+const registerSubmitController = async (req, res) => {
+  try {
+    const { username, email, phone, location, password,confirmpassword,usertype,services } = req.body;
+    //validation
+    
+    if (!usertype) {
+      return res.status(400).send({
+        success: false,
+        message: "Usertype is required",
+      });
+    }
+
+    if (!services) {
+      return res.status(400).send({
+        success: false,
+        message: "Service selection is required",
+      });
+    }
     //hashed pasword
     const hashedPassword = await hashPassword(password);
 
@@ -72,12 +105,14 @@ const registerController = async (req, res) => {
       email:email,
       phoneno:phone,
       location:location,
-      password:hashedPassword
+      password:hashedPassword,
+      usertype:usertype,
+      services:services,
     }).save();
 
     return res.status(201).send({
       success: true,
-      message: "Registration Successfull please login",
+      message: "Registration sucesssful..Please login",
     });
   } catch (error) {
     console.log(error);
@@ -141,5 +176,6 @@ const loginController = async (req, res) => {
 module.exports = {
   requireSignIn,
   registerController,
+  registerSubmitController,
   loginController,
 };

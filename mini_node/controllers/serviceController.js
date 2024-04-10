@@ -1,3 +1,4 @@
+const userModel = require("../models/userModel");
 const serviceController = async (req, res) => {
     try {
         const { username } = req.body;
@@ -15,4 +16,8 @@ const serviceController = async (req, res) => {
           error,
         });
       }
-}
+};
+
+module.exports = {
+  serviceController,
+};

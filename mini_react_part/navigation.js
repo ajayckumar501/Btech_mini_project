@@ -54,29 +54,29 @@ const AppNavigator = () => {
         component={Login2ajay} 
       /> */}
 
-      {/* <Stack.Screen
+      <Stack.Screen
         name="SignupScreen" // we can customize this name
         component={SignupScreen} 
-    />  */}
+    /> 
 
-       {/* <Stack.Screen
+       <Stack.Screen
         name="LoginScreen" // we can customize this name
         component={LoginScreen} 
-      />  */}
-      {/* <Stack.Screen
+      /> 
+      <Stack.Screen
         name="SignupScreen2" // we can customize this name
         component={SignupScreen2} 
-      />  */}
+      /> 
 
       {/* <Stack.Screen
         name="Serviceorganizerdonor" // we can customize this name
         component={Serviceorganizerdonor} 
       /> */}
 
-<Stack.Screen
+{/* <Stack.Screen
         name="Serviceorganizerreceiver" // we can customize this name
         component={Serviceorganizerreceiver} 
-      />
+      /> */}
 
 {/* <Stack.Screen
         name="Postorganizerdonor" // we can customize this name

@@ -28,6 +28,16 @@ const userSchema = new mongoose.Schema(
       required: [true, "please add password"],
       min: 6,
       max: 64,
+    },
+    usertype: {
+      type: String,
+      required: [true, "please add user type"],
+      trim:true,
+    },
+    services: {
+      type: [String],
+      required: [true, "please add services"],
+      trim:true,
     }
   },
   { timestamps: true }

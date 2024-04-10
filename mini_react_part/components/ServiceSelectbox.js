@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Pressable } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 let selectedRadio;
 
 const ServiceSelectbox = ({ onUserTypeSelect }) => {
@@ -17,9 +18,10 @@ const ServiceSelectbox = ({ onUserTypeSelect }) => {
 
   return (
     <View style={styles.maincontainer}>
+      <Text style={{ fontSize: 20, fontWeight: 'bold', color: "#575757",textAlign:"center",marginBottom:15,marginTop:15 }}>Select role</Text>
       <View style={styles.radiobox}>
         {radioOptions.map((option) => (
-          <Pressable
+          <TouchableOpacity
             key={option.value}
             style={styles.radioItem}
             onPress={() => {
@@ -31,7 +33,7 @@ const ServiceSelectbox = ({ onUserTypeSelect }) => {
             <View style={styles.radioIndicatorContainer}>
               <View style={selectedRadio === option.value ? styles.radioIndicatorSelected : styles.radioIndicator} />
             </View>
-          </Pressable>
+          </TouchableOpacity>
         ))}
       </View>
     </View>

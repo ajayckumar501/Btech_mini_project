@@ -1,29 +1,71 @@
 import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native';
 import React, { useState } from 'react';
-//import ServiceSelectbox from '../components/ServiceSelectbox';
+import {payload} from './SignupScreen';
+import ServiceSelectbox from '../components/ServiceSelectbox';
 import SelectServicelist, { selectedServices } from '../components/SelectServicelist'; // Import SelectServicelist and selectedServices
-import ServiceSelectbox, { selectedRadio } from '../components/ServiceSelectbox';
+import axios from "axios";
 
 const SignupScreen2 = () => {
 
     const [loading, setLoading] = useState(false);
     const [selectedUserType, setSelectedUserType] = useState(null);
+    const [selectedServices, setSelectedServices] = useState([]);
 
     const handleUserTypeSelect = (userType) => {
         setSelectedUserType(userType);
     };
 
+    const handleUserServiceSelect = (index) => {
+        const newSelectedServices = [...selectedServices];
+        const itemIndex = newSelectedServices.indexOf(index);
+
+        if (itemIndex !== -1) {
+        // Remove item if already selected
+          newSelectedServices.splice(itemIndex, 1);
+        } else {
+        // Add item if not selected
+         newSelectedServices.push(index);
+        }
+        setSelectedServices(newSelectedServices);
+    };
+
     const handleSubmit = () =>{
-        console.log(selectedUserType);
-        console.log(selectedServices);
+        try {
+            payload.usertype = selectedUserType;
+            payload.services = selectedServices;
+            setLoading(true);
+            if (!selectedServices || !selectedUserType ) {
+              Alert.alert("Please select atleast one of both");
+              setLoading(false);
+              return;
+            }
+            setLoading(false);
+            axios.post("http://192.168.209.163:8080/api/v1/auth/register2",payload,{
+              headers:{
+                "Content-Type":'application/json'
+              }
+            })
+            .then((response) => {
+              alert(response.data.message);
+              navigation.navigate("LoginScreen");
+              console.log("Register Data==> ", { username,email,phoneno,location,password,confpasswd, });
+            })
+            .catch((error) =>{
+                console.error(error.response.data.message);
+            });
+            
+          } catch (error) {
+            alert(error.response.data.message);
+            setLoading(false);
+            console.log(error);
+          }
     };
     return (
 
-        <ScrollView style={styles.maincontainer}>
+        <View style={styles.maincontainer}>
             {/* <View> */}
-                <ScrollView contentContainerStyle={styles.scrollViewContent} showsVerticalScrollIndicator={false}>
+                {/*</View><View contentContainerStyle={styles.scrollViewContent} showsVerticalScrollIndicator={false}>*/}
 
-                    <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 15, color: "#575757" }}>Select role</Text>
                     <ServiceSelectbox onUserTypeSelect={handleUserTypeSelect} style={{ marginRight: 15 }} />
                     <Text>Selected role:{selectedUserType}</Text>
 
@@ -36,22 +78,22 @@ const SignupScreen2 = () => {
                     </View> */}
 
 
-                    <SelectServicelist />
+                    <SelectServicelist onUserServiceSelect={handleUserServiceSelect} style={{ marginRight: 15 }} />
                     <Text>Selected Services:{selectedServices}</Text>
 
-                    <Pressable style={styles.tbutton} >
+                    {/* <Pressable style={styles.tbutton} >
                         <Text style={styles.tbuttontext}>next</Text>
                     </Pressable>
-                </ScrollView>
+                </View> */}
             {/* </View> */}
 
 
-            <ScrollView>
+            {/* <View>
                 <View style={styles.bottombuttonfield}>
                     {/* <Pressable style={styles.tbutton} >
                         <Text style={styles.tbuttontext}>Sign up</Text>
                     </Pressable> */}
-                    <Pressable
+                    {/*<Pressable
                         style={styles.tbutton}
                         onPress={handleSubmit}
                         disabled={loading} // Disable if loading is true
@@ -62,67 +104,36 @@ const SignupScreen2 = () => {
                     </Pressable>
 
                 </View>
-            </ScrollView>
-        </ScrollView>
+            </View>
+        </View> */}
 
-    )
-}
+        <View>
+        <View style={styles.bottombuttonfield}>
+            <Pressable 
+                style={styles.tbutton} 
+                onPress={handleSubmit}
+                disabled={loading}>
+                   <Text style={styles.tbuttontext}>{loading ? 'Loading...' : 'Sign up'}</Text>
+            </Pressable>
+        </View>
+    </View>
+</View>
+
+
+ );
+};
 
 export default SignupScreen2;
 
 const styles = StyleSheet.create({
-
-    // maincontainer: {
-    //     flex: 1,
-    //     justifyContent: "center",
-    //     alignItems: "center",
-    //     // backgroundColor:"red",
-    //     marginTop: 150,
-    // },
-
-    scrollViewContent: {
-        // backgroundColor:"blue",
-        justifyContent: "center",
+    maincontainer: {
+        flex: 1,
+        // justifyContent: "center",
         alignItems: "center",
-        marginTop: 50,
-        // flex:1,
-
+        // backgroundColor: "lightgreen",
+        marginTop: 40,
+        textAlign: "center"
     },
-
-    image: {
-        height: 58,
-        width: 58,
-        marginTop: 5,
-
-    },
-
-    uploadview: {
-        marginTop: 45,
-        marginBottom: 45,
-        width: 314,
-        borderRadius: 11,
-        backgroundColor: "#DDEEEB",
-        height: 213,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-
-    selectserviceview: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        // backgroundColor:'red',
-    },
-
-    textinput: {
-        width: 282,
-        height: 48,
-        marginTop: "8",
-        backgroundColor: "#E6FBF7",
-        borderRadius: 8,
-        padding: 10,
-    },
-
-
     tbutton: {
         width: 216,
         height: 51,
@@ -130,8 +141,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 61,
-
-
     },
 
     tbuttontext: {
@@ -143,13 +152,96 @@ const styles = StyleSheet.create({
         width: 360,
         height: 92,
         backgroundColor: "white",
-        zIndex:5,
-        bottom:0,  // BY USING THIS ONLY THAT BAR APPEARS
-        position:"absolute", // this also
-        justifyContent:"center",
-        alignItems:"center",
-        
+        zIndex: 5,
+        bottom: 0,  // BY USING THIS ONLY THAT BAR APPEARS
+        // position: "absolute", // this also
+        justifyContent: "center",
+        alignItems: "center",
+
     }
-
-
 })
+
+
+// const styles = StyleSheet.create({
+
+//     // maincontainer: {
+//     //     flex: 1,
+//     //     justifyContent: "center",
+//     //     alignItems: "center",
+//     //     // backgroundColor:"red",
+//     //     marginTop: 150,
+//     // },
+
+//     scrollViewContent: {
+//         // backgroundColor:"blue",
+//         justifyContent: "center",
+//         alignItems: "center",
+//         marginTop: 50,
+//         // flex:1,
+
+//     },
+
+//     image: {
+//         height: 58,
+//         width: 58,
+//         marginTop: 5,
+
+//     },
+
+//     uploadview: {
+//         marginTop: 45,
+//         marginBottom: 45,
+//         width: 314,
+//         borderRadius: 11,
+//         backgroundColor: "#DDEEEB",
+//         height: 213,
+//         alignItems: 'center',
+//         justifyContent: 'center',
+//     },
+
+//     selectserviceview: {
+//         alignItems: 'center',
+//         justifyContent: 'center',
+//         // backgroundColor:'red',
+//     },
+
+//     textinput: {
+//         width: 282,
+//         height: 48,
+//         marginTop: "8",
+//         backgroundColor: "#E6FBF7",
+//         borderRadius: 8,
+//         padding: 10,
+//     },
+
+
+//     tbutton: {
+//         width: 216,
+//         height: 51,
+//         backgroundColor: "#02BF9D",
+//         justifyContent: "center",
+//         alignItems: "center",
+//         borderRadius: 61,
+
+
+//     },
+
+//     tbuttontext: {
+//         color: "white",
+//         fontWeight: "900"
+//     },
+
+//     bottombuttonfield: {
+//         width: 360,
+//         height: 92,
+//         backgroundColor: "white",
+//         zIndex:5,
+//         bottom:0,  // BY USING THIS ONLY THAT BAR APPEARS
+//         position:"absolute", // this also
+//         justifyContent:"center",
+//         alignItems:"center",
+        
+//     }
+
+
+// })

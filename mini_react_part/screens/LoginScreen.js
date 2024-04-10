@@ -31,7 +31,7 @@ const Login = ({ navigation }) => {
       }
 
       setLoading(false);
-      apiresponse =  axios.post("http://192.168.43.175.:8080/api/v1/auth/login", payload,{
+      apiresponse =  axios.post("http://192.168.209.163:8080/api/v1/auth/login", payload,{
         headers:{
           "Content-Type":'application/json'
         }
