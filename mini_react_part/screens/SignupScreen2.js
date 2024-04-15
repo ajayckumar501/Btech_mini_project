@@ -4,8 +4,8 @@ import {payload} from './SignupScreen';
 import ServiceSelectbox from '../components/ServiceSelectbox';
 import SelectServicelist, { selectedServices } from '../components/SelectServicelist'; // Import SelectServicelist and selectedServices
 import axios from "axios";
-
-const SignupScreen2 = () => {
+let apiresponse;
+const SignupScreen2 = ({ navigation }) => {
 
     const [loading, setLoading] = useState(false);
     const [selectedUserType, setSelectedUserType] = useState(null);
@@ -29,33 +29,34 @@ const SignupScreen2 = () => {
         setSelectedServices(newSelectedServices);
     };
 
-    const handleSubmit = () =>{
-        try {
+    const handleSubmit = async() =>{
+        try{
             payload.usertype = selectedUserType;
             payload.services = selectedServices;
             setLoading(true);
-            if (!selectedServices || !selectedUserType ) {
-              Alert.alert("Please select atleast one of both");
+            if (selectedServices.length == 0 || !selectedUserType ) {
+              alert("Please select atleast one of both");
               setLoading(false);
               return;
             }
             setLoading(false);
-            axios.post("http://192.168.209.163:8080/api/v1/auth/register2",payload,{
+            apiresponse = await axios.post("http://192.168.43.175:8080/api/v1/auth/register2",payload,{
               headers:{
                 "Content-Type":'application/json'
               }
-            })
-            .then((response) => {
-              alert(response.data.message);
-              navigation.navigate("LoginScreen");
-              console.log("Register Data==> ", { username,email,phoneno,location,password,confpasswd, });
-            })
-            .catch((error) =>{
-                console.error(error.response.data.message);
             });
+            //.then((response) => {
+              alert(apiresponse.data.message);
+              navigation.navigate("LoginScreen");
+              console.log("Register Data==> ", {payload});
+            //})
+            //.catch((error) =>{
+               // console.error(error.response.data.message);
+            //});
             
-          } catch (error) {
-            alert(error.response.data.message);
+          }
+          catch (error) {
+            alert(error.message);
             setLoading(false);
             console.log(error);
           }
@@ -67,7 +68,6 @@ const SignupScreen2 = () => {
                 {/*</View><View contentContainerStyle={styles.scrollViewContent} showsVerticalScrollIndicator={false}>*/}
 
                     <ServiceSelectbox onUserTypeSelect={handleUserTypeSelect} style={{ marginRight: 15 }} />
-                    <Text>Selected role:{selectedUserType}</Text>
 
                     {/* <View style={styles.uploadview}>
                         <Text style={{ fontSize: 16, fontWeight: "700", color: "#8A8888" }}>Upload valid documnets</Text>
@@ -79,7 +79,6 @@ const SignupScreen2 = () => {
 
 
                     <SelectServicelist onUserServiceSelect={handleUserServiceSelect} style={{ marginRight: 15 }} />
-                    <Text>Selected Services:{selectedServices}</Text>
 
                     {/* <Pressable style={styles.tbutton} >
                         <Text style={styles.tbuttontext}>next</Text>

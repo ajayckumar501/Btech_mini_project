@@ -2,6 +2,7 @@ const JWT = require("jsonwebtoken");
 const { hashPassword, comparePassword } = require("../helpers/authHelper");
 const userModel = require("../models/userModel");
 var { expressjwt: jwt } = require("express-jwt");
+const serviceModel = require("../models/serviceModel");
 
 //middleware
 const requireSignIn = jwt({
@@ -60,11 +61,11 @@ const registerController = async (req, res) => {
     if (exisitingUser) {
       return res.status(500).send({
         success: false,
-        message: "User already registered With this username",
+        message: "User already registered with this username",
       });
     }
 
-    return res.status(201).send({
+    return res.status(200).send({
       success: true,
       message: "Navigating to next page",
     });
@@ -112,7 +113,7 @@ const registerSubmitController = async (req, res) => {
 
     return res.status(201).send({
       success: true,
-      message: "Registration sucesssful..Please login",
+      message: "Registration successful..Please login",
     });
   } catch (error) {
     console.log(error);
@@ -148,7 +149,7 @@ const loginController = async (req, res) => {
     if (!match) {
       return res.status(500).send({
         success: false,
-        message: "Invalid usrname or password",
+        message: "Invalid username or password",
       });
     }
     //TOKEN JWT
@@ -173,6 +174,7 @@ const loginController = async (req, res) => {
     });
   }
 };
+
 module.exports = {
   requireSignIn,
   registerController,

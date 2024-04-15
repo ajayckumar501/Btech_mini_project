@@ -1,14 +1,27 @@
-import { StyleSheet, Text, View, Image, Pressable } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
+import React from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 const NavBarbottom = () => {
+
+  const navigation = useNavigation();
+  const handlePress = () => {
+    // Navigate to the desired screen
+    navigation.navigate('ProfileScreen');
+  };
+  const handlePress1 = () => {
+    // Navigate to the desired screen
+    navigation.navigate('Serviceorganizerreceiver');
+  };
+
+
   return (
     <View style={styles.maincontainer}>
       {/* <Text style={{backgroundColor:"green"}}>NavBarbottom</Text> */}
 
       <View style={styles.navbar}>
 
-        <Pressable>
+        <Pressable onPress={handlePress1}>
           <Image source={require("../assets/homebuttongrey.png")} style={styles.image} />
         </Pressable>
         <Pressable>
@@ -19,7 +32,7 @@ const NavBarbottom = () => {
           <Image source={require("../assets/bellbuttongrey.png")} style={styles.image} />
 
         </Pressable>
-        <Pressable>
+        <Pressable onPress={handlePress}>
           <Image source={require("../assets/usericongrey.png")} style={styles.image} />
 
         </Pressable>

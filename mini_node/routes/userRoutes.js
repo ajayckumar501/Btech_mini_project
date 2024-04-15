@@ -3,6 +3,7 @@ const {
   registerController,
   registerSubmitController,
   loginController,
+  addData,
   updateUserController,
   requireSingIn,
 } = require("../controllers/userController");

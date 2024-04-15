@@ -17,7 +17,7 @@ import Serviceorganizerreceiver from './screens/Serviceorganizerreceiver';
 // import AdminScreen from './screens/AdminScreen';
 
 // import PostDetailviewreciever from './screens/PostDetailviewreciever';
-// import ProfileScreen from './screens/ProfileScreen';
+import ProfileScreen from './screens/ProfileScreen';
 // // import NavBarbottom from './components/NavBarbottom';
 
 // import WaitingfromAdmin from './screens/WaitingfromAdmin';
@@ -58,14 +58,13 @@ const AppNavigator = () => {
         name="SignupScreen" // we can customize this name
         component={SignupScreen} 
     /> 
-
-       <Stack.Screen
-        name="LoginScreen" // we can customize this name
-        component={LoginScreen} 
-      /> 
       <Stack.Screen
         name="SignupScreen2" // we can customize this name
         component={SignupScreen2} 
+      /> 
+      <Stack.Screen
+        name="LoginScreen" // we can customize this name
+        component={LoginScreen} 
       /> 
 
       {/* <Stack.Screen
@@ -73,10 +72,10 @@ const AppNavigator = () => {
         component={Serviceorganizerdonor} 
       /> */}
 
-{/* <Stack.Screen
+      <Stack.Screen
         name="Serviceorganizerreceiver" // we can customize this name
         component={Serviceorganizerreceiver} 
-      /> */}
+      />
 
 {/* <Stack.Screen
         name="Postorganizerdonor" // we can customize this name
@@ -108,10 +107,10 @@ const AppNavigator = () => {
       component={AdminScreen} 
     /> */}
 
-{/* <Stack.Screen
+<Stack.Screen
       name="ProfileScreen" // we can customize this name
       component={ProfileScreen} 
-    /> */}
+    />
 
 {/* <Stack.Screen
       name="ProfileeditScreen" // we can customize this name
