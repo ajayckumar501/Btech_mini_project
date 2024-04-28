@@ -1,73 +1,67 @@
-import { StyleSheet, Text, View, FlatList,  } from 'react-native';
-import React, { useState } from 'react';
-import { useContext } from 'react';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
 import SearchBar from '../components/SearchBar';
 import NavBarbottom from '../components/NavBarbottom';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useEffect } from 'react';
 import axios from "axios";
-let userData,service,apiresponse;
-//import {UserProvider,UserContext} from '../context/userdataContext';
-const Serviceorganizerreceiver = () => {
 
-  // const userData  = useContext(UserContext);
-   const [services,setService] = useState(null)
-  // console.log(JSON.stringify(userData));
+const Serviceorganizerreceiver = ({ navigation }) => {
+  const [services, setServices] = useState([]);
+
   useEffect(() => {
-    const getData = async (services) => {
+    const getData = async () => {
       try {
-        userData = await AsyncStorage.getItem("@userData");
-        if (userData !== null) {
-          console.log('Data retrieved successfully:', userData);
-          service = JSON.parse(userData);
-          // setService(service.services);
-          apiresponse =  await axios.post("http://192.168.43.175:8080/api/v1/service/fetch", service.services,{
-            headers:{
-               "Content-Type":'application/json'
+        const userData = await AsyncStorage.getItem("@userData");
+        if (userData) {
+          const user = JSON.parse(userData);
+          const apiresponse = await axios.post("http://192.168.194.163:8080/api/v1/service/fetch", user.services, {
+            headers: {
+              "Content-Type": 'application/json'
             }
           });
-          AsyncStorage.setItem("@Services", JSON.stringify(apiresponse.data.services));
-          setService(apiresponse.data.services);
+          // Assuming the API response contains an array of objects with 'name' and 'id' properties
+          const updatedServices = apiresponse.data.services.map(service => ({
+            name: service.name,
+            id: service.id
+          }));
+          console.log(updatedServices);
+          AsyncStorage.setItem("@Services", JSON.stringify(updatedServices));
+          setServices(updatedServices);
+        } else {
+          console.log('No user data found.');
         }
-          
-        else {
-          console.log('No data found for key:', services);
-        }
-       }catch (error) {
+      } catch (error) {
         console.log('Error retrieving data:', error);
-       }
+      }
     };
 
-    // Call getData function here with the appropriate service
-    getData("services"); // Example key, replace it with your actual key
+    getData();
   }, []);
-  
-  
+
+  const handleListItemPress = (item) => {
+    // Navigate to the next screen and pass both the service name and ID
+    navigation.navigate("Postorganizerreceiver", { serviceId: item.id,serviceName:item.name });
+  };
 
   return (
     <View style={styles.container}>
       <SearchBar style={styles.SearchBartop} />
-      {/* <Text>Serviceorganizerdonor</Text> */}
-
-      {/* <FlatList data={data} renderItem={() => <View><View /></View>} /> */}
-      <FlatList data={services}
-        renderItem={({ item }) =>
-
-          <View style={styles.serviceboxflat}>
-            <Text style={styles.servicetext}>{item}</Text>
-          </View>
-
-
-        }
-
+      <FlatList
+        data={services}
+        renderItem={({ item }) => (
+          <TouchableOpacity onPress={() => handleListItemPress(item)}>
+            <View style={styles.serviceboxflat}>
+              <Text style={styles.servicetext}>{item.name}</Text>
+            </View>
+          </TouchableOpacity>
+        )}
         contentContainerStyle={styles.flatstyle}
         showsVerticalScrollIndicator={false}
       />
-
-        <NavBarbottom/>
+      <NavBarbottom />
     </View>
-  )
-}
+  );
+};
 
 export default Serviceorganizerreceiver;
 
@@ -75,14 +69,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
-
   },
-
   SearchBartop: {
-    // zIndex:5,
     marginTop: "90%",
   },
-
   serviceboxflat: {
     width: 343,
     height: 94,
@@ -93,16 +83,12 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     flexDirection: "row",
   },
-
   flatstyle: {
     alignItems: 'center',
   },
-
   servicetext: {
     color: "white",
     fontSize: 20,
     fontWeight: 'bold',
   },
-
-
-})
+});

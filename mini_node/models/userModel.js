@@ -38,7 +38,12 @@ const userSchema = new mongoose.Schema(
       type: [String],
       required: [true, "please add services"],
       trim:true,
-    }
+    },
+    flag:{
+      type: Number,
+      required: [true, "please add flag"],
+      trim:true,
+    },
   },
   { timestamps: true }
 );

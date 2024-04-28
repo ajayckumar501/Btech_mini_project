@@ -3,12 +3,13 @@ import Login2ajay from './screens/Login2ajay';
 import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
 import SignupScreen2 from './screens/SignupScreen2';
+import PostCreate from './screens/PostCreate';
+import Postorganizerreceiver from './screens/Postorganizerreceiver';
 // import ServiceSelectbox from './components/ServiceSelectbox';
 // import SearchBar from './components/SearchBar';
 //  import Serviceorganizerdonor from './screens/Serviceorganizerdonor';
 import Serviceorganizerreceiver from './screens/Serviceorganizerreceiver';
 // import Postorganizerdonor from './screens/Postorganizerdonor';
-// import Postorganizerreceiver from './screens/Postorganizerreceiver';
 // import Commitedrecievers from './screens/Commitedrecievers';
 // // import Imagetesting from './screens/Imagetesting';
 
@@ -47,12 +48,6 @@ const Stack = createStackNavigator();
 const AppNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false, }}>
-      {/* Import and add your screen components here */}
-      
-       {/* <Stack.Screen
-        name="Login2ajay" // we can customize this name
-        component={Login2ajay} 
-      /> */}
 
       <Stack.Screen
         name="SignupScreen" // we can customize this name
@@ -66,6 +61,12 @@ const AppNavigator = () => {
         name="LoginScreen" // we can customize this name
         component={LoginScreen} 
       /> 
+
+      <Stack.Screen
+        name="PostCreate" // we can customize this name
+        component={PostCreate} 
+      />
+
 
       {/* <Stack.Screen
         name="Serviceorganizerdonor" // we can customize this name
@@ -82,10 +83,10 @@ const AppNavigator = () => {
         component={Postorganizerdonor} 
       /> */}
 
-{/* <Stack.Screen
+      <Stack.Screen
         name="Postorganizerreceiver" // we can customize this name
         component={Postorganizerreceiver} 
-      /> */}
+      />
 
 {/* <Stack.Screen
         name="Commitedrecievers" // we can customize this name

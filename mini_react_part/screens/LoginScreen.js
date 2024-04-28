@@ -1,12 +1,8 @@
 import { View, Text, StyleSheet,Image,TextInput,TouchableOpacity } from "react-native";
 import React, {useState} from "react";
-import InputBox from "../components/Forms/InputBox";
-import SubmitButton from "../components/Forms/SubmitButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-//import { UserContext } from '..//context/userdataContext';
-//import { useContext } from "react";
 import axios from "axios";
-let apiresponse,username,user;
+let apiresponse,user;
 const Login = ({ navigation }) => {
   //global state
   //const [state, setState] = useContext(AuthContext);
@@ -32,7 +28,7 @@ const Login = ({ navigation }) => {
       }
 
       setLoading(false);
-      apiresponse =  await axios.post("http://192.168.43.175:8080/api/v1/auth/login", payload,{
+      apiresponse =  await axios.post("http://192.168.194.163:8080/api/v1/auth/login", payload,{
         headers:{
           "Content-Type":'application/json'
         }
@@ -55,7 +51,7 @@ const Login = ({ navigation }) => {
       console.log("Login Data==> ", { username, password });
     }
     catch (error) {
-      alert(error.message);
+      alert(error.response.data.message);
       setLoading(false);
       console.log(error);
     }

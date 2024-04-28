@@ -81,7 +81,7 @@ const registerController = async (req, res) => {
 
 const registerSubmitController = async (req, res) => {
   try {
-    const { username, email, phone, location, password,confirmpassword,usertype,services } = req.body;
+    const { username, email, phone, location, password,confirmpassword,usertype,services,flag } = req.body;
     //validation
     
     if (!usertype) {
@@ -97,6 +97,14 @@ const registerSubmitController = async (req, res) => {
         message: "Service selection is required",
       });
     }
+
+    if (!flag) {
+      return res.status(400).send({
+        success: false,
+        message: "Flag variable is required",
+      });
+    }
+
     //hashed pasword
     const hashedPassword = await hashPassword(password);
 
@@ -109,6 +117,7 @@ const registerSubmitController = async (req, res) => {
       password:hashedPassword,
       usertype:usertype,
       services:services,
+      flag:flag,
     }).save();
 
     return res.status(201).send({

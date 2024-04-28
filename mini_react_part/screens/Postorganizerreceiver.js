@@ -1,40 +1,59 @@
-import { StyleSheet, Text, View, SafeAreaView, FlatList, Image, ViewBase, Pressable } from 'react-native'
-import React from 'react'
-import SearchBar from '../components/SearchBar'
+import { StyleSheet, Text, View, SafeAreaView, FlatList, Image, ViewBase, Pressable } from 'react-native';
+import {React,useState,useEffect} from 'react';
+import SearchBar from '../components/SearchBar';
+import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import NavBarbottom from '../components/NavBarbottom';
+let apiresponse;
+const Postorganizerreceiver = ({route}) => {
 
-import PostList from "../data/PostList.json"
-import NavBarbottom from '../components/NavBarbottom'
-const Serviceorganizerdonor = () => {
+    const[serviceId, setServiceId] = useState(null);
+    const [serviceName, setServiceName] = useState(null);
+    const [posts, setPosts] = useState([]); // State to store fetched posts
+  
+    useEffect(() => {
+      console.log(route.params);
+      const var1 = route.params.serviceId;
+      const var2 = route.params.serviceName;
+      setServiceId(var1);
+      setServiceName(var2);
+    }, [route.params]);
 
-    // const data=[
-    //   {
-    //     id:1,
-    //     name:"service1",
-    //     icon:"mini1\assets\community.png"
-    //   },
-    //   {
-    //     id:2,
-    //     name:"service2",
-    //     icon:"mini1\assets\community.png"
+    useEffect(() => {
+        const fetchPosts = async () => {
+          try {
+              const payload = {
+                  service_id:serviceId
+              }
+              console.log(payload);
+            apiresponse = await axios.post("http://192.168.194.163:8080/api/v1/postdesc/fetch",payload,{
+                params: {
+                    service_id: serviceId, // Assuming serviceId has a value
+                  },
+           })// Replace with your API endpoint
+          setPosts(apiresponse.posts); // Update state with fetched posts
+          console.log(apiresponse.posts);
+          } catch (error) {
+            console.error("Error fetching posts:", error.message);
+            // Handle errors (e.g., display an error message)
+          }
+        };
+        if (serviceId) {
+            fetchPosts();
+        }
+      }, [serviceId]);
 
-    //   },
-    //   {
-    //     id:3,
-    //     name:"service3",
-    //     icon:"mini1\assets\community.png"
-    //   },
-
-    // ]
-
-
-
-    // one dbt whether there is only one view big allowed inside flatlist 
+    const navigation = useNavigation();
+    
+    const navigateToPostCreate = () => {
+       navigation.navigate('PostCreate',{serviceId:serviceId});
+    }
 
     return (
         <View style={styles.container}>
             <SearchBar style={styles.SearchBartop} />
 
-            <FlatList data={PostList.diffposts}
+            <FlatList data={posts}
                 renderItem={({ index, item }) =>
 
 
@@ -45,7 +64,7 @@ const Serviceorganizerdonor = () => {
                                 <Pressable>
                                 <Image source={require("../assets/usericon.png")} style={styles.image} />
                                 </Pressable>
-                                <Text style={styles.postheadingtext}>{item.postheading}</Text>
+                                <Text style={styles.postheadingtext}>{item.post_title}</Text>
                             </View>
 
                             <View>
@@ -60,24 +79,10 @@ const Serviceorganizerdonor = () => {
 
 
                         <View>
-                            <Text style={styles.paratext}>{item.para}</Text>
+                            <Text style={styles.paratext}>{item.post_desc}</Text>
                         </View>
 
                     </View>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 }
 
                 contentContainerStyle={styles.flatstyle}  // for styling flatlist we need to use like this
@@ -87,8 +92,7 @@ const Serviceorganizerdonor = () => {
 
 
 
-
-            <Pressable style={styles.addpostimage}>
+            <Pressable onPress = {navigateToPostCreate} style={styles.addpostimage}>
                 <Image source={require("../assets/addposticon.png")} />
             </Pressable>
 
@@ -99,7 +103,7 @@ const Serviceorganizerdonor = () => {
     )
 }
 
-export default Serviceorganizerdonor
+export default Postorganizerreceiver;
 
 const styles = StyleSheet.create({
     container: {
@@ -182,4 +186,4 @@ const styles = StyleSheet.create({
 
     }
 
-})
+});

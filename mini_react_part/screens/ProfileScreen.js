@@ -172,8 +172,6 @@
 
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, FlatList, Pressable,Modal } from 'react-native'
 import React, { useState,useEffect } from 'react'
-import ServiceList from "../data/ServiceList.json"
-import NavBarbottom from '../components/NavBarbottom'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 let detail,servicenames;
 
@@ -195,13 +193,12 @@ const ProfileScreen = () => {
           userData = await AsyncStorage.getItem("@userData");
           servicenames = await AsyncStorage.getItem("@Services");
           if (userData !== null) {
-            console.log('Data retrieved successfully:', userData);
             detail = JSON.parse(userData);
             setusername(detail.username);
             setemail(detail.email);
             setphoneno(detail.phoneno);
             setlocation(detail.location);
-            setService(JSON.stringify(servicenames));
+            setService(JSON.parse(servicenames));
           } else {
             console.log('No data found for key:', services);
           }
@@ -290,11 +287,11 @@ const ProfileScreen = () => {
             <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 10 }}>Interested services</Text>
 
             <FlatList data={services}
-              renderItem={({ index, item }) =>
+              renderItem={({ item }) =>(
                 <View style={styles.serviceboxflat}>
                   <Text style={styles.servicetext}>{item}</Text>
                 </View>
-              }
+              )}
 
               contentContainerStyle={styles.flatstyle}
               showsVerticalScrollIndicator={false}
@@ -394,13 +391,30 @@ const styles = StyleSheet.create({
         padding: 15,
     },
 
+    serviceboxflat: {
+      width: 325,
+      height: 50,
+      backgroundColor: '#A0A0A0', // Initial color
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 8,
+      marginBottom: 15,
+      flexDirection: "row",
+    },
+
+    // servicetext: {
+    //     fontSize: 15,
+    //     fontWeight: "400",
+    //     marginBottom: 3,
+    //     marginLeft: 10,
+    //     // backgroundColor:"red"
+    // }
     servicetext: {
-        fontSize: 15,
-        fontWeight: "400",
-        marginBottom: 3,
-        marginLeft: 10,
-        // backgroundColor:"red"
-    }
+      color: 'white',
+      fontSize: 17,
+      fontWeight: 'bold',
+      marginRight: '60%',
+    },
 
 
 })
