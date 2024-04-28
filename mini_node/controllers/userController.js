@@ -98,13 +98,6 @@ const registerSubmitController = async (req, res) => {
       });
     }
 
-    if (!flag) {
-      return res.status(400).send({
-        success: false,
-        message: "Flag variable is required",
-      });
-    }
-
     //hashed pasword
     const hashedPassword = await hashPassword(password);
 

@@ -33,7 +33,7 @@ const SignupScreen2 = ({ navigation }) => {
         try{
             payload.usertype = selectedUserType;
             payload.services = selectedServices;
-            payload.flag = 1;
+            payload.flag = 0;
             setLoading(true);
             if (selectedServices.length == 0 || !selectedUserType ) {
               alert("Please select atleast one of both");
