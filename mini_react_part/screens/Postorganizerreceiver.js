@@ -10,29 +10,42 @@ const Postorganizerreceiver = ({route}) => {
     const[serviceId, setServiceId] = useState(null);
     const [serviceName, setServiceName] = useState(null);
     const [posts, setPosts] = useState([]); // State to store fetched posts
+    const [username,setUsername] = useState(null);
   
     useEffect(() => {
       console.log(route.params);
       const var1 = route.params.serviceId;
       const var2 = route.params.serviceName;
+      const var3 = route.params.username;
       setServiceId(var1);
       setServiceName(var2);
+      setUsername(var3);
     }, [route.params]);
+
+    const truncateDescription = (description, maxLength) => {
+        if (description.length > maxLength) {
+            return description.substring(0, maxLength) + "...";
+        } else {
+            return description;
+        }
+    };
 
     useEffect(() => {
         const fetchPosts = async () => {
           try {
               const payload = {
-                  service_id:serviceId
+                  service_id:serviceId,
+                  username:username,
               }
               console.log(payload);
-            apiresponse = await axios.post("http://192.168.194.163:8080/api/v1/postdesc/fetch",payload,{
+            apiresponse = await axios.post("http://192.168.194.163:8080/api/v1/postdesc/fetchreceiver",payload,{
                 params: {
-                    service_id: serviceId, // Assuming serviceId has a value
+                    service_id: serviceId, 
+                    username:username// Assuming serviceId has a value
                   },
            })// Replace with your API endpoint
-          setPosts(apiresponse.posts); // Update state with fetched posts
-          console.log(apiresponse.posts);
+          setPosts(apiresponse.data.posts); // Update state with fetched posts
+          console.log(apiresponse.data.posts);
           } catch (error) {
             console.error("Error fetching posts:", error.message);
             // Handle errors (e.g., display an error message)
@@ -79,7 +92,7 @@ const Postorganizerreceiver = ({route}) => {
 
 
                         <View>
-                            <Text style={styles.paratext}>{item.post_desc}</Text>
+                            <Text style={styles.paratext}>{truncateDescription(item.post_desc, 300)}</Text>
                         </View>
 
                     </View>

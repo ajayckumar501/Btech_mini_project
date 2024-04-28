@@ -33,22 +33,20 @@ const Login = ({ navigation }) => {
           "Content-Type":'application/json'
         }
       })
-      alert(apiresponse.data.message);
-      // const storeData = async () => {
-      //   try {
-      //     await AsyncStorage.setItem("@userData", JSON.stringify(apiresponse.data.user));
-      //     console.log('Data stored successfully');
-      //   } catch (error) {
-      //     console.log('Error storing data:', error);
-      //   }
-      // };
       AsyncStorage.setItem("@userData", JSON.stringify(apiresponse.data.user));
       //updateUserData(apiresponse.data.user);
       console.log(apiresponse.data.user);
       //setLoginResponse(response.data);
       AsyncStorage.setItem("@auth", JSON.stringify(apiresponse));
-      navigation.navigate("Serviceorganizerreceiver");
-      console.log("Login Data==> ", { username, password });
+      if(apiresponse.data.user.usertype === "both")
+      {
+         navigation.navigate("SelectroleinBoth");
+      } 
+      else
+      {
+        navigation.navigate("Serviceorganizerreceiver");
+      }
+      console.log("Login Data==> ", { username, password });    
     }
     catch (error) {
       alert(error.response.data.message);

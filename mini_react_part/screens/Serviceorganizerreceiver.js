@@ -4,7 +4,7 @@ import SearchBar from '../components/SearchBar';
 import NavBarbottom from '../components/NavBarbottom';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-
+let user;
 const Serviceorganizerreceiver = ({ navigation }) => {
   const [services, setServices] = useState([]);
 
@@ -13,7 +13,7 @@ const Serviceorganizerreceiver = ({ navigation }) => {
       try {
         const userData = await AsyncStorage.getItem("@userData");
         if (userData) {
-          const user = JSON.parse(userData);
+          user = JSON.parse(userData);
           const apiresponse = await axios.post("http://192.168.194.163:8080/api/v1/service/fetch", user.services, {
             headers: {
               "Content-Type": 'application/json'
@@ -40,7 +40,10 @@ const Serviceorganizerreceiver = ({ navigation }) => {
 
   const handleListItemPress = (item) => {
     // Navigate to the next screen and pass both the service name and ID
-    navigation.navigate("Postorganizerreceiver", { serviceId: item.id,serviceName:item.name });
+    if(user.usertype === "Donor")
+       navigation.navigate("Postorganizerdonor", { serviceId: item.id,serviceName:item.name });
+    else
+       navigation.navigate("Postorganizerreceiver", { serviceId: item.id,serviceName:item.name,username:user.username });
   };
 
   return (

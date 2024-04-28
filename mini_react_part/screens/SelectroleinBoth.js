@@ -1,25 +1,37 @@
 import { StyleSheet, Text, View, Pressable } from 'react-native'
-import React from 'react'
+import {React,useState} from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+const SelectroleinBoth = ({navigation}) => {
 
-const SelectroleinBoth = () => {
+    const handleRoleSelection = async(role) => {
+        try {
+            // Update the user role in local storage
+            await AsyncStorage.setItem('usertype', role);
+            console.log('User role updated successfully:', role);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+        alert("Login successfull!!");
+        navigation.navigate("Serviceorganizerreceiver");
+        // Here you can perform any other actions based on the selected role
+    };
     return (
         <View style={styles.maincontainer}>
             {/* <Text>SelectroleinBoth</Text> */}
             <View style={styles.mainbox}>
                 <Text style={{ fontSize: 40, fontWeight: "bold", color: "#575757", marginTop: "8%" }}>Select role</Text>
                 <View style={{marginTop:"12%"}}>
-                    <Pressable style={styles.tbutton} >
+                    <Pressable style={styles.tbutton} onPress={() => handleRoleSelection('Donor')}>
                         <Text style={styles.tbuttontext}>Donor</Text>
                     </Pressable>
 
-                    <Pressable style={styles.tbutton} >
+                    <Pressable style={styles.tbutton} onPress={() => handleRoleSelection('Receiver')}>
                         <Text style={styles.tbuttontext}>Receiver</Text>
                     </Pressable>
                 </View>
-
             </View>
         </View>
-    )
+    );
 }
 
 export default SelectroleinBoth

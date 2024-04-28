@@ -9,7 +9,7 @@ import Postorganizerreceiver from './screens/Postorganizerreceiver';
 // import SearchBar from './components/SearchBar';
 //  import Serviceorganizerdonor from './screens/Serviceorganizerdonor';
 import Serviceorganizerreceiver from './screens/Serviceorganizerreceiver';
-// import Postorganizerdonor from './screens/Postorganizerdonor';
+import Postorganizerdonor from './screens/Postorganizerdonor';
 // import Commitedrecievers from './screens/Commitedrecievers';
 // // import Imagetesting from './screens/Imagetesting';
 
@@ -24,7 +24,7 @@ import ProfileScreen from './screens/ProfileScreen';
 // import WaitingfromAdmin from './screens/WaitingfromAdmin';
 // import SelectServicelist from './components/SelectServicelist';
 
-// import SelectroleinBoth from './screens/SelectroleinBoth';
+import SelectroleinBoth from './screens/SelectroleinBoth';
 
 // import DonorlistScreen from './screens/DonorlistScreen';
 // import ReceiverlistScreen from './screens/ReceiverlistScreen';
@@ -78,10 +78,10 @@ const AppNavigator = () => {
         component={Serviceorganizerreceiver} 
       />
 
-{/* <Stack.Screen
+      <Stack.Screen
         name="Postorganizerdonor" // we can customize this name
         component={Postorganizerdonor} 
-      /> */}
+      />
 
       <Stack.Screen
         name="Postorganizerreceiver" // we can customize this name
@@ -125,10 +125,10 @@ const AppNavigator = () => {
 
 
 
-{/* <Stack.Screen
+    <Stack.Screen
       name="SelectroleinBoth" // we can customize this name
       component={SelectroleinBoth} 
-    /> */}
+    />
 
 {/* <Stack.Screen
       name="DonorlistScreen" // we can customize this name

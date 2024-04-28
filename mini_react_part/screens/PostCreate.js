@@ -25,12 +25,10 @@ const PostCreate = ({route}) => {
                             "Content-Type":'application/json'
                     }
                     })
-                    .then(() => {
                                   if(apiresponse){  
-                                        console.log(apiresponse.count);
-                                        setCount(apiresponse.count+1);
+                                        console.log(apiresponse.data.count);
+                                        setCount(apiresponse.data.count+1);
                                   }
-                    })
         }
         catch (error) {
             console.log('Error retrieving data:', error);
@@ -57,13 +55,13 @@ const PostCreate = ({route}) => {
                 "Content-Type":'application/json'
               }
             })
-            console.log(apiresponse.message);
-            alert(apiresponse.message);
+            console.log(apiresponse.data.message);
+            alert(apiresponse.data.message);
             
           }
           catch (error) {
-            alert(error.message);
-            console.log(error.message);
+            alert(error.response.data.message);
+            console.log(error.response.data.message);
           }
     };
 
