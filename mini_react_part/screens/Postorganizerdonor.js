@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View, SafeAreaView, FlatList, Image, ViewBase, Pressable } from 'react-native';
 import {React,useState,useEffect} from 'react';
 import SearchBar from '../components/SearchBar';
-import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import NavBarbottom from '../components/NavBarbottom';
 let apiresponse;
@@ -34,7 +33,7 @@ const Postorganizerreceiver = ({route}) => {
                   service_id:serviceId
               }
               console.log(payload);
-            apiresponse = await axios.post("http://192.168.194.163:8080/api/v1/postdesc/fetch",payload,{
+            apiresponse = await axios.post("http://192.168.43.175:8080/api/v1/postdesc/fetch",payload,{
                 params: {
                     service_id: serviceId, // Assuming serviceId has a value
                   },
@@ -70,15 +69,8 @@ const Postorganizerreceiver = ({route}) => {
                             </View>
 
                             <View>
-                                <Pressable>
-                                    <Image source={require("../assets/Delete.png")} style={styles.deleteimage} />
-
-                                </Pressable>
-
                             </View>
                         </View>
-
-
 
                         <View>
                             <Text style={styles.paratext}>{truncateDescription(item.post_desc, 300)}</Text>
@@ -91,10 +83,7 @@ const Postorganizerreceiver = ({route}) => {
                 showsVerticalScrollIndicator={false}
 
             />
-
             <NavBarbottom />
-
-
         </View>
     )
 }

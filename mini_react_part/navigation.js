@@ -1,47 +1,30 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import Login2ajay from './screens/Login2ajay';
+
+
 import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
 import SignupScreen2 from './screens/SignupScreen2';
 import PostCreate from './screens/PostCreate';
 import Postorganizerreceiver from './screens/Postorganizerreceiver';
-// import ServiceSelectbox from './components/ServiceSelectbox';
-// import SearchBar from './components/SearchBar';
-//  import Serviceorganizerdonor from './screens/Serviceorganizerdonor';
+import Serviceorganizerdonor from './screens/Serviceorganizerdonor';
 import Serviceorganizerreceiver from './screens/Serviceorganizerreceiver';
 import Postorganizerdonor from './screens/Postorganizerdonor';
-// import Commitedrecievers from './screens/Commitedrecievers';
-// // import Imagetesting from './screens/Imagetesting';
-
-
-// import PostDetailviewdonor from './screens/PostDetailviewdonor';
-// import AdminScreen from './screens/AdminScreen';
-
-// import PostDetailviewreciever from './screens/PostDetailviewreciever';
+import Commitedrecievers from './screens/Commitedrecievers';
+import PostDetailviewdonor from './screens/PostDetailviewdonor';
+import AdminScreen from './screens/AdminScreen';
+import PostDetailviewreciever from './screens/PostDetailviewreciever';
 import ProfileScreen from './screens/ProfileScreen';
-// // import NavBarbottom from './components/NavBarbottom';
-
-// import WaitingfromAdmin from './screens/WaitingfromAdmin';
-// import SelectServicelist from './components/SelectServicelist';
-
+import WaitingfromAdmin from './screens/WaitingfromAdmin';
 import SelectroleinBoth from './screens/SelectroleinBoth';
-
-// import DonorlistScreen from './screens/DonorlistScreen';
-// import ReceiverlistScreen from './screens/ReceiverlistScreen';
-
-// import userrequestScreen from './screens/UserrequestScreen';
-
-// import UserrequestdetailedScreen from './screens/UserrequestdetailedScreen';
-
-// import ComplaintScreen from './screens/ComplaintScreen';
-
-
-// import ProfileeditScreen from './screens/ProfileeditScreen';
-
-// import ProfilePublicScreen from './screens/ProfilePublicScreen';
-
-// import GivecomplaintScreen from './screens/GivecomplaintScreen';
-// import GivefeedbackScreen from './screens/GivefeedbackScreen';
+import DonorlistScreen from './screens/DonorlistScreen';
+import ReceiverlistScreen from './screens/ReceiverlistScreen';
+import userrequestScreen from './screens/UserrequestScreen';
+import UserrequestdetailedScreen from './screens/UserrequestdetailedScreen';
+import ComplaintScreen from './screens/ComplaintScreen';
+import ProfileeditScreen from './screens/ProfileeditScreen';
+import ProfilePublicScreen from './screens/ProfilePublicScreen';
+import GivecomplaintScreen from './screens/GivecomplaintScreen';
+import GivefeedbackScreen from './screens/GivefeedbackScreen';
 
 const Stack = createStackNavigator();
 
@@ -50,126 +33,127 @@ const AppNavigator = () => {
     <Stack.Navigator screenOptions={{ headerShown: false, }}>
 
       <Stack.Screen
-        name="SignupScreen" // we can customize this name
-        component={SignupScreen} 
-    /> 
-      <Stack.Screen
-        name="SignupScreen2" // we can customize this name
-        component={SignupScreen2} 
-      /> 
-      <Stack.Screen
-        name="LoginScreen" // we can customize this name
+        name="LoginScreen" 
         component={LoginScreen} 
       /> 
 
       <Stack.Screen
-        name="PostCreate" // we can customize this name
+        name="SignupScreen" 
+        component={SignupScreen} 
+    /> 
+      <Stack.Screen
+        name="SignupScreen2" 
+        component={SignupScreen2} 
+      /> 
+
+      <Stack.Screen
+        name="PostCreate" 
         component={PostCreate} 
       />
 
 
-      {/* <Stack.Screen
-        name="Serviceorganizerdonor" // we can customize this name
+      <Stack.Screen
+        name="Serviceorganizerdonor" 
         component={Serviceorganizerdonor} 
-      /> */}
+      />
 
       <Stack.Screen
-        name="Serviceorganizerreceiver" // we can customize this name
+        name="Serviceorganizerreceiver"
         component={Serviceorganizerreceiver} 
       />
 
       <Stack.Screen
-        name="Postorganizerdonor" // we can customize this name
+        name="Postorganizerdonor" 
         component={Postorganizerdonor} 
       />
 
       <Stack.Screen
-        name="Postorganizerreceiver" // we can customize this name
+        name="Postorganizerreceiver"
         component={Postorganizerreceiver} 
       />
 
-{/* <Stack.Screen
-        name="Commitedrecievers" // we can customize this name
+      <Stack.Screen
+        name="Commitedrecievers" 
         component={Commitedrecievers} 
-      /> */}
+      />
       
-{/* <Stack.Screen
-      name="PostDetailviewdonor" // we can customize this name
+      <Stack.Screen
+      name="PostDetailviewdonor" 
       component={PostDetailviewdonor} 
-    /> */}
-{/* 
-<Stack.Screen
-      name="PostDetailviewreciever" // we can customize this name
+    />
+
+    <Stack.Screen
+      name="PostDetailviewreciever" 
       component={PostDetailviewreciever} 
-    /> */}
+    />
 
-{/* <Stack.Screen
-      name="AdminScreen" // we can customize this name
+    <Stack.Screen
+      name="AdminScreen" 
       component={AdminScreen} 
-    /> */}
+    />
 
-<Stack.Screen
-      name="ProfileScreen" // we can customize this name
+    <Stack.Screen
+      name="ProfileScreen" 
       component={ProfileScreen} 
     />
 
-{/* <Stack.Screen
-      name="ProfileeditScreen" // we can customize this name
+    <Stack.Screen
+      name="ProfileeditScreen"
       component={ProfileeditScreen} 
-    /> */}
+    />
 
-{/* <Stack.Screen
-      name="WaitingfromAdmin" // we can customize this name
+    <Stack.Screen
+      name="WaitingfromAdmin" 
       component={WaitingfromAdmin} 
-    /> */}
+    />
 
 
 
     <Stack.Screen
-      name="SelectroleinBoth" // we can customize this name
+      name="SelectroleinBoth"
       component={SelectroleinBoth} 
     />
 
-{/* <Stack.Screen
-      name="DonorlistScreen" // we can customize this name
+    <Stack.Screen
+      name="DonorlistScreen"
       component={DonorlistScreen} 
-    /> */}
+    />
 
-{/* <Stack.Screen
-      name="ReceiverlistScreen" // we can customize this name
+    <Stack.Screen
+      name="ReceiverlistScreen"
       component={ReceiverlistScreen} 
-    /> */}
+    />
 
-{/* <Stack.Screen
-      name="userrequestScreen" // we can customize this name
+    <Stack.Screen
+      name="userrequestScreen"
       component={userrequestScreen} 
-    /> */}
+    />
 
-{/* <Stack.Screen
-      name="UserrequestdetailedScreen" // we can customize this name
+    <Stack.Screen
+      name="UserrequestdetailedScreen" 
       component={UserrequestdetailedScreen} 
-    /> */}
+    />
 
-{/* <Stack.Screen
-      name="ComplaintScreen" // we can customize this name
+    <Stack.Screen
+      name="ComplaintScreen" 
       component={ComplaintScreen} 
-    /> */}
+    />
 
 
-    {/* <Stack.Screen
-      name="ProfilePublicScreen" // we can customize this name
+    <Stack.Screen
+      name="ProfilePublicScreen" 
       component={ProfilePublicScreen} 
-    /> */}
+    />
 
-{/* <Stack.Screen
-      name="GivecomplaintScreen" // we can customize this name
+    <Stack.Screen
+      name="GivecomplaintScreen" 
       component={GivecomplaintScreen} 
-    /> */}
+    /> 
 
-{/* <Stack.Screen
-      name="GivefeedbackScreen" // we can customize this name
+    <Stack.Screen
+      name="GivefeedbackScreen" 
       component={GivefeedbackScreen} 
-    /> */}
+    /> 
 
     </Stack.Navigator>
   );

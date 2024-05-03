@@ -32,7 +32,7 @@ const Register = ({ navigation }) => {
         confirmpassword:confpasswd
       }
       setLoading(false);
-      apiresponse = axios.post("http://192.168.194.163:8080/api/v1/auth/register",payload,{
+      apiresponse = axios.post("http://192.168.43.175:8080/api/v1/auth/register",payload,{
         headers:{
           "Content-Type":'application/json'
         }

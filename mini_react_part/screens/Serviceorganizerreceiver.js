@@ -14,7 +14,7 @@ const Serviceorganizerreceiver = ({ navigation }) => {
         const userData = await AsyncStorage.getItem("@userData");
         if (userData) {
           user = JSON.parse(userData);
-          const apiresponse = await axios.post("http://192.168.194.163:8080/api/v1/service/fetch", user.services, {
+          const apiresponse = await axios.post("http://192.168.43.175:8080/api/v1/service/fetch", user.services, {
             headers: {
               "Content-Type": 'application/json'
             }

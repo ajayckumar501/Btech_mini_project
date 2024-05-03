@@ -88,7 +88,7 @@ const SelectServicelist = ({onUserServiceSelect}) => {
   useEffect(() => {
     const fetchallServices = async () => {
       try {
-        const apiresponse = await axios.post("http://192.168.194.163:8080/api/v1/service/fetchall",{
+        const apiresponse = await axios.post("http://192.168.43.175:8080/api/v1/service/fetchall",{
           headers:{
              "Content-Type":'application/json'
           }

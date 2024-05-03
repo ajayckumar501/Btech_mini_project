@@ -30,6 +30,30 @@ const Postorganizerreceiver = ({route}) => {
         }
     };
 
+    const deleteUserPost = async(post_id) => {
+        try{
+            console.log(typeof(post_id));
+            const payload = {
+                post_id:post_id
+            };
+        const apiresponse = await axios.post("http://192.168.43.175:8080/api/v1/postdesc/delete", payload, {
+            headers: {
+              "Content-Type": 'application/json'
+            },
+            params:{
+                post_id:post_id
+            }
+          });
+          console.log(apiresponse.data.message);
+          alert(apiresponse.data.message);
+        }
+        catch(error)
+        {
+            console.log('Error:', error);
+        }
+        
+    };
+
     useEffect(() => {
         const fetchPosts = async () => {
           try {
@@ -38,7 +62,7 @@ const Postorganizerreceiver = ({route}) => {
                   username:username,
               }
               console.log(payload);
-            apiresponse = await axios.post("http://192.168.194.163:8080/api/v1/postdesc/fetchreceiver",payload,{
+            apiresponse = await axios.post("http://192.168.43.175:8080/api/v1/postdesc/fetchreceiver",payload,{
                 params: {
                     service_id: serviceId, 
                     username:username// Assuming serviceId has a value
@@ -81,7 +105,7 @@ const Postorganizerreceiver = ({route}) => {
                             </View>
 
                             <View>
-                                <Pressable>
+                                <Pressable onPress={()=>deleteUserPost(item.post_id)}>
                                     <Image source={require("../assets/Delete.png")} style={styles.deleteimage} />
 
                                 </Pressable>

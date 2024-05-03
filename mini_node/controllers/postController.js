@@ -12,6 +12,23 @@ const countPosts = async(req,res) => {
   }
 };
 
+const deleteUserPost = async(req,res) => {
+  const { post_id } = req.query; // Assuming post_id is passed in the request body
+  try {
+    // Find the post by its ID and delete it
+    const deletedPost = await postModel.findByIdAndDelete(post_id);
+
+    if (!deletedPost) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    return res.status(200).json({ message: 'Post deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting post:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 const fetchPosts = async (req, res) => {
   const {service_id} = req.query;
   console.log(service_id);
@@ -113,4 +130,5 @@ const postcreator = async (req, res) => {
     countPosts,
     fetchPosts,
     fetchreceiverPosts,
+    deleteUserPost,
   };

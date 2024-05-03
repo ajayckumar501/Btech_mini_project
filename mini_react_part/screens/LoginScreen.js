@@ -28,7 +28,7 @@ const Login = ({ navigation }) => {
       }
 
       setLoading(false);
-      apiresponse =  await axios.post("http://192.168.194.163:8080/api/v1/auth/login", payload,{
+      apiresponse =  await axios.post("http://192.168.43.175:8080/api/v1/auth/login", payload,{
         headers:{
           "Content-Type":'application/json'
         }
@@ -51,7 +51,7 @@ const Login = ({ navigation }) => {
     catch (error) {
       alert(error.response.data.message);
       setLoading(false);
-      console.log(error);
+      console.log(error.response.data.message);
     }
   };
   //temp function to check local storage data
@@ -60,40 +60,7 @@ const Login = ({ navigation }) => {
     //console.log("Local Storage ==> ", data);
   };
   getLcoalStorageData();
-  // return (
-  //   <View style={styles.container}>
-  //     <Text style={styles.pageTitle}>Login to your account</Text>
-  //     <View style={{ marginHorizontal: 20 }}>
-  //       <InputBox
-  //         inputTitle={"username"}
-  //         value={username}
-  //         setValue={setusername}
-  //       />
-  //       <InputBox
-  //         inputTitle={"Password"}
-  //         secureTextEntry={true}
-  //         autoComplete="password"
-  //         value={password}
-  //         setValue={setPassword}
-  //       />
-  //     </View>
-  //     {/* <Text>{JSON.stringify({ name, username, password }, null, 4)}</Text> */}
-  //     <SubmitButton style = {styles.tbuttontext}
-  //       btnTitle="Login"
-  //       loading={loading}
-  //       handleSubmit={handleSubmit}
-  //     />
-  //     <Text style={styles.linkText}>
-  //       Don't have an account?{" "}
-  //       <Text
-  //         style={styles.link}
-  //         onPress={() => navigation.navigate("SignupScreen")}
-  //       >
-  //         Signup
-  //       </Text>{" "}
-  //     </Text>
-  //   </View>
-  // );
+  
   return (
     <View style={styles.container}>
 
