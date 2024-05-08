@@ -145,18 +145,18 @@ const adminloginController = async (req, res) => {
 const addingnewservice = async (req, res) => {
   try {
     // Find the last inserted service and get its service_id
-    const lastService = await Service.findOne().sort({ service_id: -1 });
+    const lastService = await Service.findOne().sort({ serviceid: -1 });
 
     // Calculate the new service_id
-    const newServiceId = lastService ? lastService.service_id + 1 : 1;
+    const newServiceId = lastService ? lastService.serviceid + 1 : 1;
 
     // Extract the service name from the request body
     const { serviceName } = req.body;
 
     // Create a new service document
     const newService = new Service({
-      service_id: newServiceId,
-      service_name: serviceName,
+      serviceid: newServiceId,
+      servicename: serviceName,
     });
 
     // Save the new service to the database
