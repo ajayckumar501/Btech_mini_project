@@ -177,6 +177,7 @@ const deleteUserByUsername = async (req, res) => {
 
     // Extract username from query parameters
     const { username } = req.query;
+    console.log(username);
 
     // Delete the donor from the database by username
     const deletedDonor = await User.findOneAndDelete({ username });

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Modal, TextInput } from 'react-native';
-import NavBarbottom from '../components/NavBarbottom';
 import { useNavigation } from '@react-navigation/native';
 
 import axios from 'axios';
@@ -143,7 +142,7 @@ const AdminScreen = () => {
           </TouchableOpacity> */}
 
 
-<TouchableOpacity
+          <TouchableOpacity
             style={{ width: 324, height: 66, backgroundColor: "#02BF9D", justifyContent: "center", alignItems: "center", borderRadius: 8 }}
             onPress={() => setModalVisible(true)}
           >
@@ -154,7 +153,6 @@ const AdminScreen = () => {
 
         </View>
       </ScrollView>
-      <NavBarbottom />
 
 
       <Modal

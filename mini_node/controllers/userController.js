@@ -1,6 +1,7 @@
 const JWT = require("jsonwebtoken");
 const { hashPassword, comparePassword } = require("../helpers/authHelper");
 const userModel = require("../models/userModel");
+const adminModel = require("../models/adminModel");
 var { expressjwt: jwt } = require("express-jwt");
 const serviceModel = require("../models/serviceModel");
 const nodemailer = require('nodemailer');

@@ -32,6 +32,11 @@ const Login = ({ navigation }) => {
       })
       AsyncStorage.setItem("@userData", JSON.stringify(apiresponse.data.user));
       console.log(apiresponse.data.user);
+
+      if (apiresponse.data.isAdmin) {
+        navigation.navigate("AdminScreen"); // Navigate to AdminHomeScreen if admin login is successful
+      } 
+
       if(apiresponse.data.user.usertype === "both")
       {
          navigation.navigate("SelectroleinBoth");
@@ -40,7 +45,7 @@ const Login = ({ navigation }) => {
       {
          navigation.navigate("Serviceorganizerreceiver",{usertype:"Donor"});
       }
-      else
+      else if(apiresponse.data.user.usertype === "Receiver")
       {
         navigation.navigate("Serviceorganizerreceiver",{usertype:"Receiver"});
       }

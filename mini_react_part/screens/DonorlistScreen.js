@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, Alert } from 'react-native';
 import SearchBar from '../components/SearchBar';
-import NavBarbottom from '../components/NavBarbottom';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 
@@ -31,7 +30,7 @@ const DonorlistScreen = () => {
         try {
             // Send request to delete the donor with the given username
             console.log("in donorlistscreen", username);
-            await axios.delete('http://192.168.92.163:8080/api/v1/admin/deleteUserByUsername?username=${username}');
+            await axios.delete(`http://192.168.92.163:8080/api/v1/admin/deleteUserByUsername?username=${username}`);
             // Remove the deleted donor from the state
             setDonors(donors.filter(donor => donor.username !== username));
         } catch (error) {
@@ -46,7 +45,7 @@ const DonorlistScreen = () => {
     const confirmDelete = (username) => {
         Alert.alert(
             "Confirm Deletion",
-            'Are you sure you want to delete ${username}?',
+            `Are you sure you want to delete ${username}?`,
             [
                 {
                     text: "Cancel",
@@ -83,7 +82,6 @@ const DonorlistScreen = () => {
                 contentContainerStyle={styles.flatstyle}
                 showsVerticalScrollIndicator={false}
             />
-            <NavBarbottom />
         </View>
     );
 };
