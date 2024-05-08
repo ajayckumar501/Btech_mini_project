@@ -41,7 +41,7 @@ const SignupScreen2 = ({ navigation }) => {
               return;
             }
             setLoading(false);
-            apiresponse = await axios.post("http://192.168.43.175:8080/api/v1/auth/register2",payload,{
+            apiresponse = await axios.post("http://192.168.92.163:8080/api/v1/auth/register2",payload,{
               headers:{
                 "Content-Type":'application/json'
               }
@@ -57,7 +57,7 @@ const SignupScreen2 = ({ navigation }) => {
             
           }
           catch (error) {
-            alert(error.response.data.message);
+            alert(error);
             setLoading(false);
             console.log(error);
           }

@@ -6,13 +6,16 @@ const SelectroleinBoth = ({navigation}) => {
     const handleRoleSelection = async(role) => {
         try {
             // Update the user role in local storage
-            await AsyncStorage.setItem('usertype', role);
-            console.log('User role updated successfully:', role);
+            // const data = await AsyncStorage.getItem('@userData');
+            // data.usertype = role;
+            // await AsyncStorage.setItem("@userData",JSON.stringify(data));
+            // console.log('User role updated successfully:', role);
+            await AsyncStorage.setItem("@usertype",JSON.stringify(role));
         } catch (error) {
             console.error('Error:', error);
         }
         alert("Login successfull!!");
-        navigation.navigate("Serviceorganizerreceiver");
+        navigation.navigate("Serviceorganizerreceiver",{usertype:role});
         // Here you can perform any other actions based on the selected role
     };
     return (
@@ -21,11 +24,11 @@ const SelectroleinBoth = ({navigation}) => {
             <View style={styles.mainbox}>
                 <Text style={{ fontSize: 40, fontWeight: "bold", color: "#575757", marginTop: "8%" }}>Select role</Text>
                 <View style={{marginTop:"12%"}}>
-                    <Pressable style={styles.tbutton} onPress={() => handleRoleSelection('Donor')}>
+                    <Pressable style={styles.tbutton} onPress={() => handleRoleSelection("Donor")}>
                         <Text style={styles.tbuttontext}>Donor</Text>
                     </Pressable>
 
-                    <Pressable style={styles.tbutton} onPress={() => handleRoleSelection('Receiver')}>
+                    <Pressable style={styles.tbutton} onPress={() => handleRoleSelection("Receiver")}>
                         <Text style={styles.tbuttontext}>Receiver</Text>
                     </Pressable>
                 </View>
@@ -34,7 +37,7 @@ const SelectroleinBoth = ({navigation}) => {
     );
 }
 
-export default SelectroleinBoth
+export default SelectroleinBoth;
 
 const styles = StyleSheet.create({
     maincontainer: {

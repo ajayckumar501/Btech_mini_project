@@ -32,7 +32,7 @@ const Register = ({ navigation }) => {
         confirmpassword:confpasswd
       }
       setLoading(false);
-      apiresponse = axios.post("http://192.168.43.175:8080/api/v1/auth/register",payload,{
+      apiresponse = axios.post("http://192.168.92.163:8080/api/v1/auth/register",payload,{
         headers:{
           "Content-Type":'application/json'
         }
@@ -53,68 +53,7 @@ const Register = ({ navigation }) => {
     }
   };
   return (
-  //   <View style={styles.container}>
 
-  //     <Text style={styles.pageTitle}>Register</Text>
-  //     <View style={{ marginHorizontal: 20 }}>
-  //       <InputBox 
-  //         inputTitle={"Username"}
-  //         value={username}
-  //         setValue={setUsername}
-  //       />
-  //       <InputBox
-  //         inputTitle={"Email"}
-  //         inputMode="email"
-  //         autoComplete="email"
-  //         value={email}
-  //         setValue={setEmail}
-  //       />
-  //       <InputBox
-  //         inputTitle={"Phone number"}
-  //         inputMode="tel"
-  //         autoComplete="tel"
-  //         value={phoneno}
-  //         setValue={setPhoneno}
-  //       />
-  //       <InputBox
-  //         inputTitle={"Location"}
-  //         autoComplete="address-line1"
-  //         value={location}
-  //         setValue={setLocation}
-  //       />
-  //       <InputBox
-  //         inputTitle={"Password"}
-  //         secureTextEntry={true}
-  //         autoComplete="password"
-  //         value={password}
-  //         setValue={setPassword}
-  //       />
-  //       <InputBox
-  //         inputTitle={"Confirm password"}
-  //         secureTextEntry={true}
-  //         value={confpasswd}
-  //         setValue={setConfpasswd}
-  //       />
-  //     </View>
-  //     {/* <Text>{JSON.stringify({ name, email, password }, null, 4)}</Text> */}
-  //     <SubmitButton
-  //       btnTitle="Next"
-  //       loading={loading}
-  //       handleSubmit={handleSubmit}
-  //     />
-  //     <Text style={styles.linkText}>
-  //       ALready registered Please{" "}
-  //       <Text style={styles.link} onPress={() => navigation.navigate("LoginScreen")}>
-  //         LOGIN
-  //       </Text>{" "}
-  //     </Text>
-  //    </View>
-
-
-
-
-
-  // );
   <ScrollView contentContainerStyle={styles.scrollViewContent} showsVerticalScrollIndicator={false}>
 
 <View style={styles.imagebox}>
@@ -174,18 +113,13 @@ const Register = ({ navigation }) => {
           onChangeText={(text) => setConfpasswd(text)}
         />
       </View>
-      {/* <Text>{JSON.stringify({ name, email, password }, null, 4)}</Text> */}
-      {/* <SubmitButton
-        btnTitle="Next"
-        loading={loading}
-        handleSubmit={handleSubmit}
-      /> */}
+ 
       <TouchableOpacity onPress = {handleSubmit} style={styles.tbutton}  loading={loading}>
           <Text style={styles.tbuttontext}>next</Text>
         </TouchableOpacity>
 
       <Text style={styles.linkText}>
-        ALready registered Please{" "}
+        Already registered ? please{" "}
         <Text style={styles.link} onPress={() => navigation.navigate("LoginScreen")}>
           LOGIN
         </Text>{" "}
@@ -204,96 +138,22 @@ const Register = ({ navigation }) => {
 
 };
 
-
-// const styles = StyleSheet.create({
-//     // container: {
-//     //   flex: 1,
-//     //   backgroundColor: '#02BF9D',
-//     //   justifyContent: "center",
-//     //   alignItems: 'center',
-//     // },
-  
-//     scrollViewContent: {  // this is used in case of scroll view one error occured ("ERROR  Invariant Violation: ScrollView child layout (["alignItems"]) must be applied through the contentContainerStyle prop.")
-//       alignItems: 'center',
-//       // justifyContent: 'center',
-//       // padding: 20,
-//       backgroundColor: '#02BF9D',
-//     },
-  
-//     basebox: {
-//       borderTopLeftRadius: 44,
-//       borderTopRightRadius: 44,
-//       marginTop: "10.%",
-//       height: "84%",
-  
-//       width: "100%",
-//       backgroundColor: "#FFFFFF",
-//       paddingTop: 20,
-//       alignItems: "center",
-  
-//     },
-  
-//     loginheading: {
-//       fontSize: 20,
-//       // backgroundColor:"red",
-//       marginTop: 30,
-//       fontFamily: "sans-serif",
-//       fontWeight: "bold",
-//       color: "#575757",
-//       marginBottom: "10%",
-//     },
-  
-//     input: {
-//       width: 282,
-//       height: 48,
-//       marginTop: "3%",
-//       backgroundColor: "#E6FBF7",
-//       borderRadius: 8,
-//       padding: 10,
-//     },
-  
-//     tbutton: {
-//       marginTop: "15%",
-//       width: 110,
-//       height: 44,
-//       backgroundColor: "#02BF9D",
-//       justifyContent: "center",
-//       alignItems: "center",
-//       borderRadius: 61,
-//       marginLeft: "45%",
-//       paddingBottom: 6,
-//     },
-  
-//     tbuttontext: {
-//       color: "white",
-//       fontWeight: "900"
-//     },
-  
-//     tinyLogo: {
-//       width: 226,
-//       height: 54,
-//     },
-  
-//     image: {
-//       width: 160,
-//       height: 52,
-//     },
-  
-//     imagebox: {
-//       marginTop: 62,
-//       // backgroundColor:"red",
-//       padding: 10,  
-//     }
-
-
-// });
 const styles = StyleSheet.create({
-  // container: {
-  //   flex: 1,
-  //   backgroundColor: '#02BF9D',
-  //   justifyContent: "center",
-  //   alignItems: 'center',
-  // },
+  container: {
+    flex: 1,
+    backgroundColor: '#02BF9D',
+    justifyContent: "center",
+    alignItems: 'center',
+  },
+
+  link:{
+    color : '#00AA00',
+  },
+
+  linkText: {
+    padding : 20,
+    fontSize : 18,
+  },
 
   scrollViewContent: {  // this is used in case of scroll view one error occured ("ERROR  Invariant Violation: ScrollView child layout (["alignItems"]) must be applied through the contentContainerStyle prop.")
     alignItems: 'center',
@@ -303,6 +163,7 @@ const styles = StyleSheet.create({
   },
 
   basebox: {
+
     borderTopLeftRadius: 44,
     borderTopRightRadius: 44,
     marginTop: "10.%",
@@ -312,6 +173,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     paddingTop: 20,
     alignItems: "center",
+    paddingBottom : "5%" ,
 
   },
 

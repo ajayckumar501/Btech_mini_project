@@ -1,11 +1,12 @@
 const postModel = require("../models/postModel");
+const { post } = require("../routes/complaintRoutes");
 const countPosts = async(req,res) => {
   try {
-    const maxPost = await postModel.findOne({}, { post_id: 1 }).sort({ post_id: -1 });
+    const maxPost = await postModel.findOne({}, { postid: 1 }).sort({ postid: -1 });
     if (!maxPost) {
-      return res.status(404).send({ count: 0 });
+      return res.status(200).send({ count: 1 });
     }
-    return res.status(200).send({ count: maxPost.post_id });
+    return res.status(200).send({ count: maxPost.postid+1 });
   } catch (error) {
     console.error('Error counting entries:', error);
     return res.status(500).send({ message: "Internal server error" });
@@ -13,10 +14,11 @@ const countPosts = async(req,res) => {
 };
 
 const deleteUserPost = async(req,res) => {
-  const { post_id } = req.query; // Assuming post_id is passed in the request body
+  const { postid } = req.query; // Assuming postid is passed in the request body
+  console.log(postid);
   try {
     // Find the post by its ID and delete it
-    const deletedPost = await postModel.findByIdAndDelete(post_id);
+    const deletedPost = await postModel.findByIdAndDelete(postid);
 
     if (!deletedPost) {
       return res.status(404).json({ message: 'Post not found' });
@@ -30,10 +32,24 @@ const deleteUserPost = async(req,res) => {
 };
 
 const fetchPosts = async (req, res) => {
-  const {service_id} = req.query;
-  console.log(service_id);
+  const { serviceid, username } = req.query; // Rename to excludeUsername
+
   try {
-    const posts = await postModel.find({ service_id }) // Filter by serviceId
+    console.log(serviceid);
+    let query = {};
+    
+    if (serviceid != undefined) {
+      query.serviceid = serviceid;
+    }
+
+    if (username !== undefined) {
+      query.username = { $ne: username }; // Exclude posts with the specified username
+    }
+    console.log(query);
+    
+
+    const posts = await postModel.find(query);
+
     console.log(posts);
     return res.status(200).send({ posts });
   } catch (error) {
@@ -42,21 +58,23 @@ const fetchPosts = async (req, res) => {
   }
 };
 
+
+
 const fetchreceiverPosts = async (req, res) => {
-  const { service_id, username } = req.query;
-  console.log(service_id, username); // Log the values for debugging
+  const { serviceid, username } = req.query;
+  console.log(serviceid, username); // Log the values for debugging
   try {
-    let query = {};
+    let query1 = {};
     
-    if (service_id !== undefined) {
-      query.service_id = service_id;
+    if (serviceid != undefined) {
+      query1.serviceid = serviceid;
     }
     
-    if (username !== undefined) {
-      query.username = username;
+    if (username != undefined) {
+      query1.username = username;
     }
 
-    const posts = await postModel.find(query);
+    const posts = await postModel.find(query1);
     
     console.log(posts);
     return res.status(200).send({ posts });
@@ -81,7 +99,7 @@ const postcreator = async (req, res) => {
         });
       }
 
-      if (!id) {
+      if (id===undefined) {
         return res.status(400).send({
           success: false,
           message: "Post id not set",
@@ -105,8 +123,8 @@ const postcreator = async (req, res) => {
 
       await postModel({
         username:username,
-        post_id:id,
-        service_id:serviceid,
+        postid:id,
+        serviceid:serviceid,
         post_title:title,
         post_desc:desc,
       }).save();
@@ -119,7 +137,7 @@ const postcreator = async (req, res) => {
       console.log(error);
       return res.status(500).send({
         success: false,
-        message: "Error!!",
+        message: error.message,
         error:error.message
       });
     }

@@ -9,14 +9,14 @@ const postSchema = new mongoose.Schema(
       trim: true,
     },
 
-    post_id: {
+    postid: {
       type: Number,
       required: [true, "please add post id"],
       unique:true,
       trim: true,
     },
 
-    service_id: {
+    serviceid: {
       type: Number,
       required: [true, "please add service id"],
       trim: true,

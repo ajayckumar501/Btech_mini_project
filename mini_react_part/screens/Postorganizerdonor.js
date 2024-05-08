@@ -3,8 +3,10 @@ import {React,useState,useEffect} from 'react';
 import SearchBar from '../components/SearchBar';
 import axios from 'axios';
 import NavBarbottom from '../components/NavBarbottom';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from '@react-navigation/native';
 let apiresponse;
-const Postorganizerreceiver = ({route}) => {
+const Postorganizerdonor = ({route}) => {
 
     const[serviceId, setServiceId] = useState(null);
     const [serviceName, setServiceName] = useState(null);
@@ -26,29 +28,40 @@ const Postorganizerreceiver = ({route}) => {
         }
     };
 
+    const getServiceId = ()=>
+    {
+        console.log(serviceId);
+        return serviceId;
+    };
+
     useEffect(() => {
         const fetchPosts = async () => {
           try {
-              const payload = {
-                  service_id:serviceId
-              }
-              console.log(payload);
-            apiresponse = await axios.post("http://192.168.43.175:8080/api/v1/postdesc/fetch",payload,{
+            console.log("hi");
+
+            const Data = await AsyncStorage.getItem("@userData");
+            //const dataa = JSON.parse(Data);
+            const data = JSON.parse(Data);
+            const username = data.username;
+
+            apiresponse = await axios.get("http://192.168.92.163:8080/api/v1/postdesc/fetch",{
                 params: {
-                    service_id: serviceId, // Assuming serviceId has a value
+                    serviceid: getServiceId(),
+                    username:username
                   },
-           })// Replace with your API endpoint
-          setPosts(apiresponse.data.posts); // Update state with fetched posts
+           })
+          setPosts(apiresponse.data.posts); 
           console.log(apiresponse.data.posts);
           } catch (error) {
             console.error("Error fetching posts:", error.message);
-            // Handle errors (e.g., display an error message)
           }
         };
-        if (serviceId) {
+        if (serviceId !==undefined) {
             fetchPosts();
         }
       }, [serviceId]);
+
+      const navigation = useNavigation();
 
     return (
         <View style={styles.container}>
@@ -57,7 +70,7 @@ const Postorganizerreceiver = ({route}) => {
             <FlatList data={posts}
                 renderItem={({ index, item }) =>
 
-
+                    <Pressable onPress={() => navigation.navigate("PostDetailviewdonor", { post_title:item.post_title ,post_desc:item.post_desc , username:item.username , postid:item.postid})}>
                     <View style={styles.serviceboxflat}>
 
                         <View style={styles.postinfoboxwithdelete}>
@@ -67,9 +80,6 @@ const Postorganizerreceiver = ({route}) => {
                                 </Pressable>
                                 <Text style={styles.postheadingtext}>{item.post_title}</Text>
                             </View>
-
-                            <View>
-                            </View>
                         </View>
 
                         <View>
@@ -77,6 +87,7 @@ const Postorganizerreceiver = ({route}) => {
                         </View>
 
                     </View>
+                    </Pressable>
                 }
 
                 contentContainerStyle={styles.flatstyle}  // for styling flatlist we need to use like this
@@ -88,7 +99,7 @@ const Postorganizerreceiver = ({route}) => {
     )
 }
 
-export default Postorganizerreceiver;
+export default Postorganizerdonor;
 
 const styles = StyleSheet.create({
     container: {
@@ -112,6 +123,7 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         flexDirection: "column",
         padding: 15,
+
     },
 
     flatstyle: {
@@ -159,16 +171,5 @@ const styles = StyleSheet.create({
         height: 25,
         width: 25,
     },
-
-    addpostimage: {
-        height: 66,
-        width: 66,
-        bottom: "12%",
-        left: 25,
-        zIndex: 5,
-        // backgroundColor:"red",
-
-
-    }
 
 });

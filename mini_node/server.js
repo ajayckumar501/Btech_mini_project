@@ -29,6 +29,9 @@ app.use("/api/v1/auth", require("./routes/userRoutes"));
 app.use("/api/v1/service", require("./routes/serviceRoutes"));
 app.use("/api/v1/postdesc", require("./routes/postRoutes"));
 app.use("/api/v1/commitment", require("./routes/commitmentRoutes"));
+app.use("/api/v1/complaint",require("./routes/complaintRoutes"));
+app.use("/api/v1/admin", require("./routes/adminRoutes"));
+
 
 //PORT
 const PORT = process.env.PORT || 8080;

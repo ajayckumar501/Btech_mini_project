@@ -1,111 +1,104 @@
-import { StyleSheet, Text, View, SafeAreaView, FlatList, Image } from 'react-native'
-import React from 'react'
-import SearchBar from '../components/SearchBar'
+import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import SearchBar from '../components/SearchBar';
+import NavBarbottom from '../components/NavBarbottom';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+let user;
+const Serviceorganizerreceiver = ({ navigation }) => {
+  const [services, setServices] = useState([]);
 
-import ServiceList from "../data/ServiceList.json"
-import NavBarbottom from '../components/NavBarbottom'
-import LoginScreen, { username } from '../screens/LoginScreen';
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const usrData = await AsyncStorage.getItem("@userData");
+        //const userData = JSON.parse(usrData);
+        if (usrData) {
+          user = JSON.parse(usrData);
+          const apiresponse = await axios.post("http://192.168.92.163:8080/api/v1/service/fetch", user.services, {
+            headers: {
+              "Content-Type": 'application/json'
+            }
+          });
+          // Assuming the API response contains an array of objects with 'name' and 'id' properties
+          const updatedServices = apiresponse.data.services.map(service => ({
+            name: service.name,
+            id: service.id
+          }));
+          console.log(updatedServices);
+          AsyncStorage.setItem("@Services", JSON.stringify(updatedServices));
+          setServices(updatedServices);
+        } else {
+          console.log('No user data found.');
+        }
+      } catch (error) {
+        console.log('Error retrieving data:', error);
+      }
+    };
 
-const Serviceorganizerdonor = () => {
+    getData();
+  }, []);
 
-  // const data=[
-  //   {
-  //     id:1,
-  //     name:"service1",
-  //     icon:"mini1\assets\community.png"
-  //   },
-  //   {
-  //     id:2,
-  //     name:"service2",
-  //     icon:"mini1\assets\community.png"
-
-  //   },
-  //   {
-  //     id:3,
-  //     name:"service3",
-  //     icon:"mini1\assets\community.png"
-  //   },
-
-  // ]
-
-
-
-
+  const handleListItemPress = async(item) => {
+    const variable = await AsyncStorage.getItem('usertype');
+    console.log(variable);
+    if(variable === "Donor"){
+      console.log("hi");
+       navigation.navigate("Postorganizerdonor", { serviceId: item.id,serviceName:item.name });
+      return;
+    }
+    else{
+      console.log("hlo");
+       navigation.navigate("Postorganizerreceiver", { serviceId: item.id,serviceName:item.name,username:user.username });
+    }
+  };
 
   return (
     <View style={styles.container}>
       <SearchBar style={styles.SearchBartop} />
-      {/* <Text>Serviceorganizerdonor</Text> */}
-
-      {/* <FlatList data={data} renderItem={() => <View><View /></View>} /> */}
-
-      <FlatList data={ServiceList.diffservices}
-        renderItem={({ index, item }) =>
-
-
-          <View style={styles.serviceboxflat}>
-            <Text style={styles.servicetext}>{item.name}</Text>
-            <Image source={require("../assets/community.png")} style={styles.image} />
-          </View>
-
-
-
-
-
-        }
-
+      <FlatList
+        data={services}
+        renderItem={({ item }) => (
+          <TouchableOpacity onPress={() => handleListItemPress(item)}>
+            <View style={styles.serviceboxflat}>
+              <Text style={styles.servicetext}>{item.name}</Text>
+            </View>
+          </TouchableOpacity>
+        )}
         contentContainerStyle={styles.flatstyle}
         showsVerticalScrollIndicator={false}
       />
-
-        <NavBarbottom/>
+      <NavBarbottom />
     </View>
-  )
-}
+  );
+};
 
-export default Serviceorganizerdonor
+export default Serviceorganizerreceiver;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
-
   },
-
   SearchBartop: {
-    // zIndex:5,
     marginTop: "90%",
   },
-
   serviceboxflat: {
     width: 343,
     height: 94,
     backgroundColor: "#02BF9D",
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 13,
     marginBottom: 15,
     flexDirection: "row",
   },
-
   flatstyle: {
     alignItems: 'center',
   },
-
   servicetext: {
     color: "white",
     fontSize: 20,
     fontWeight: 'bold',
   },
-
-  image: {
-
-    backgroundColor: "white",
-    height: 30,
-    width: 30,
-    borderRadius: 15,
-  
-
-  }
-
-})
+});

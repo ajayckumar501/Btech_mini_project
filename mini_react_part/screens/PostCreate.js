@@ -20,14 +20,14 @@ const PostCreate = ({route}) => {
     useEffect(() => {
         const getData = async () => {
                 try{ 
-                    const apiresponse =  await axios.post("http://192.168.43.175:8080/api/v1/postdesc/count",{
+                    const apiresponse =  await axios.get("http://192.168.92.163:8080/api/v1/postdesc/count",{
                     headers:{
                             "Content-Type":'application/json'
                     }
                     })
                                   if(apiresponse){  
                                         console.log(apiresponse.data.count);
-                                        setCount(apiresponse.data.count+1);
+                                        setCount(apiresponse.data.count);
                                   }
         }
         catch (error) {
@@ -45,12 +45,12 @@ const PostCreate = ({route}) => {
                   userdata = JSON.parse(userData);
                   payload = {
                      username: userdata.username,
-                     id: count, // Now count should be available
+                     id: count, 
                      serviceid: serviceId,
                      title: title,
                      desc: content,
                   };
-            apiresponse = await axios.post("http://192.168.43.175:8080/api/v1/postdesc/create",payload,{
+            apiresponse = await axios.post("http://192.168.92.163:8080/api/v1/postdesc/create",payload,{
               headers:{
                 "Content-Type":'application/json'
               }

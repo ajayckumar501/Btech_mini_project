@@ -30,18 +30,19 @@ const Postorganizerreceiver = ({route}) => {
         }
     };
 
-    const deleteUserPost = async(post_id) => {
+    const deleteUserPost = async(postid) => {
         try{
-            console.log(typeof(post_id));
+            console.log(postid);
+            console.log(typeof(postid));
             const payload = {
-                post_id:post_id
+                postid:postid
             };
-        const apiresponse = await axios.post("http://192.168.43.175:8080/api/v1/postdesc/delete", payload, {
+        const apiresponse = await axios.post("http://192.168.92.163:8080/api/v1/postdesc/delete", payload, {
             headers: {
               "Content-Type": 'application/json'
             },
             params:{
-                post_id:post_id
+                postid:postid
             }
           });
           console.log(apiresponse.data.message);
@@ -58,13 +59,13 @@ const Postorganizerreceiver = ({route}) => {
         const fetchPosts = async () => {
           try {
               const payload = {
-                  service_id:serviceId,
+                  serviceid:serviceId,
                   username:username,
               }
               console.log(payload);
-            apiresponse = await axios.post("http://192.168.43.175:8080/api/v1/postdesc/fetchreceiver",payload,{
+            apiresponse = await axios.get("http://192.168.92.163:8080/api/v1/postdesc/fetchreceiver",payload,{
                 params: {
-                    service_id: serviceId, 
+                    serviceid: serviceId, 
                     username:username// Assuming serviceId has a value
                   },
            })// Replace with your API endpoint
@@ -75,7 +76,7 @@ const Postorganizerreceiver = ({route}) => {
             // Handle errors (e.g., display an error message)
           }
         };
-        if (serviceId) {
+        if (serviceId!=undefined) {
             fetchPosts();
         }
       }, [serviceId]);
@@ -92,9 +93,8 @@ const Postorganizerreceiver = ({route}) => {
 
             <FlatList data={posts}
                 renderItem={({ index, item }) =>
-
-
-                    <View style={styles.serviceboxflat}>
+                <Pressable onPress={() => navigation.navigate("PostDetailviewreciever", { post_title:item.post_title ,post_desc:item.post_desc , username:item.username})}>
+                     <View style={styles.serviceboxflat}>
 
                         <View style={styles.postinfoboxwithdelete}>
                             <View style={styles.postinfobox}>
@@ -105,7 +105,7 @@ const Postorganizerreceiver = ({route}) => {
                             </View>
 
                             <View>
-                                <Pressable onPress={()=>deleteUserPost(item.post_id)}>
+                                <Pressable onPress={()=>deleteUserPost(item.postid)}>
                                     <Image source={require("../assets/Delete.png")} style={styles.deleteimage} />
 
                                 </Pressable>
@@ -120,6 +120,7 @@ const Postorganizerreceiver = ({route}) => {
                         </View>
 
                     </View>
+                    </Pressable>
                 }
 
                 contentContainerStyle={styles.flatstyle}  // for styling flatlist we need to use like this
@@ -174,7 +175,8 @@ const styles = StyleSheet.create({
         color: "black",
         fontSize: 20,
         fontWeight: 'bold',
-        marginLeft: 15,
+        marginLeft: 10,
+        width:"85%",
     },
 
     image: {
@@ -198,7 +200,10 @@ const styles = StyleSheet.create({
         width: 271,
         // backgroundColor:"red",
         color: "#575757",
-        fontWeight: "300"
+        fontWeight: "300",
+        // paddingLeft : 5 ,
+        // paddingRight:10,
+        // paddingTop:10,
     },
 
     postinfoboxwithdelete: {
@@ -210,6 +215,7 @@ const styles = StyleSheet.create({
     deleteimage: {
         height: 25,
         width: 25,
+        padding:2,
     },
 
     addpostimage: {

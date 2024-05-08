@@ -9,22 +9,23 @@ import Postorganizerreceiver from './screens/Postorganizerreceiver';
 import Serviceorganizerdonor from './screens/Serviceorganizerdonor';
 import Serviceorganizerreceiver from './screens/Serviceorganizerreceiver';
 import Postorganizerdonor from './screens/Postorganizerdonor';
-import Commitedrecievers from './screens/Commitedrecievers';
+//import Commitedrecievers from './screens/Commitedrecievers';
 import PostDetailviewdonor from './screens/PostDetailviewdonor';
 import AdminScreen from './screens/AdminScreen';
-import PostDetailviewreciever from './screens/PostDetailviewreciever';
+import PostDetailviewreciever from './screens/PostDetailviewreceiver';
 import ProfileScreen from './screens/ProfileScreen';
 import WaitingfromAdmin from './screens/WaitingfromAdmin';
 import SelectroleinBoth from './screens/SelectroleinBoth';
 import DonorlistScreen from './screens/DonorlistScreen';
 import ReceiverlistScreen from './screens/ReceiverlistScreen';
-import userrequestScreen from './screens/UserrequestScreen';
-import UserrequestdetailedScreen from './screens/UserrequestdetailedScreen';
-import ComplaintScreen from './screens/ComplaintScreen';
-import ProfileeditScreen from './screens/ProfileeditScreen';
+//import userrequestScreen from './screens/UserrequestScreen';
+//import UserrequestdetailedScreen from './screens/UserrequestdetailedScreen';
+//import ComplaintScreen from './screens/ComplaintScreen';
+import ProfileEdit1 from './screens/ProfileEdit1';
+import ProfileEdit2 from './screens/ProfileEdit2';
 import ProfilePublicScreen from './screens/ProfilePublicScreen';
 import GivecomplaintScreen from './screens/GivecomplaintScreen';
-import GivefeedbackScreen from './screens/GivefeedbackScreen';
+//import GivefeedbackScreen from './screens/GivefeedbackScreen';
 
 const Stack = createStackNavigator();
 
@@ -72,10 +73,10 @@ const AppNavigator = () => {
         component={Postorganizerreceiver} 
       />
 
-      <Stack.Screen
+      {/* <Stack.Screen
         name="Commitedrecievers" 
         component={Commitedrecievers} 
-      />
+      /> */}
       
       <Stack.Screen
       name="PostDetailviewdonor" 
@@ -98,8 +99,13 @@ const AppNavigator = () => {
     />
 
     <Stack.Screen
-      name="ProfileeditScreen"
-      component={ProfileeditScreen} 
+      name="ProfileEdit1"
+      component={ProfileEdit1} 
+    />
+
+    <Stack.Screen
+      name="ProfileEdit2"
+      component={ProfileEdit2} 
     />
 
     <Stack.Screen
@@ -117,27 +123,27 @@ const AppNavigator = () => {
     <Stack.Screen
       name="DonorlistScreen"
       component={DonorlistScreen} 
-    />
+    /> 
 
     <Stack.Screen
       name="ReceiverlistScreen"
       component={ReceiverlistScreen} 
     />
 
-    <Stack.Screen
+    {/* <Stack.Screen
       name="userrequestScreen"
       component={userrequestScreen} 
-    />
+    /> */}
 
-    <Stack.Screen
+    {/* <Stack.Screen
       name="UserrequestdetailedScreen" 
       component={UserrequestdetailedScreen} 
-    />
+    /> */}
 
-    <Stack.Screen
+    {/* <Stack.Screen
       name="ComplaintScreen" 
       component={ComplaintScreen} 
-    />
+    /> */}
 
 
     <Stack.Screen
@@ -150,10 +156,10 @@ const AppNavigator = () => {
       component={GivecomplaintScreen} 
     /> 
 
-    <Stack.Screen
+    {/* <Stack.Screen
       name="GivefeedbackScreen" 
       component={GivefeedbackScreen} 
-    /> 
+    />  */}
 
     </Stack.Navigator>
   );

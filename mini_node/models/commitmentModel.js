@@ -15,14 +15,14 @@ const commitmentSchema = new mongoose.Schema(
         trim: true,
     },
 
-    commitment_id: {
+    commitmentid: {
       type: Number,
       unique:true,
       required: [true, "please add commitment id"],
       trim: true,
     },
 
-    post_id: {
+    postid: {
         type: Number,
         required: [true, "please add post id"],
         trim: true,

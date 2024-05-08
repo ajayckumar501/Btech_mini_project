@@ -4,17 +4,25 @@ import SearchBar from '../components/SearchBar';
 import NavBarbottom from '../components/NavBarbottom';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import { useNavigation } from '@react-navigation/native';
 let user;
-const Serviceorganizerreceiver = ({ navigation }) => {
+const Serviceorganizerreceiver = ({ route }) => {
   const [services, setServices] = useState([]);
+  const [usertype, setUsertype] = useState(null);
+  const navigation = useNavigation();
 
   useEffect(() => {
     const getData = async () => {
       try {
-        const userData = await AsyncStorage.getItem("@userData");
-        if (userData) {
-          user = JSON.parse(userData);
-          const apiresponse = await axios.post("http://192.168.43.175:8080/api/v1/service/fetch", user.services, {
+
+        const usertype = route.params.usertype;
+        setUsertype(usertype);
+        
+        const usrData = await AsyncStorage.getItem("@userData");
+        //const userData = JSON.parse(usrData);
+        if (usrData) {
+          user = JSON.parse(usrData);
+          const apiresponse = await axios.post("http://192.168.92.163:8080/api/v1/service/fetch", user.services, {
             headers: {
               "Content-Type": 'application/json'
             }
@@ -38,13 +46,22 @@ const Serviceorganizerreceiver = ({ navigation }) => {
     getData();
   }, []);
 
-  const handleListItemPress = (item) => {
-    // Navigate to the next screen and pass both the service name and ID
-    if(user.usertype === "Donor")
-       navigation.navigate("Postorganizerdonor", { serviceId: item.id,serviceName:item.name });
-    else
-       navigation.navigate("Postorganizerreceiver", { serviceId: item.id,serviceName:item.name,username:user.username });
+  const handleListItemPress = async(item) => {
+
+    if(usertype.localeCompare("Donor") == 0){
+
+      navigation.navigate("Postorganizerdonor", { serviceId: item.id,serviceName:item.name });
+      
+    }
+    else{
+
+      navigation.navigate("Postorganizerreceiver", { serviceId: item.id,serviceName:item.name,username:user.username });
+      
+    }
+
   };
+  
+  
 
   return (
     <View style={styles.container}>

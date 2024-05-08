@@ -4,10 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 let apiresponse,user;
 const Login = ({ navigation }) => {
-  //global state
-  //const [state, setState] = useContext(AuthContext);
-  //const[userData,updateUserData] = useContext(UserContext);
-  // states
+
   const [username, setusername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -28,23 +25,24 @@ const Login = ({ navigation }) => {
       }
 
       setLoading(false);
-      apiresponse =  await axios.post("http://192.168.43.175:8080/api/v1/auth/login", payload,{
+      apiresponse =  await axios.post("http://192.168.92.163:8080/api/v1/auth/login", payload,{
         headers:{
           "Content-Type":'application/json'
         }
       })
       AsyncStorage.setItem("@userData", JSON.stringify(apiresponse.data.user));
-      //updateUserData(apiresponse.data.user);
       console.log(apiresponse.data.user);
-      //setLoginResponse(response.data);
-      AsyncStorage.setItem("@auth", JSON.stringify(apiresponse));
       if(apiresponse.data.user.usertype === "both")
       {
          navigation.navigate("SelectroleinBoth");
       } 
+      else if(apiresponse.data.user.usertype === "Donor")
+      {
+         navigation.navigate("Serviceorganizerreceiver",{usertype:"Donor"});
+      }
       else
       {
-        navigation.navigate("Serviceorganizerreceiver");
+        navigation.navigate("Serviceorganizerreceiver",{usertype:"Receiver"});
       }
       console.log("Login Data==> ", { username, password });    
     }
@@ -54,12 +52,6 @@ const Login = ({ navigation }) => {
       console.log(error.response.data.message);
     }
   };
-  //temp function to check local storage data
-  const getLcoalStorageData = async () => {
-    let data = await AsyncStorage.getItem("@auth");
-    //console.log("Local Storage ==> ", data);
-  };
-  getLcoalStorageData();
   
   return (
     <View style={styles.container}>
@@ -88,13 +80,6 @@ const Login = ({ navigation }) => {
                     onChangeText={(text) => setPassword(text)}
                 />
             </View>
-            {/* <Text>{JSON.stringify({ name, username, password }, null, 4)}</Text> */}
-
-            {/* <TouchableOpacity style={styles.tbutton}
-            btnTitle="Login"
-        loading={loading}
-        handleSubmit={handleSubmit}
-      /> */}
 
                 <TouchableOpacity onPress = {handleSubmit} style={styles.tbutton} loading={loading}>
                     <Text style={styles.tbuttontext}>Login</Text>

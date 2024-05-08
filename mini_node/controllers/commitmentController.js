@@ -1,12 +1,16 @@
 const commitmentModel = require("../models/commitmentModel");
+const nodemailer = require('nodemailer');
+const validator = require('validator');
+const { sendEmail } = require('./mailer');
 
 const countCommitments = async(req,res) => {
     try {
-      const maxCommitment = await postModel.findOne({}, { commitment_id: 1 }).sort({ commitment_id: -1 });
+      const maxCommitment = await commitmentModel.findOne({}, { commitmentid: 1 }).sort({ commitmentid: -1 });
+      console.log(maxCommitment);
       if (!maxCommitment) {
-        return res.status(404).send({ count: 0 });
+        return res.status(200).send({ count: 1 });
       }
-      return res.status(200).send({ count: maxCommitment.commitment_id });
+      return res.status(200).send({ count: maxCommitment.commitmentid+1 });
     } catch (error) {
       console.error('Error counting commitments:', error);
       return res.status(500).send({ message: "Internal server error" });
@@ -16,7 +20,7 @@ const countCommitments = async(req,res) => {
 const commitmentcreator = async(req,res) => {
    try{
       
-    const { user1,user2,commitment_id,post_id } = req.body;
+    const { user1,email,receiveremail,user2,commitmentid,postid } = req.body;
     //validation
     
 
@@ -27,6 +31,20 @@ const commitmentcreator = async(req,res) => {
       });
     }
 
+    if (!email) {
+      return res.status(400).send({
+        success: false,
+        message: "Email not set",
+      });
+    }
+
+    if (!receiveremail) {
+      return res.status(400).send({
+        success: false,
+        message: "Receiver email not set",
+      });
+    }
+
     if (!user2) {
       return res.status(400).send({
         success: false,
@@ -34,7 +52,7 @@ const commitmentcreator = async(req,res) => {
       });
     }
 
-    if (!commitment_id) {
+    if (commitmentid == undefined) {
       return res.status(400).send({
         success: false,
         message: "Commitment id is required",
@@ -42,7 +60,7 @@ const commitmentcreator = async(req,res) => {
     }
 
     
-    if (!post_id) {
+    if (!postid) {
       return res.status(400).send({
         success: false,
         message: "Post id is required",
@@ -52,9 +70,22 @@ const commitmentcreator = async(req,res) => {
     await commitmentModel({
       user1:user1,
       user2:user2,
-      commitment_id:commitment_id,
-      post_id:post_id,
+      commitmentid:commitmentid,
+      postid:postid,
     }).save();
+
+    await sendEmail(
+      email,
+      "New Connection!!!",
+      `Hello ${user1}, Your new connection is ${user2}.`
+  );
+
+  await sendEmail(
+    receiveremail,
+    "New Connection!!!",
+    `Hello ${user1}, Your new connection is ${user1}.`
+);
+
 
     return res.status(201).send({
       success: true,

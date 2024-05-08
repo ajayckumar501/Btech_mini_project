@@ -2,13 +2,13 @@ const mongoose = require("mongoose");
 
 const serviceSchema = new mongoose.Schema(
   {
-    service_id: {
+    serviceid: {
       type: Number,
       required: [true, "please add service id"],
       unique:true,
       trim: true,
     },
-    service_name: {
+    servicename: {
       type: String,
       required: [true, "please add service name"],
       trim: true,

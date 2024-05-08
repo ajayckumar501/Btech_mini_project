@@ -88,7 +88,7 @@ const SelectServicelist = ({onUserServiceSelect}) => {
   useEffect(() => {
     const fetchallServices = async () => {
       try {
-        const apiresponse = await axios.post("http://192.168.43.175:8080/api/v1/service/fetchall",{
+        const apiresponse = await axios.post("http://192.168.92.163:8080/api/v1/service/fetchall",{
           headers:{
              "Content-Type":'application/json'
           }
@@ -147,7 +147,7 @@ const SelectServicelist = ({onUserServiceSelect}) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 3,
     // backgroundColor: '#FFFFFF',
     alignItems:"center",
     // backgroundColor:"red"
