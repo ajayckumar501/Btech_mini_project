@@ -3,6 +3,7 @@ import {React,useState,useEffect} from 'react';
 import SearchBar from '../components/SearchBar';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
+import { Alert } from 'react-native';
 import NavBarbottom from '../components/NavBarbottom';
 let apiresponse;
 const Postorganizerreceiver = ({route}) => {
@@ -30,43 +31,13 @@ const Postorganizerreceiver = ({route}) => {
         }
     };
 
-    const deleteUserPost = async(postid) => {
-        try{
-            console.log(postid);
-            console.log(typeof(postid));
-            const payload = {
-                postid:postid
-            };
-        const apiresponse = await axios.post("http://192.168.92.163:8080/api/v1/postdesc/delete", payload, {
-            headers: {
-              "Content-Type": 'application/json'
-            },
-            params:{
-                postid:postid
-            }
-          });
-          console.log(apiresponse.data.message);
-          alert(apiresponse.data.message);
-        }
-        catch(error)
-        {
-            console.log('Error:', error);
-        }
-        
-    };
-
     useEffect(() => {
         const fetchPosts = async () => {
           try {
-              const payload = {
-                  serviceid:serviceId,
-                  username:username,
-              }
-              console.log(payload);
-            apiresponse = await axios.get("http://192.168.92.163:8080/api/v1/postdesc/fetchreceiver",payload,{
+              apiresponse = await axios.get("http://192.168.43.175:8080/api/v1/postdesc/fetchreceiver",{
                 params: {
-                    serviceid: serviceId, 
-                    username:username// Assuming serviceId has a value
+                    serviceid: route.params.serviceId, 
+                    username:route.params.username// Assuming serviceId has a value
                   },
            })// Replace with your API endpoint
           setPosts(apiresponse.data.posts); // Update state with fetched posts
@@ -87,6 +58,53 @@ const Postorganizerreceiver = ({route}) => {
        navigation.navigate('PostCreate',{serviceId:serviceId});
     }
 
+    const deleteUserPost = async(postid) => {
+        try{
+            console.log(postid);
+            console.log(typeof(postid));
+            apiresponse =  await axios.delete("http://192.168.43.175:8080/api/v1/postdesc/delete", {
+               headers:{
+                "Content-Type":'application/json'
+              },
+              params:{
+                postid:postid
+              }
+            })
+            alert(apiresponse.data.message);
+        }
+        catch(error)
+        {
+            if(error.response)
+            {
+                console.log(error.response.data.message);
+                alert(error.response.data.message);
+            }
+            else{
+                console.log('Error:', error);
+            }
+        }
+        
+    };
+
+    
+    const confirmDelete = (postid) => {
+        Alert.alert(
+            "Confirm Deletion",
+            `Are you sure you want to delete this post?`,
+            [
+                {
+                    text: "Cancel",
+                    style: "cancel"
+                },
+                {
+                    text: "Delete",
+                    onPress: () => deleteUserPost(postid)
+                }
+            ]
+        );
+    };
+
+
     return (
         <View style={styles.container}>
             <SearchBar style={styles.SearchBartop} />
@@ -105,7 +123,7 @@ const Postorganizerreceiver = ({route}) => {
                             </View>
 
                             <View>
-                                <Pressable onPress={()=>deleteUserPost(item.postid)}>
+                                <Pressable onPress={()=>confirmDelete(item.postid)}>
                                     <Image source={require("../assets/Delete.png")} style={styles.deleteimage} />
 
                                 </Pressable>
@@ -221,7 +239,8 @@ const styles = StyleSheet.create({
     addpostimage: {
         height: 66,
         width: 66,
-        bottom: "12%",
+        bottom: "1%",
+        top:"20%",
         left: 25,
         zIndex: 5,
         // backgroundColor:"red",

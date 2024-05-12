@@ -29,6 +29,52 @@ const PostDetailviewreciever = ({route}) => {
         return content;
     };
 
+    const deleteUserPost = async(postid) => {
+        try{
+            console.log(postid);
+            console.log(typeof(postid));
+            apiresponse =  await axios.delete("http://192.168.43.175:8080/api/v1/postdesc/delete", {
+               headers:{
+                "Content-Type":'application/json'
+              },
+              params:{
+                postid:postid
+              }
+            })
+            alert(apiresponse.data.message);
+        }
+        catch(error)
+        {
+            if(error.response)
+            {
+                console.log(error.response.data.message);
+                alert(error.response.data.message);
+            }
+            else{
+                console.log('Error:', error);
+            }
+        }
+        
+    };
+
+    
+    const confirmDelete = (postid) => {
+        Alert.alert(
+            "Confirm Deletion",
+            `Are you sure you want to delete this post?`,
+            [
+                {
+                    text: "Cancel",
+                    style: "cancel"
+                },
+                {
+                    text: "Delete",
+                    onPress: () => deleteUserPost(postid)
+                }
+            ]
+        );
+    };
+
     return (
 
         <View style={styles.maincontainer}>
@@ -44,7 +90,9 @@ const PostDetailviewreciever = ({route}) => {
 
                         <View style={{/*backgroundColor:"red",*/flexDirection: "row", marginLeft: 80, }}>
                             <Image source={require("../assets/editpost.png")} style={{ height: 22, width: 22, marginRight: 25, marginLeft : 40 }} />
-                            <Image source={require("../assets/deletepost.png")} style={{ height: 25, width: 25 }} />
+                            <Pressable onPress={()=>confirmDelete(item.postid)}>
+                                <Image source={require("../assets/deletepost.png")} style={{ height: 25, width: 25 }} />
+                            </Pressable>
                         </View>
 
                     </View>

@@ -35,7 +35,7 @@ const ProfileEdit1 = ({ navigation }) => {
         confirmpassword:confpasswd
       }
       setLoading(false);
-      apiresponse = axios.post("http://192.168.92.163:8080/api/v1/auth/Profile_edit1",payload,{
+      apiresponse = axios.post("http://192.168.43.175:8080/api/v1/auth/Profile_edit1",payload,{
         headers:{
           "Content-Type":'application/json'
         }
@@ -46,7 +46,14 @@ const ProfileEdit1 = ({ navigation }) => {
         console.log("Register Data==> ", { email,phoneno,location,password,confpasswd, });
       })
       .catch((error) =>{
-        console.error(error);
+        if(error.response)
+          {
+              console.log(error.response.data.message);
+              alert(error.response.data.message);
+          }
+          else{
+              console.log('Error:', error);
+          }
       });
 
     } catch (error) {

@@ -25,7 +25,7 @@ const Login = ({ navigation }) => {
       }
 
       setLoading(false);
-      apiresponse =  await axios.post("http://192.168.92.163:8080/api/v1/auth/login", payload,{
+      apiresponse =  await axios.post("http://192.168.43.175:8080/api/v1/auth/login", payload,{
         headers:{
           "Content-Type":'application/json'
         }
@@ -41,11 +41,11 @@ const Login = ({ navigation }) => {
       {
          navigation.navigate("SelectroleinBoth");
       } 
-      else if(apiresponse.data.user.usertype === "Donor")
+      else if(apiresponse.data.user.usertype ==="donor")
       {
          navigation.navigate("Serviceorganizerreceiver",{usertype:"Donor"});
       }
-      else if(apiresponse.data.user.usertype === "Receiver")
+      else if(apiresponse.data.user.usertype === "receiver")
       {
         navigation.navigate("Serviceorganizerreceiver",{usertype:"Receiver"});
       }
@@ -96,83 +96,12 @@ const Login = ({ navigation }) => {
                     <Text style={{ fontSize: 20, fontWeight: "bold", color: "#02BF9D" }}>Sign up</Text>
                 </TouchableOpacity>
 
-                {/* <Text style={styles.linkText}>
-        Don't have an account?{" "}
-        <Text
-          style={styles.link}
-          onPress={() => navigation.navigate("SignupScreen")}
-        >
-          Signup
-        </Text>{" "}
-      </Text> */}
-
             </View>
         </View>
     );
 
 };
 
-// const styles = StyleSheet.create({
-//     container: {
-//       flex: 1,
-//       backgroundColor: '#02BF9D',
-//       // justifyContent: "center", // due to this image wasnt coming
-//       alignItems: 'center',
-//     },
-  
-//     basebox: {
-//       borderTopLeftRadius: 44,
-//       borderTopRightRadius: 44,
-//       // marginTop: "84%",
-//       bottom: 0,
-//       position: "absolute",
-//       height: 560,
-//       width: "100%",
-//       backgroundColor: "#FFFFFF",
-//       alignItems: "center",
-//     },
-  
-//     loginheading: {
-//       fontSize: 20,
-//       // backgroundColor:"red",
-//       marginTop: 30,
-//       fontFamily: "sans-serif",
-//       fontWeight: "bold",
-//       color: "#575757",
-//       marginBottom: "10%",
-//     },
-  
-//     input: {
-//       width: 282,
-//       height: 48,
-//       marginTop: "8%",
-//       backgroundColor: "#E6FBF7",
-//       borderRadius: 8,
-//       padding: 10,
-//     },
-  
-//     tbutton: {
-//       marginTop: "15%",
-//       width: 216,
-//       height: 51,
-//       backgroundColor: "#02BF9D",
-//       justifyContent: "center",
-//       alignItems: "center",
-//       borderRadius: 61,
-//     },
-  
-//     tbuttontext: {
-//       color: "white",
-//       fontWeight: "900"
-//     },
-  
-//     image: {
-//       width: 160,
-//       height: 52,
-//       marginTop: "25%",
-//     },
-// });
-// 
 const styles = StyleSheet.create({
   container: {
       flex: 1,
@@ -235,6 +164,7 @@ image: {
 
 
 });
+
 
 
 export default Login;

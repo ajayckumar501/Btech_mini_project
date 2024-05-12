@@ -13,6 +13,6 @@ router.get("/count", countPosts);
 router.post("/create",postcreator);
 router.get("/fetch",fetchPosts);
 router.get("/fetchreceiver",fetchreceiverPosts);
-router.post("/delete",deleteUserPost);
+router.delete("/delete",deleteUserPost);
 
 module.exports = router;

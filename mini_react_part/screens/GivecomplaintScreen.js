@@ -13,8 +13,8 @@ const GivecomplaintScreen = ({route}) => {
   const [count,setCount] = useState(null);
 
 
+
   useEffect(() => {
-    console.log(route.params);
     const user = route.params.username;
 
     const fetchData = async () => {
@@ -47,13 +47,12 @@ const GivecomplaintScreen = ({route}) => {
 useEffect(() => {
   const getData = async () => {
           try{ 
-              const apiresponse =  await axios.get("http://192.168.92.163:8080/api/v1/complaint/count",{
+              apiresponse =  await axios.get("http://192.168.43.175:8080/api/v1/complaint/count",{
               headers:{
                       "Content-Type":'application/json'
               }
               })
                             if(apiresponse){  
-                                  console.log(apiresponse.data.count);
                                   setCount(apiresponse.data.count);
                             }
   }
@@ -61,10 +60,10 @@ useEffect(() => {
       console.log('Error retrieving data:', error);
   }
 };
-if (!count) {
+if (apiresponse === undefined) {
   getData();
 }
-}, [count]);
+}, [apiresponse]);
 
 
 
@@ -74,28 +73,34 @@ if (!count) {
          Alert.alert("Please write complaint");
          return;
        }
+
+       if (count === null) {
+        // If count is null, set it to 1 as the initial complaint ID
+        setCount(1);
+      }
+
        payload = {
          complaintid:count,
+         complaint:complaint,
          giver:giver,
          taker:taker,
-         complaint:complaint,
        };
-       apiresponse = await axios.post("http://192.168.92.163:8080/api/v1/complaint/create",payload,{
+       apiresponse = await axios.post("http://192.168.43.175:8080/api/v1/complaint/create",payload,{
         headers:{
           "Content-Type":'application/json'
         }
       })
-      .then(() => {
         alert(apiresponse.data.message);
-        navigation.navigate("SignupScreen2");
-      })
-      .catch((error) =>{
-        console.error(error.response.data.message);
-      });
     }
     catch (error) {
-      alert(error.response.data.message);
-      console.log(error.response.data.message);
+      if(error.response){
+         alert(error.response.data.message);
+         console.log(error.response.data.message);
+      }
+      else{
+         alert(error);
+         console.log(error);
+      }
     }
   };
 

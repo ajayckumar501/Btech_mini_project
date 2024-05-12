@@ -31,6 +31,7 @@ app.use("/api/v1/postdesc", require("./routes/postRoutes"));
 app.use("/api/v1/commitment", require("./routes/commitmentRoutes"));
 app.use("/api/v1/complaint",require("./routes/complaintRoutes"));
 app.use("/api/v1/admin", require("./routes/adminRoutes"));
+app.use("/api/v1/feedback",require("./routes/feedbackRoutes"));
 
 
 //PORT

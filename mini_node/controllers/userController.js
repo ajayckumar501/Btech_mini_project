@@ -6,6 +6,7 @@ var { expressjwt: jwt } = require("express-jwt");
 const serviceModel = require("../models/serviceModel");
 const nodemailer = require('nodemailer');
 const validator = require('validator');
+const { sendEmail } = require('./mailer');
 
 //middleware
 const requireSignIn = jwt({
@@ -111,7 +112,7 @@ const registerController = async (req, res) => {
     console.log(error);
     return res.status(500).send({
       success: false,
-      message: "Error in Register API",
+      message: "Error in register api",
       error,
     });
   }
@@ -151,11 +152,11 @@ const registerSubmitController = async (req, res) => {
       flag:flag,
     }).save();
 
-  //   await sendEmail(
-  //     email,
-  //     "Welcome to Our Platform!",
-  //     `Hello ${username}, welcome to our platform! Your user type is ${usertype}.`
-  // );
+    await sendEmail(
+      email,
+      "Welcome to Our Platform!",
+      `Hello ${username}, welcome to DanaSetu! Your user type is ${usertype}.`
+  );
 
     return res.status(201).send({
       success: true,
@@ -174,9 +175,9 @@ const registerSubmitController = async (req, res) => {
 
 const fetchUserDetails = async (req, res) => {
   try {
-    const { username } = req.body;
+    const { username } = req.query;
     //validation
-    if (!username) {
+    if (username === undefined) {
       console.log("hi");
       return res.status(500).send({
         success: false,
@@ -194,7 +195,7 @@ const fetchUserDetails = async (req, res) => {
 
     return res.status(200).send({
       success: true,
-      user:user,
+      user:user
     });
   } catch (error) {
     console.log(error);

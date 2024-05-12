@@ -15,7 +15,7 @@ const ReceiverlistScreen = () => {
 
     const fetchReceivers = async () => {
         try {
-            const apiresponse = await axios.get('http://192.168.92.163:8080/api/v1/admin/fetchallReceivers');
+            const apiresponse = await axios.get('http://192.168.43.175:8080/api/v1/admin/fetchallReceivers');
             const data = apiresponse.data;
             // Update the receivers state with the fetched data
             setReceivers(data);
@@ -27,7 +27,7 @@ const ReceiverlistScreen = () => {
     const deleteReceiver = async (username) => {
         try {
             // Send request to delete the receiver with the given username
-            await axios.delete(`http://192.168.92.163:8080/api/v1/admin/deleteUserByUsername?username=${username}`);
+            await axios.delete(`http://192.168.43.175:8080/api/v1/admin/deleteUserByUsername?username=${username}`);
             // Remove the deleted receiver from the state
             setReceivers(receivers.filter(receiver => receiver.username !== username));
         } catch (error) {
@@ -56,7 +56,9 @@ const ReceiverlistScreen = () => {
         <TouchableOpacity>
             <View style={styles.serviceboxflat}>
                 <View style={styles.usericonandname}>
-                    <Image source={require("../assets/usericon.png")} style={styles.image} onPress={() => navigation.navigate('ProfileScreen')} />
+                <TouchableOpacity onPress={() => navigation.navigate('ProfilePublicScreen',{ username:item.username }) }>
+                    <Image source={require("../assets/usericon.png")} style={styles.image}  />
+                </TouchableOpacity>
                     <Text style={styles.donornametxt}>{item.username}</Text>
                     <TouchableOpacity onPress={() => confirmDelete(item.username)}>
                         <Image source={require("../assets/deletered.png")} style={styles.deleteIcon} />

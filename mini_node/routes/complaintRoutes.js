@@ -1,12 +1,14 @@
 const express = require("express");
 const {
   complaintcreator,
-  countComplaints,
+  handleCountComplaints,
+  fetchComplaints,
 } = require("../controllers/complaintController");
 
 const router = express.Router();
 
 router.post("/create",complaintcreator);
-router.get("/count",countComplaints);
+router.get("/count",handleCountComplaints);
+router.get("/fetch",fetchComplaints);
 
 module.exports = router;

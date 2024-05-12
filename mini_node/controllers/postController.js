@@ -1,12 +1,12 @@
 const postModel = require("../models/postModel");
-const { post } = require("../routes/complaintRoutes");
 const countPosts = async(req,res) => {
   try {
     const maxPost = await postModel.findOne({}, { postid: 1 }).sort({ postid: -1 });
     if (!maxPost) {
       return res.status(200).send({ count: 1 });
     }
-    return res.status(200).send({ count: maxPost.postid+1 });
+    const cid = maxPost.postid+1;
+    return res.status(200).send({ count: cid });
   } catch (error) {
     console.error('Error counting entries:', error);
     return res.status(500).send({ message: "Internal server error" });
@@ -18,7 +18,7 @@ const deleteUserPost = async(req,res) => {
   console.log(postid);
   try {
     // Find the post by its ID and delete it
-    const deletedPost = await postModel.findByIdAndDelete(postid);
+    const deletedPost = await postModel.findOneAndDelete({postid});
 
     if (!deletedPost) {
       return res.status(404).json({ message: 'Post not found' });

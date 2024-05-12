@@ -28,26 +28,18 @@ const Postorganizerdonor = ({route}) => {
         }
     };
 
-    const getServiceId = ()=>
-    {
-        console.log(serviceId);
-        return serviceId;
-    };
-
     useEffect(() => {
         const fetchPosts = async () => {
           try {
-            console.log("hi");
-
             const Data = await AsyncStorage.getItem("@userData");
             //const dataa = JSON.parse(Data);
             const data = JSON.parse(Data);
             const username = data.username;
 
-            apiresponse = await axios.get("http://192.168.92.163:8080/api/v1/postdesc/fetch",{
+            apiresponse = await axios.get("http://192.168.43.175:8080/api/v1/postdesc/fetch",{
                 params: {
-                    serviceid: getServiceId(),
-                    username:username
+                    serviceid: route.params.serviceId,
+                    username:route.params.username
                   },
            })
           setPosts(apiresponse.data.posts); 
@@ -70,7 +62,7 @@ const Postorganizerdonor = ({route}) => {
             <FlatList data={posts}
                 renderItem={({ index, item }) =>
 
-                    <Pressable onPress={() => navigation.navigate("PostDetailviewdonor", { post_title:item.post_title ,post_desc:item.post_desc , username:item.username , postid:item.postid})}>
+                    <Pressable onPress={() => navigation.navigate("PostDetailviewdonor", { post_title:item.post_title ,post_desc:item.post_desc , receiver:item.username , postid:item.postid })}>
                     <View style={styles.serviceboxflat}>
 
                         <View style={styles.postinfoboxwithdelete}>

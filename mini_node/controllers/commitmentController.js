@@ -10,7 +10,8 @@ const countCommitments = async(req,res) => {
       if (!maxCommitment) {
         return res.status(200).send({ count: 1 });
       }
-      return res.status(200).send({ count: maxCommitment.commitmentid+1 });
+      const cid =  maxCommitment.commitmentid+1;
+      return res.status(200).send({ count : cid});
     } catch (error) {
       console.error('Error counting commitments:', error);
       return res.status(500).send({ message: "Internal server error" });
@@ -20,7 +21,7 @@ const countCommitments = async(req,res) => {
 const commitmentcreator = async(req,res) => {
    try{
       
-    const { user1,email,receiveremail,user2,commitmentid,postid } = req.body;
+    const { user1,email,receiverdata,commitmentid,postid,posttitle } = req.body;
     //validation
     
 
@@ -38,21 +39,14 @@ const commitmentcreator = async(req,res) => {
       });
     }
 
-    if (!receiveremail) {
+    if (!receiverdata) {
       return res.status(400).send({
         success: false,
-        message: "Receiver email not set",
+        message: "Receiver data is required",
       });
     }
 
-    if (!user2) {
-      return res.status(400).send({
-        success: false,
-        message: "User 2 not set",
-      });
-    }
-
-    if (commitmentid == undefined) {
+    if (commitmentid === undefined) {
       return res.status(400).send({
         success: false,
         message: "Commitment id is required",
@@ -60,16 +54,17 @@ const commitmentcreator = async(req,res) => {
     }
 
     
-    if (!postid) {
+    if (postid === undefined) {
       return res.status(400).send({
         success: false,
         message: "Post id is required",
       });
     }
 
+
     await commitmentModel({
       user1:user1,
-      user2:user2,
+      user2:receiverdata.username,
       commitmentid:commitmentid,
       postid:postid,
     }).save();
@@ -77,25 +72,33 @@ const commitmentcreator = async(req,res) => {
     await sendEmail(
       email,
       "New Connection!!!",
-      `Hello ${user1}, Your new connection is ${user2}.`
-  );
+      `Hello ${user1},\n\nYour new connection is ${receiverdata.username}.\nDetails:\nPhone number: ${receiverdata.phoneno},\nLocation: ${receiverdata.location}`
+    );
+    
 
   await sendEmail(
-    receiveremail,
+    receiverdata.email,
     "New Connection!!!",
-    `Hello ${user1}, Your new connection is ${user1}.`
+    `Hello ${receiverdata.username}, Your new connection is ${user1} for post:${posttitle}.`
 );
 
 
     return res.status(201).send({
       success: true,
-      message: "Connection made",
+      message: "Connection made..Please check your mail",
     });
 
    }
    catch(error){
-      console.log("Error making connection",error); 
-      return res.status(500).send({message:"Internal server error"});
+    if(error.response)
+      {
+          console.log(error.response.data.message);
+          alert(error.response.data.message);
+      }
+      else{
+          console.log('Error:', error);
+      }
+      //return res.status(500).send({message:"Internal server error"});
    }
 };
 

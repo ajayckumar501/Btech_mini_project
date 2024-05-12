@@ -4,22 +4,24 @@ import NavBarbottom from '../components/NavBarbottom';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-let apiresponse,apiresp,username;
+let userData,apiresp,data;
 const PostDetailviewdonor = ({route}) => {
 
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const [user, setUsername] = useState('');
+    const [receiver, setReceiver] = useState('');
+    const [donor, setDonor] = useState('');
     const [postid, setPostid] = useState('');
-    const [count,setCount] = useState(0)
+    const [count,setCount] = useState(0);
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
     useEffect(() => {
         const posttitle  = route.params.post_title;
         setTitle(posttitle);
         const desc = route.params.post_desc;
         setContent(desc);
-        const user = route.params.username;
-        setUsername(user);
+        const receiver = route.params.receiver;
+        setReceiver(receiver);
         const postid = route.params.postid;
         setPostid(postid);
      }, [route.params]);
@@ -28,8 +30,8 @@ const PostDetailviewdonor = ({route}) => {
         return title;
     };
 
-    const displayuser = () => {
-        return user;
+    const displayreceiver = () => {
+        return receiver;
     };
 
     const displaycontent = () => {
@@ -41,19 +43,53 @@ const PostDetailviewdonor = ({route}) => {
         const fetchData = async () => {
             try {
 
-                const response = await axios.get("http://192.168.92.163:8080/api/v1/commitment/count", {
+                const Data = await AsyncStorage.getItem("@userData");
+                if(Data){
+                    data = JSON.parse(Data);
+                    const donor = data.username;
+                    console.log("mail is "+data.email);
+                    setDonor(donor);
+                }
+
+                apiresp = await axios.get("http://192.168.43.175:8080/api/v1/commitment/count", {
                     headers: {
                         "Content-Type": "application/json"
                     }
                 });
-                setCount(response.data.count);
+                setCount(apiresp.data.count);
             } catch (error) {
                 console.error("Error fetching count:", error);
             }
         };
 
-        fetchData();
-    }, []);
+        if (!count) {
+            fetchData();
+        }
+    }, [count]);
+
+    const deleteUserPost = async(postid) => {
+        try{
+            apiresponse =  await axios.delete("http://192.168.43.175:8080/api/v1/postdesc/delete", {
+               headers:{
+                "Content-Type":'application/json'
+              },
+              params:{
+                postid:postid
+              }
+            })
+        }
+        catch(error)
+        {
+            if(error.response)
+            {
+                console.log(error.response.data.message);
+            }
+            else{
+                console.log('Error:', error);
+            }
+        }
+        
+    };
 
     const handlePress = async () => {
         try {
@@ -63,44 +99,46 @@ const PostDetailviewdonor = ({route}) => {
                 console.log("Count is not available yet.");
                 return;
             }
+            const receiver = route.params.receiver;
 
-            try {
-                const user = displayuser();
-                console.log(user);
-                apiresponse = await axios.get("http://192.168.92.163:8080/api/v1/auth/fetchUser", { username:user }, {
+                const resp = await axios.get("http://192.168.43.175:8080/api/v1/auth/fetchUser", {
                     headers: {
                         "Content-Type": 'application/json'
+                    },
+                    params:{
+                        username:receiver
                     }
                 });
-                
-            } catch (error) {
-                console.error("Error fetching receiver data:", error);
-            }
-            const email2 = apiresponse.data.user.email;
 
-            const Data = await AsyncStorage.getItem("@userData");
-            const data = JSON.parse(Data);
-            username = data.username;
+                userData = resp.data.user;
+
+               if(userData){
+                  const email2 = userData.email;  
             
 
-            const payload = {
-                user1: username,
-                email: data.email,
-                receiveremail:email2,
-                user2: user,
-                commitmentid: count,
-                postid: postid,
-            };
+                const payload = {
+                     user1: donor,
+                     email: data.email,
+                     receiverdata:userData,
+                     commitmentid: apiresp.data.count,
+                     postid: route.params.postid,
+                     posttitle:route.params.post_title,
+                };
+                
 
-            const createResponse = await axios.post("http://192.168.92.163:8080/api/v1/commitment/create", payload, {
+            const createResponse = await axios.post("http://192.168.43.175:8080/api/v1/commitment/create", payload, {
                 headers: {
                     "Content-Type": "application/json"
                 }
             });
 
+            setIsButtonDisabled(true);
+            deleteUserPost(route.params.postid);
+
             // Alert and log the response message from the second API call
             alert(createResponse.data.message);
             console.log(createResponse.data.message);
+        }
         } catch (error) {
             // Handle errors
             if (error.response) {
@@ -117,7 +155,7 @@ const PostDetailviewdonor = ({route}) => {
     // const handlePress = async() => {
     //     try{
 
-    //         apiresp = await axios.get("http://192.168.92.163:8080/api/v1/commitment/count",{
+    //         apiresp = await axios.get("http://192.168.43.175:8080/api/v1/commitment/count",{
     //             headers:{
     //                     "Content-Type":'application/json'
     //             }
@@ -140,7 +178,7 @@ const PostDetailviewdonor = ({route}) => {
 
     //         }
 
-    //         apiresponse =  await axios.post("http://192.168.92.163:8080/api/v1/commitment/create", payload,{
+    //         apiresponse =  await axios.post("http://192.168.43.175:8080/api/v1/commitment/create", payload,{
     //         headers:{
     //           "Content-Type":'application/json'
     //     }
@@ -156,7 +194,7 @@ const PostDetailviewdonor = ({route}) => {
     // };
 
     const handleProfilePress = () => {
-        navigation.navigate("ProfilePublicScreen",{ username: displayuser() });
+        navigation.navigate("ProfilePublicScreen",{ username: displayreceiver() });
     }
 
     const navigation = useNavigation();
@@ -173,7 +211,7 @@ const PostDetailviewdonor = ({route}) => {
                            <Image source={require("../assets/usericongreyback.png")} style={styles.usericongrey} />
                            </Pressable>
                         <View>
-                            <Text style={{ fontSize: 20, fontWeight: "600" }}>{displayuser()}</Text>
+                            <Text style={{ fontSize: 20, fontWeight: "600" }}>{displayreceiver()}</Text>
                         </View>
                     </View>
 
@@ -190,9 +228,9 @@ const PostDetailviewdonor = ({route}) => {
 
             
                     <View style={styles.connectbox}>
-                         <Pressable style={styles.tbutton} onPress = {handlePress}>
-                           <Text style={styles.tbuttontext}>Connect</Text>
-                         </Pressable>
+                    <Pressable style={[styles.tbutton, isButtonDisabled && { backgroundColor: 'grey' }]} onPress={handlePress} disabled={isButtonDisabled}>
+                    <Text style={styles.tbuttontext}>{isButtonDisabled ? 'Connected' : 'Connect'}</Text>
+                    </Pressable>
                     </View>
             
 

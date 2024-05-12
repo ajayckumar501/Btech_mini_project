@@ -20,12 +20,12 @@ import DonorlistScreen from './screens/DonorlistScreen';
 import ReceiverlistScreen from './screens/ReceiverlistScreen';
 //import userrequestScreen from './screens/UserrequestScreen';
 //import UserrequestdetailedScreen from './screens/UserrequestdetailedScreen';
-//import ComplaintScreen from './screens/ComplaintScreen';
 import ProfileEdit1 from './screens/ProfileEdit1';
 import ProfileEdit2 from './screens/ProfileEdit2';
 import ProfilePublicScreen from './screens/ProfilePublicScreen';
 import GivecomplaintScreen from './screens/GivecomplaintScreen';
-//import GivefeedbackScreen from './screens/GivefeedbackScreen';
+import GivefeedbackScreen from './screens/GivefeedbackScreen';
+import Complaintorganizerdonor from './screens/Complaintorganizerdonor';
 
 const Stack = createStackNavigator();
 
@@ -81,6 +81,11 @@ const AppNavigator = () => {
       <Stack.Screen
       name="PostDetailviewdonor" 
       component={PostDetailviewdonor} 
+    />
+
+    <Stack.Screen
+      name="Complaintorganizerdonor" 
+      component={Complaintorganizerdonor} 
     />
 
     <Stack.Screen
@@ -156,10 +161,10 @@ const AppNavigator = () => {
       component={GivecomplaintScreen} 
     /> 
 
-    {/* <Stack.Screen
+    <Stack.Screen
       name="GivefeedbackScreen" 
       component={GivefeedbackScreen} 
-    />  */}
+    /> 
 
     </Stack.Navigator>
   );

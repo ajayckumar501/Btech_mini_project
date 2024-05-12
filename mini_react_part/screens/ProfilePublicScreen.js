@@ -20,10 +20,13 @@ import { useNavigation } from '@react-navigation/native';
         
         const fetchData = async () => {
             try {
-                const resp = await axios.get("http://192.168.92.163:8080/api/v1/auth/fetchUser", { username: user }, {
+                const resp = await axios.get("http://192.168.43.175:8080/api/v1/auth/fetchUser", {
                     headers: {
                         "Content-Type": 'application/json'
-                    }
+                    },
+                    params:{
+                      username:user
+                  }
                 });
 
                 const userData = resp.data.user;
@@ -33,7 +36,7 @@ import { useNavigation } from '@react-navigation/native';
                 setLocation(userData.location)
   
 
-                const apiresponse = await axios.post("http://192.168.92.163:8080/api/v1/service/fetch", userData.services, {
+                const apiresponse = await axios.post("http://192.168.43.175:8080/api/v1/service/fetch", userData.services, {
                     headers: {
                         "Content-Type": 'application/json'
                     }
@@ -64,7 +67,7 @@ import { useNavigation } from '@react-navigation/native';
 
   const menuOptions = [  // Array for menu options
     { text: 'Complaint', onPress: () => { navigation.navigate('GivecomplaintScreen',{username}); setShowMenu(false); } },
-    { text: 'Give Feedback', onPress: () => {navigation.navigate('GivefeedbackScreen'); setShowMenu(false); } },
+    { text: 'Give Feedback', onPress: () => {navigation.navigate('GivefeedbackScreen',{username}); setShowMenu(false); } },
   ];
 
   return (
@@ -139,9 +142,9 @@ import { useNavigation } from '@react-navigation/native';
             ))}
           </View>
 
-          <TouchableOpacity style={{ /*backgroundColor:"red",*/ marginBottom: 120, marginTop: 30 }}>
+          {/* <TouchableOpacity style={{ backgroundColor:"red", marginBottom: 120, marginTop: 30 }}>
             <Image source={require("../assets/messageroundicon.png")} style={{ height: 39, width: 39,  }} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
 
         </View>

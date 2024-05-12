@@ -22,7 +22,7 @@ const Serviceorganizerreceiver = ({ route }) => {
         //const userData = JSON.parse(usrData);
         if (usrData) {
           user = JSON.parse(usrData);
-          const apiresponse = await axios.post("http://192.168.92.163:8080/api/v1/service/fetch", user.services, {
+          const apiresponse = await axios.post("http://192.168.43.175:8080/api/v1/service/fetch", user.services, {
             headers: {
               "Content-Type": 'application/json'
             }
@@ -47,10 +47,11 @@ const Serviceorganizerreceiver = ({ route }) => {
   }, []);
 
   const handleListItemPress = async(item) => {
+    console.log(usertype + "        "+(usertype==="Donor"));
 
-    if(usertype.localeCompare("Donor") == 0){
+    if(usertype === "Donor"){
 
-      navigation.navigate("Postorganizerdonor", { serviceId: item.id,serviceName:item.name });
+      navigation.navigate("Postorganizerdonor", { serviceId: item.id,serviceName:item.name,username:user.username  });
       
     }
     else{
