@@ -9,7 +9,7 @@ import Postorganizerreceiver from './screens/Postorganizerreceiver';
 import Serviceorganizerdonor from './screens/Serviceorganizerdonor';
 import Serviceorganizerreceiver from './screens/Serviceorganizerreceiver';
 import Postorganizerdonor from './screens/Postorganizerdonor';
-//import Commitedrecievers from './screens/Commitedrecievers';
+import ConnectionManager from './screens/ConnectionManager';
 import PostDetailviewdonor from './screens/PostDetailviewdonor';
 import AdminScreen from './screens/AdminScreen';
 import PostDetailviewreciever from './screens/PostDetailviewreceiver';
@@ -26,6 +26,7 @@ import ProfilePublicScreen from './screens/ProfilePublicScreen';
 import GivecomplaintScreen from './screens/GivecomplaintScreen';
 import GivefeedbackScreen from './screens/GivefeedbackScreen';
 import Complaintorganizerdonor from './screens/Complaintorganizerdonor';
+//import { Connection } from 'mongoose';
 
 const Stack = createStackNavigator();
 
@@ -45,6 +46,11 @@ const AppNavigator = () => {
       <Stack.Screen
         name="SignupScreen2" 
         component={SignupScreen2} 
+      /> 
+
+      <Stack.Screen
+        name="ConnectionManager" 
+        component={ConnectionManager} 
       /> 
 
       <Stack.Screen

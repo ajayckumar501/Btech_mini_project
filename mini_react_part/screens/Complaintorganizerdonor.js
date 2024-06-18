@@ -8,6 +8,13 @@ import { useNavigation } from '@react-navigation/native';
 let apiresponse;
 const Complaintorganizerdonor = () => {
 
+    const [complaint,setComplaint] = useState(null);
+
+    useEffect(() => {
+        // Fetch donor data from the backend
+        fetchcomplaints();
+    }, []);
+
     const truncateDescription = (description, maxLength) => {
         if (description.length > maxLength) {
             return description.substring(0, maxLength) + "...";
@@ -16,20 +23,15 @@ const Complaintorganizerdonor = () => {
         }
     };
 
-    useEffect(() => {
         const fetchcomplaints = async () => {
           try {
-
-            apiresponse = await axios.get("http://192.168.43.175:8080/api/v1/complaint/fetch");
-            console.log(apiresponse);
+            apiresponse = await axios.post("https://danasetu-backend.onrender.com/api/v1/complaint/fetch");
+            setComplaint(apiresponse.data);
           } catch (error) {
             console.error("Error fetching complaints:", error.message);
           }
         };
-        if (apiresponse === undefined) {
-            fetchcomplaints();
-        }
-      }, [apiresponse]);
+        
 
       const navigation = useNavigation();
 
@@ -37,7 +39,7 @@ const Complaintorganizerdonor = () => {
         <View style={styles.container}>
             <SearchBar style={styles.SearchBartop} />
 
-            <FlatList data={apiresponse}
+            <FlatList data={complaint}
                 renderItem={({ index, item }) =>
 
                     //<Pressable onPress={() => navigation.navigate("complaintDetailviewdonor", { complaint:item.complaint , giver:item.giver , taker:item.taker })}>
@@ -45,15 +47,15 @@ const Complaintorganizerdonor = () => {
 
                         <View style={styles.complaintinfoboxwithdelete}>
                             <View style={styles.complaintinfobox}>
-                                <Pressable>
+                                <Pressable onPress={() => navigation.navigate('ProfilePublicScreen',{username:item.taker})}>
                                 <Image source={require("../assets/usericon.png")} style={styles.image} />
                                 </Pressable>
-                                <Text style={styles.complaintheadingtext}>{apiresponse.giver}</Text>
+                                <Text style={styles.complaintheadingtext}>{item.taker}</Text>
                             </View>
                         </View>
 
                         <View>
-                            <Text style={styles.paratext}>{truncateDescription(item.complaint, 300)}</Text>
+                            <Text style={styles.paratext}>{item.giver} : {truncateDescription(item.complaint, 300)}</Text>
                         </View>
 
                     </View>

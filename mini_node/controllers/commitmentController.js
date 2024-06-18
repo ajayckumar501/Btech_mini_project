@@ -3,6 +3,48 @@ const nodemailer = require('nodemailer');
 const validator = require('validator');
 const { sendEmail } = require('./mailer');
 
+const fetchCommitments = async (req, res) => {
+  try {
+    const {user1} = req.query;
+
+    const user = await commitmentModel.find({
+      $or: [
+        { user1: user1 }, 
+        { user2: user1 }, 
+      ],
+    });
+
+    return res.status(200).send(user);
+  } catch (error) {
+    // Handle errors
+    console.error('Error fetching all data needed for CommitmentScreen:', error);
+    throw error; // Re-throwing the error for the caller to handle
+  }
+};
+
+const deleteCommitment = async (req, res) => {
+  try {
+    const { username1, username2 } = req.query;
+
+    const deletionQuery = {
+      $or: [
+        { user1: username1, user2: username2 }, 
+        { user1: username2, user2: username1 }, 
+      ],
+    };
+
+    const deletedCount = await commitmentModel.deleteMany(deletionQuery);
+
+    return res.status(200).send({
+      message: `Deleted ${deletedCount.deletedCount} commitment(s) with ${username1}`,
+    });
+  } catch (error) {
+    console.error('Error deleting commitments:', error);
+    return res.status(500).send({ error: 'Internal server error' });
+  }
+};
+
+
 const countCommitments = async(req,res) => {
     try {
       const maxCommitment = await commitmentModel.findOne({}, { commitmentid: 1 }).sort({ commitmentid: -1 });
@@ -105,4 +147,6 @@ const commitmentcreator = async(req,res) => {
 module.exports = {
     commitmentcreator,
     countCommitments,
+    fetchCommitments,
+    deleteCommitment
 };

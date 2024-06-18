@@ -25,31 +25,37 @@ const Login = ({ navigation }) => {
       }
 
       setLoading(false);
-      apiresponse =  await axios.post("http://192.168.43.175:8080/api/v1/auth/login", payload,{
+      apiresponse =  await axios.post("https://danasetu-backend.onrender.com/api/v1/auth/login", payload,{
         headers:{
           "Content-Type":'application/json'
         }
       })
-      AsyncStorage.setItem("@userData", JSON.stringify(apiresponse.data.user));
-      console.log(apiresponse.data.user);
+      .then((response) => {
+      
+      AsyncStorage.setItem("@userData", JSON.stringify(response.data.user));
+      console.log(response.data.user);
 
-      if (apiresponse.data.isAdmin) {
+      if (response.data.isAdmin) {
         navigation.navigate("AdminScreen"); // Navigate to AdminHomeScreen if admin login is successful
       } 
 
-      if(apiresponse.data.user.usertype === "both")
+      if(response.data.user.usertype === "both")
       {
          navigation.navigate("SelectroleinBoth");
       } 
-      else if(apiresponse.data.user.usertype ==="donor")
+      else if(response.data.user.usertype ==="donor")
       {
          navigation.navigate("Serviceorganizerreceiver",{usertype:"Donor"});
       }
-      else if(apiresponse.data.user.usertype === "receiver")
+      else if(response.data.user.usertype === "receiver")
       {
         navigation.navigate("Serviceorganizerreceiver",{usertype:"Receiver"});
       }
-      console.log("Login Data==> ", { username, password });    
+      console.log("Login Data==> ", { username, password });
+    })  
+      .catch((error) =>{
+        console.error(error.response.data.message);
+      });  
     }
     catch (error) {
       alert(error.response.data.message);

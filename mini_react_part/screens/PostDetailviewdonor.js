@@ -51,7 +51,7 @@ const PostDetailviewdonor = ({route}) => {
                     setDonor(donor);
                 }
 
-                apiresp = await axios.get("http://192.168.43.175:8080/api/v1/commitment/count", {
+                apiresp = await axios.get("https://danasetu-backend.onrender.com/api/v1/commitment/count", {
                     headers: {
                         "Content-Type": "application/json"
                     }
@@ -69,7 +69,7 @@ const PostDetailviewdonor = ({route}) => {
 
     const deleteUserPost = async(postid) => {
         try{
-            apiresponse =  await axios.delete("http://192.168.43.175:8080/api/v1/postdesc/delete", {
+            apiresponse =  await axios.delete("https://danasetu-backend.onrender.com/api/v1/postdesc/delete", {
                headers:{
                 "Content-Type":'application/json'
               },
@@ -101,7 +101,7 @@ const PostDetailviewdonor = ({route}) => {
             }
             const receiver = route.params.receiver;
 
-                const resp = await axios.get("http://192.168.43.175:8080/api/v1/auth/fetchUser", {
+                const resp = await axios.get("https://danasetu-backend.onrender.com/api/v1/auth/fetchUser", {
                     headers: {
                         "Content-Type": 'application/json'
                     },
@@ -126,7 +126,7 @@ const PostDetailviewdonor = ({route}) => {
                 };
                 
 
-            const createResponse = await axios.post("http://192.168.43.175:8080/api/v1/commitment/create", payload, {
+            const createResponse = await axios.post("https://danasetu-backend.onrender.com/api/v1/commitment/create", payload, {
                 headers: {
                     "Content-Type": "application/json"
                 }
@@ -155,7 +155,7 @@ const PostDetailviewdonor = ({route}) => {
     // const handlePress = async() => {
     //     try{
 
-    //         apiresp = await axios.get("http://192.168.43.175:8080/api/v1/commitment/count",{
+    //         apiresp = await axios.get("https://danasetu-backend.onrender.com/api/v1/commitment/count",{
     //             headers:{
     //                     "Content-Type":'application/json'
     //             }
@@ -178,7 +178,7 @@ const PostDetailviewdonor = ({route}) => {
 
     //         }
 
-    //         apiresponse =  await axios.post("http://192.168.43.175:8080/api/v1/commitment/create", payload,{
+    //         apiresponse =  await axios.post("https://danasetu-backend.onrender.com/api/v1/commitment/create", payload,{
     //         headers:{
     //           "Content-Type":'application/json'
     //     }
@@ -205,7 +205,7 @@ const PostDetailviewdonor = ({route}) => {
             <View style={styles.scrollcontainer}>
                 {/* <Text>PostDetailviewdonor</Text> */}
 
-                <View style={{ paddingHorizontal: 25 }}>
+                <View style={{ paddingHorizontal: 25, paddingTop:"10%" }}>
                     <View style={{ flexDirection: "row", alignItems: "center" }}>
                         <Pressable onPress = {handleProfilePress}>
                            <Image source={require("../assets/usericongreyback.png")} style={styles.usericongrey} />
@@ -222,7 +222,7 @@ const PostDetailviewdonor = ({route}) => {
 
 
                     <ScrollView style={styles.maincontentbox}>
-                        <Text style={{ fontSize: 36, fontWeight: "800",/*padding:20,backgroundColor:"violet"*/ }}>{displaytitle()}</Text>
+                        <Text style={{ fontSize: 25, fontWeight: "600",/*padding:20,backgroundColor:"violet"*/ }}>{displaytitle()}</Text>
                         <Text style={{ fontSize: 16, fontWeight: "400", color: "#575757", marginTop: 15, marginBottom:500 }}>{displaycontent()}</Text>
                     </ScrollView>
 
@@ -250,41 +250,35 @@ const styles = StyleSheet.create({
     },
 
     scrollcontainer: {
-        // flex:1,
-        paddingTop: 65, // may be need to remove later if not scrolling or may be changed to padding top
-        // paddingHorizontal: 25,
-        // backgroundColor:"red",
-
+        backgroundColor:"white",
         flexGrow: 1,
-        paddingTop:65,
         paddingHorizontal: 5,
-
+        padding:"5%",
+        paddingBottom:0,
 
     },
 
     usericongrey: {
-        height: 53,
-        width: 53,
+        height: 38,
+        width: 38,
         marginRight: 15,
     },
 
     maincontentbox: {
-        marginTop: 15,
+        // marginTop: 15,
         backgroundColor: "#F8FEFD",
-        // backgroundColor:"red",
-        padding: 20,
-        paddingBottom:600,
-        paddingTop:15,
         paddingHorizontal: 25,
+        paddingTop:"-5%"
     },
 
     connectbox: {
-        height: 53,
-        width: 360,
+        // height: 53,
+        padding:"5%",
+        width: "100%",
         backgroundColor: "#DDEEEB",
         // backgroundColor: "red",
         position: "absolute",
-        bottom: 74,
+        bottom: 60,
         justifyContent: "center",
         alignItems: "center",
     },

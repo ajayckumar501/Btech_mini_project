@@ -47,7 +47,7 @@ const GivefeedbackScreen = ({route}) => {
 useEffect(() => {
   const getData = async () => {
           try{ 
-              apiresponse =  await axios.get("http://192.168.43.175:8080/api/v1/feedback/count",{
+              apiresponse =  await axios.get("https://danasetu-backend.onrender.com/api/v1/feedback/count",{
               headers:{
                       "Content-Type":'application/json'
               }
@@ -85,7 +85,7 @@ if (apiresponse === undefined) {
          giver:giver,
          taker:taker,
        };
-       apiresponse = await axios.post("http://192.168.43.175:8080/api/v1/feedback/create",payload,{
+       apiresponse = await axios.post("https://danasetu-backend.onrender.com/api/v1/feedback/create",payload,{
         headers:{
           "Content-Type":'application/json'
         }
@@ -105,11 +105,11 @@ if (apiresponse === undefined) {
   };
 
   return (
-    <View style={styles.maincontainer}>
-      <Text style={{fontSize:24,fontWeight:"500",marginTop:30,color:"#575757"}}>feedback</Text>
+    <ScrollView style={styles.maincontainer}>
+      <Text style={{fontSize:24,fontWeight:"500",marginTop:30,color:"#575757"}}>Feedback</Text>
         <TextInput
                 style={styles.input}
-                placeholder="Give ur feedback"
+                placeholder="Give your feedback"
                 multiline={true}
                 value={feedback}
                 onChangeText={(text) => setfeedback(text)}
@@ -124,7 +124,7 @@ if (apiresponse === undefined) {
           </TouchableOpacity>
           
       
-    </View>
+    </ScrollView>
   )
 }
 

@@ -26,11 +26,21 @@ const fetchDatavalues = async (req, res) => {
 
 
     // Query the database to find the total number of donors
-    const totalDonors = await User.countDocuments({ usertype: "donor" });
+    const totalDonors = await User.countDocuments({
+      $or: [
+        { usertype: 'donor' },
+        { usertype: 'both' }
+      ]
+    });
 
 
     // Query the database to find the total number of receivers
-    const totalReceivers = await User.countDocuments({ usertype: "receiver" });
+    const totalReceivers = await User.countDocuments({
+      $or: [
+        { usertype: 'receiver' },
+        { usertype: 'both' }
+      ]
+    });
 
     // Query the database to find the total number of posts
     const totalPosts = await Post.countDocuments();
@@ -51,7 +61,13 @@ const fetchallDonors = async (req, res) => {
     console.log("inside fetchAllDonors function.....");
 
     // Query the database to find all users with usertype 'donor'
-    const donors = await User.find({ usertype: "donor" });
+    const donors = await User.find({
+      $or: [
+        { usertype: 'donor' },
+        { usertype: 'both' }
+      ]
+    });
+    
 
     console.log("this is list of donors", donors);
     // Send the list of donors in the response
@@ -69,7 +85,13 @@ const fetchallReceivers = async (req, res) => {
     console.log("inside fetchAllReceivers function.....");
 
     // Query the database to find all users with usertype 'donor'
-    const receivers = await User.find({ usertype: "receiver" });
+    const receivers = await User.find({
+      $or: [
+        { usertype: 'receiver' },
+        { usertype: 'both' }
+      ]
+    });
+    
 
     console.log("this is list of receivers", receivers);
     // Send the list of donors in the response

@@ -32,7 +32,7 @@ const Register = ({ navigation }) => {
         confirmpassword:confpasswd
       }
       setLoading(false);
-      apiresponse = axios.post("http://192.168.43.175:8080/api/v1/auth/register",payload,{
+      apiresponse = axios.post("https://danasetu-backend.onrender.com/api/v1/auth/register",payload,{
         headers:{
           "Content-Type":'application/json'
         }
@@ -166,14 +166,15 @@ const styles = StyleSheet.create({
 
     borderTopLeftRadius: 44,
     borderTopRightRadius: 44,
-    marginTop: "10.%",
-    height: "84%",
+    marginTop: "15%",
+    //height: "84%",
+    flex:1,
 
     width: "100%",
     backgroundColor: "#FFFFFF",
-    paddingTop: 20,
+    //paddingTop: 20,
     alignItems: "center",
-    paddingBottom : "5%" ,
+    paddingBottom : "100%" ,
 
   },
 
@@ -222,6 +223,7 @@ const styles = StyleSheet.create({
   image: {
     width: 160,
     height: 52,
+    marginTop:"25%",
 
 
   },

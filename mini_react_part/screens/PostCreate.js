@@ -22,7 +22,7 @@ const PostCreate = ({route}) => {
     useEffect(() => {
         const getData = async () => {
                 try{ 
-                    const apiresponse =  await axios.get("http://192.168.43.175:8080/api/v1/postdesc/count",{
+                    const apiresponse =  await axios.get("https://danasetu-backend.onrender.com/api/v1/postdesc/count",{
                     headers:{
                             "Content-Type":'application/json'
                     }
@@ -52,7 +52,7 @@ const PostCreate = ({route}) => {
                      title: title,
                      desc: content,
                   };
-            apiresponse = await axios.post("http://192.168.43.175:8080/api/v1/postdesc/create",payload,{
+            apiresponse = await axios.post("https://danasetu-backend.onrender.com/api/v1/postdesc/create",payload,{
               headers:{
                 "Content-Type":'application/json'
               }

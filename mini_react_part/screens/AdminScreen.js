@@ -33,7 +33,7 @@ const AdminScreen = () => {
   const fetchData = async () => {
     try {
       // Make API calls to fetch data from the backend
-      const apiresponse = await axios.get("http://192.168.43.175:8080/api/v1/admin/fetchDatavalues");
+      const apiresponse = await axios.get("https://danasetu-backend.onrender.com/api/v1/admin/fetchDatavalues");
       
       // Access data directly from the response
       const data = apiresponse.data;
@@ -62,7 +62,7 @@ const AdminScreen = () => {
       console.log("Adding new service:", newServiceName);
   
       // Make an API call to add the new service
-      await axios.post("http://192.168.43.175:8080/api/v1/admin/addingnewservice", { serviceName: newServiceName });
+      await axios.post("https://danasetu-backend.onrender.com/api/v1/admin/addingnewservice", { serviceName: newServiceName });
       
       // If the service is added successfully, you can perform additional actions like updating UI or fetching data again
       // Example:
@@ -125,7 +125,9 @@ const AdminScreen = () => {
             <Text style={{ fontSize: 24, fontWeight: "bold", color: "white" }}>{totalPosts}</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={{ width: 324, height: 66, backgroundColor: "#FF4444", justifyContent: "center", alignItems: "center", borderRadius: 8 }} onPress={() => navigation.navigate("Complaintorganizerdonor")}>
+          <TouchableOpacity style={{ width: 324, height: 66, backgroundColor: "#FF4444", justifyContent: "center", alignItems: "center", borderRadius: 8 
+            
+          }} onPress={() => navigation.navigate("Complaintorganizerdonor")}>
             <Text style={{ fontSize: 16, fontWeight: "bold", color: "white" }}>User complaints</Text>
           </TouchableOpacity>
 

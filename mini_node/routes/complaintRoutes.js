@@ -9,6 +9,6 @@ const router = express.Router();
 
 router.post("/create",complaintcreator);
 router.get("/count",handleCountComplaints);
-router.get("/fetch",fetchComplaints);
+router.post("/fetch",fetchComplaints);
 
 module.exports = router;

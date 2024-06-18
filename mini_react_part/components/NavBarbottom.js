@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const NavBarbottom = () => {
 
@@ -14,6 +15,13 @@ const NavBarbottom = () => {
     navigation.navigate('Serviceorganizerreceiver');
   };
 
+  const handlePress2 = async() => {
+    // Navigate to the desired screen
+    const usrData = await AsyncStorage.getItem("@userData");
+    const detail = JSON.parse(usrData)
+    navigation.navigate('ConnectionManager',{username:detail.username});
+  };
+
 
   return (
     <View style={styles.maincontainer}>
@@ -24,11 +32,11 @@ const NavBarbottom = () => {
         <Pressable onPress={handlePress1}>
           <Image source={require("../assets/homebuttongrey.png")} style={styles.image} />
         </Pressable>
-        <Pressable>
+        <Pressable >
           <Image source={require("../assets/sendbuttongrey.png")} style={styles.image} />
 
         </Pressable>
-        <Pressable>
+        <Pressable onPress={handlePress2}>
           <Image source={require("../assets/bellbuttongrey.png")} style={styles.image} />
 
         </Pressable>
@@ -52,7 +60,7 @@ const styles = StyleSheet.create({
 
   navbar: {
     width: "100%",
-    height: 74,
+    height: 60,
     // backgroundColor: "white",
     backgroundColor: "#DDEEEB",
     justifyContent: "space-around",
@@ -61,6 +69,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
   },
+
+  image:{
+    height:35,
+    width:35,
+  }
 
 
 

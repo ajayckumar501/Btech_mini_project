@@ -48,7 +48,7 @@ const ProfileScreen = () => {
         <View style={styles.maincontainer}>
           <Pressable
             onPress={() => setShowMenu(!showMenu)}  // Toggle menu visibility on press
-            style={{ height: 39, width: 39, top: "8%", zIndex: 5, left: "40%" }}
+            style={{ height: 39, width: 39, marginTop: "15%", zIndex: 5, left: "40%" }}
           >
             <Image source={require("../assets/Menu Vertical(1).png")} style={{ height: 39, width: 39 }} />
             {showMenu && (
@@ -79,7 +79,7 @@ const ProfileScreen = () => {
               <Text style={styles.eachrowdetailtext}>{phoneno}</Text>
             </View>
             <View style={styles.eachrowdetail}>
-              <Text style={styles.subtext}>Location</Text>
+              <Text style={styles.subtext}>Loc</Text>
               <Text style={styles.eachrowdetailtext}>{location}</Text>
             </View>
           </View>
@@ -131,15 +131,14 @@ const styles = StyleSheet.create({
   image: {
     width: 174.3,
     height: 174.3,
-    marginTop: "12%",
+    marginTop: "-3%",
   },
   maindetails: {
     marginTop: "8%",
     backgroundColor: "#DDEEEB",
-    height: 300,
-    width: 345,
+    width: "90%",
     borderRadius: 26,
-    paddingTop: 25,
+    padding:"5%"
   },
   subtext: {
     fontSize: 16,
@@ -159,18 +158,19 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   intrestedservices: {
-    width: 345,
+    width: "90%",
     backgroundColor: "#DDEEEB",
+    // backgroundColor:"red",
     borderRadius: 26,
     marginTop: 25,
-    padding: 15,
-    paddingBottom:15,
+    padding: "5%",
     marginBottom:20,
   },
   serviceboxflat: {
-    width: 325,
+    width: "100%",
     height: 50,
-    backgroundColor: '#A0A0A0', // Initial color
+    backgroundColor: '#02BF9D', // Initial color
+    // backgroundColor:"red",
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 8,

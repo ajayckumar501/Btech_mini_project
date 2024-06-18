@@ -22,7 +22,7 @@ const Serviceorganizerreceiver = ({ route }) => {
         //const userData = JSON.parse(usrData);
         if (usrData) {
           user = JSON.parse(usrData);
-          const apiresponse = await axios.post("http://192.168.43.175:8080/api/v1/service/fetch", user.services, {
+          const apiresponse = await axios.post("https://danasetu-backend.onrender.com/api/v1/service/fetch", user.services, {
             headers: {
               "Content-Type": 'application/json'
             }

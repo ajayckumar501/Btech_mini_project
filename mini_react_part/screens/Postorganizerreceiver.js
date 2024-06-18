@@ -22,6 +22,7 @@ const Postorganizerreceiver = ({route}) => {
       setServiceName(var2);
       setUsername(var3);
     }, [route.params]);
+      
 
     const truncateDescription = (description, maxLength) => {
         if (description.length > maxLength) {
@@ -34,7 +35,7 @@ const Postorganizerreceiver = ({route}) => {
     useEffect(() => {
         const fetchPosts = async () => {
           try {
-              apiresponse = await axios.get("http://192.168.43.175:8080/api/v1/postdesc/fetchreceiver",{
+              apiresponse = await axios.get("https://danasetu-backend.onrender.com/api/v1/postdesc/fetchreceiver",{
                 params: {
                     serviceid: route.params.serviceId, 
                     username:route.params.username// Assuming serviceId has a value
@@ -52,6 +53,7 @@ const Postorganizerreceiver = ({route}) => {
         }
       }, [serviceId]);
 
+
     const navigation = useNavigation();
     
     const navigateToPostCreate = () => {
@@ -62,7 +64,7 @@ const Postorganizerreceiver = ({route}) => {
         try{
             console.log(postid);
             console.log(typeof(postid));
-            apiresponse =  await axios.delete("http://192.168.43.175:8080/api/v1/postdesc/delete", {
+            apiresponse =  await axios.delete("https://danasetu-backend.onrender.com/api/v1/postdesc/delete", {
                headers:{
                 "Content-Type":'application/json'
               },
@@ -239,11 +241,10 @@ const styles = StyleSheet.create({
     addpostimage: {
         height: 66,
         width: 66,
-        bottom: "1%",
-        top:"20%",
+        bottom: "12%",
         left: 25,
         zIndex: 5,
-        // backgroundColor:"red",
+        position:"absolute"
 
 
     }

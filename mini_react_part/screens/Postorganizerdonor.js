@@ -36,7 +36,7 @@ const Postorganizerdonor = ({route}) => {
             const data = JSON.parse(Data);
             const username = data.username;
 
-            apiresponse = await axios.get("http://192.168.43.175:8080/api/v1/postdesc/fetch",{
+            apiresponse = await axios.get("https://danasetu-backend.onrender.com/api/v1/postdesc/fetch",{
                 params: {
                     serviceid: route.params.serviceId,
                     username:route.params.username

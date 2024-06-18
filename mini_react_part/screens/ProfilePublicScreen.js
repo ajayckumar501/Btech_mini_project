@@ -20,7 +20,7 @@ import { useNavigation } from '@react-navigation/native';
         
         const fetchData = async () => {
             try {
-                const resp = await axios.get("http://192.168.43.175:8080/api/v1/auth/fetchUser", {
+                const resp = await axios.get("https://danasetu-backend.onrender.com/api/v1/auth/fetchUser", {
                     headers: {
                         "Content-Type": 'application/json'
                     },
@@ -36,7 +36,7 @@ import { useNavigation } from '@react-navigation/native';
                 setLocation(userData.location)
   
 
-                const apiresponse = await axios.post("http://192.168.43.175:8080/api/v1/service/fetch", userData.services, {
+                const apiresponse = await axios.post("https://danasetu-backend.onrender.com/api/v1/service/fetch", userData.services, {
                     headers: {
                         "Content-Type": 'application/json'
                     }
@@ -78,7 +78,7 @@ import { useNavigation } from '@react-navigation/native';
           <View style={{ alignItems: "center", /*backgroundColor: "red",*/ width: "100%", }}>
           <Pressable
               onPress={() => setShowMenu(!showMenu)}  // Toggle menu visibility on press
-              style={{ height: 39, width: 39, top: "25%", zIndex: 5, left: "40%" }}
+              style={{ height: 39, width: 39, marginTop: "15%", zIndex: 5, left: "40%" }}
             >
               <Image source={require("../assets/Menu Vertical(1).png")} style={{ height: 39, width: 39, }} />
               {showMenu && (  // Conditionally render menu items when showMenu is true
@@ -125,7 +125,7 @@ import { useNavigation } from '@react-navigation/native';
               <Text style={styles.eachrowdetailtext}>Kerala</Text>
             </View> */}
             <View style={{ flexDirection: "row", justifyContent: "space-around", /*backgroundColor:"blue",*/ marginTop: 15, }}>
-              <Text style={styles.subtext}>Location</Text>
+              <Text style={styles.subtext}>Loc</Text>
               <Text style={{ height: 119.42, width: 247, backgroundColor: "white", padding: 5, borderRadius: 8, }}>{location}</Text>
             </View>
           </View>
@@ -192,21 +192,20 @@ const styles = StyleSheet.create({
     image: {
         width: 174.3,
         height: 174.3,
-        marginTop: "12%",
+        marginTop: "-3%",
     },
 
     maindetails: {
         marginTop: "8%",
         backgroundColor: "#DDEEEB",
-        height: 507,
-        width: 345,
+        width: "90%",
         borderRadius: 26,
-        paddingTop: 25,
+        padding: "5%",
     },
 
     subtext: {
         fontSize: 16,
-        width: 61,
+        width: 75,
 
 
     },
@@ -228,20 +227,33 @@ const styles = StyleSheet.create({
     },
 
     intrestedservices: {
-        width: 345,
-        backgroundColor: "#DDEEEB",
-        borderRadius: 26,
-        marginTop: 25,
-        padding: 15,
+      width: "90%",
+      backgroundColor: "#DDEEEB",
+      // backgroundColor:"red",
+      borderRadius: 26,
+      marginTop: 25,
+      padding: "5%",
+      marginBottom:20,
     },
 
+    serviceboxflat: {
+      width: "100%",
+      height: 50,
+      backgroundColor: '#02BF9D', // Initial color
+      // backgroundColor:"red",
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 8,
+      marginBottom: 15,
+      flexDirection: "row",
+    },
     servicetext: {
-        fontSize: 15,
-        fontWeight: "400",
-        marginBottom: 3,
-        marginLeft: 10,
-        // backgroundColor:"red"
-    }
+      color: 'white',
+      fontSize: 17,
+      fontWeight: 'bold',
+      // marginRight: '60%',
+    },
+  
 
 
 })

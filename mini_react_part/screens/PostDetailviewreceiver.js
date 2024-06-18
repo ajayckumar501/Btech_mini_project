@@ -33,7 +33,7 @@ const PostDetailviewreciever = ({route}) => {
         try{
             console.log(postid);
             console.log(typeof(postid));
-            apiresponse =  await axios.delete("http://192.168.43.175:8080/api/v1/postdesc/delete", {
+            apiresponse =  await axios.delete("https://danasetu-backend.onrender.com/api/v1/postdesc/delete", {
                headers:{
                 "Content-Type":'application/json'
               },
@@ -80,7 +80,7 @@ const PostDetailviewreciever = ({route}) => {
         <View style={styles.maincontainer}>
             <View style={styles.scrollcontainer}>
 
-                <View style={{ paddingHorizontal: 25 }}>
+            <View style={{ paddingHorizontal: 25,/*backgroundColor:"yellow",*/width:"100%",marginTop:"8%" }}>
                     <View style={{ flexDirection: "row", alignItems: "center",/*backgroundColor:"green"*/ }}>
                         <Image source={require("../assets/usericongreyback.png")} style={styles.usericongrey} />
                         <View>
@@ -99,7 +99,7 @@ const PostDetailviewreciever = ({route}) => {
 
 
                     <ScrollView style={styles.maincontentbox}>
-                        <Text style={{ fontSize: 36, fontWeight: "800",/*padding:20,backgroundColor:"violet"*/ }}>{displaytitle()}</Text>
+                        <Text style={{ fontSize: 25, fontWeight: "600",/*padding:20,backgroundColor:"violet"*/ }}>{displaytitle()}</Text>
                         <Text style={{ fontSize: 16, fontWeight: "400", color: "#575757", marginTop: 15, marginBottom:500  }}>{displaycontent()}</Text>
                     </ScrollView>
                 </View>
@@ -131,12 +131,12 @@ const styles = StyleSheet.create({
     },
 
     scrollcontainer: {
-        // flex:1,
-        paddingTop: 65, // may be need to remove later if not scrolling or may be changed to padding top
-        // paddingHorizontal: 25,
-        // backgroundColor:"red",
-        paddingLeft:0,
-
+        backgroundColor:"white",
+        // backgroundColor:"magenta",
+        flexGrow: 1,
+        padding:"2%",
+        paddingBottom:0,
+        alignItems:"center"
 
     },
 
@@ -144,20 +144,23 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        marginBottom: 15,
+        marginBottom: "10%",
+        backgroundColor:"red",
+        marginTop:"8%",
       },
 
     usericongrey: {
-        height: 53,
-        width: 53,
+        height: 38,
+        width: 38,
         marginRight: 15,
     },
 
     maincontentbox: {
-        padding:3,
-        marginTop: 55,
+        marginTop: "5%",
         backgroundColor: "#F8FEFD",
-        marginLeft:0,
+        width:"90%",
+        padding:"5%",
+
     },
 
     connectbox: {

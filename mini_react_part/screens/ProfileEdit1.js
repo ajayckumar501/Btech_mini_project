@@ -35,7 +35,7 @@ const ProfileEdit1 = ({ navigation }) => {
         confirmpassword:confpasswd
       }
       setLoading(false);
-      apiresponse = axios.post("http://192.168.43.175:8080/api/v1/auth/Profile_edit1",payload,{
+      apiresponse = axios.post("https://danasetu-backend.onrender.com/api/v1/auth/Profile_edit1",payload,{
         headers:{
           "Content-Type":'application/json'
         }
