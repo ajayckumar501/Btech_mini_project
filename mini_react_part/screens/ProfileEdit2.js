@@ -4,8 +4,11 @@ import {payload} from './ProfileEdit1';
 import ServiceSelectbox from '../components/ServiceSelectbox';
 import SelectServicelist, { selectedServices } from '../components/SelectServicelist'; // Import SelectServicelist and selectedServices
 import axios from "axios";
+import { useNavigation } from '@react-navigation/native';
 let apiresponse;
-const ProfileEdit2 = ({ navigation }) => {
+const ProfileEdit2 = ({ route }) => {
+
+    const navigation = useNavigation();
 
     const [loading, setLoading] = useState(false);
     const [selectedUserType, setSelectedUserType] = useState(null);
@@ -31,7 +34,6 @@ const ProfileEdit2 = ({ navigation }) => {
 
     const handleSubmit = async() =>{
         try{
-            console.log(selectedUserType);
             payload.usertype = selectedUserType;
             payload.services = selectedServices;
             payload.flag = 1;
@@ -42,8 +44,7 @@ const ProfileEdit2 = ({ navigation }) => {
               return;
             }
             setLoading(false);
-            console.log(payload);
-            apiresponse = await axios.post("http://192.168.92.163:8080/api/v1/auth/Profile_edit2",payload,{
+            apiresponse = await axios.post("http://192.168.218.163:8080/api/v1/auth/Profile_edit2",payload,{
               headers:{
                 "Content-Type":'application/json'
               }
@@ -51,17 +52,11 @@ const ProfileEdit2 = ({ navigation }) => {
             //.then((response) => {
               alert(apiresponse.data.message);
               navigation.navigate("LoginScreen");
-              console.log("Register Data==> ", {payload});
-            //})
-            //.catch((error) =>{
-               // console.error(error.response.data.message);
-            //});
             
           }
           catch (error) {
             alert(error);
             setLoading(false);
-            console.log(error);
           }
     };
     return (

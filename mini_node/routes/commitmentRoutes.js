@@ -9,7 +9,7 @@ const {
 const router = express.Router();
 
 router.get("/count", countCommitments);
-router.post("/fetch", fetchCommitments);
+router.get("/fetch", fetchCommitments);
 router.post("/create",commitmentcreator);
 router.delete("/deleteConnection",deleteCommitment);
 

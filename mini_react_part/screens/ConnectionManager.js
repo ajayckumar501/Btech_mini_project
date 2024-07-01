@@ -9,19 +9,21 @@ const ConnectionManager = ({route}) => {
     const [commitments, setCommitments] = useState([]); 
   
     useEffect(() => {
-      console.log(route.params);
       const var1 = route.params.username;
       setUsername(var1);
+      fetchConnections();
     }, [username]);
 
-    useEffect(() => {
-        fetchConnections();
-    }, []);
+    // useEffect(() => {
+    //     fetchConnections();
+    // }, []);
 
         const fetchConnections = async () => {
             try {
-                // Query the database to find all users with usertype 'donor'
-                const apiresponse = await axios.post('https://danasetu-backend.onrender.com/api/v1/commitment/fetch',{
+                const apiresponse = await axios.get('http://192.168.218.163:8080/api/v1/commitment/fetch',{
+                    headers: {
+                        "Content-Type": 'application/json'
+                    },
                     params: {
                         user1:username
                       },
@@ -30,18 +32,18 @@ const ConnectionManager = ({route}) => {
                 // Update the donors state with the fetched data
                 setCommitments(data);
             } catch (error) {
-                console.error('Error fetching commitments:', error);
+                
             }
         };
 
     
     const deleteDonor = async (user) => {
         try {
-            const apiresponse = await axios.delete(`https://danasetu-backend.onrender.com/api/v1/commitment/deleteConnection?username1=${user}&username2=${username}`);
+            const apiresponse = await axios.delete(`http://192.168.218.163:8080/api/v1/commitment/deleteConnection?username1=${user}&username2=${username}`);
             setCommitments(commitments.filter(commitments => commitments.user2 !== user));
             alert(apiresponse.data.message);
         } catch (error) {
-            console.error('Error deleting connection:', error);
+            
         }
     };
     
@@ -66,11 +68,17 @@ const ConnectionManager = ({route}) => {
         );
     };
 
+    const getuser = (item)=>{
+        if(item.user2 === username)
+            return item.user1;
+        return item.user2;
+    }
+
     const renderItem = ({ item }) => (
         <TouchableOpacity>
             <View style={styles.serviceboxflat}>
                 <View style={styles.usericonandname}>
-                <TouchableOpacity onPress={() => navigation.navigate('ProfilePublicScreen',{ username:item.user2 }) }>
+                <TouchableOpacity onPress={() => navigation.navigate('ProfilePublicScreen',{ username:getuser(item) })} >
                     <Image source={require("../assets/usericon.png")} style={styles.image}  />
                 </TouchableOpacity>
                     <Text style={styles.donornametxt}>{item.user2 === username ? item.user1 : item.user2}</Text>

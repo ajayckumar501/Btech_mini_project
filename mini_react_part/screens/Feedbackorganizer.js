@@ -6,18 +6,14 @@ import NavBarbottom from '../components/NavBarbottom';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from '@react-navigation/native';
 let apiresponse;
-const Postorganizerdonor = ({route}) => {
+const Feedbackorganizer = () => {
 
-    const[serviceId, setServiceId] = useState(null);
-    const [serviceName, setServiceName] = useState(null);
-    const [posts, setPosts] = useState([]); // State to store fetched posts
-  
+    const [feedback,setfeedback] = useState(null);
+
     useEffect(() => {
-      const var1 = route.params.serviceId;
-      const var2 = route.params.serviceName;
-      setServiceId(var1);
-      setServiceName(var2);
-    }, [route.params]);
+        // Fetch donor data from the backend
+        fetchfeedbacks();
+    }, []);
 
     const truncateDescription = (description, maxLength) => {
         if (description.length > maxLength) {
@@ -27,29 +23,15 @@ const Postorganizerdonor = ({route}) => {
         }
     };
 
-    useEffect(() => {
-        const fetchPosts = async () => {
+        const fetchfeedbacks = async () => {
           try {
-            const Data = await AsyncStorage.getItem("@userData");
-            //const dataa = JSON.parse(Data);
-            const data = JSON.parse(Data);
-            const username = data.username;
-
-            apiresponse = await axios.get("http://192.168.218.163:8080/api/v1/postdesc/fetch",{
-                params: {
-                    serviceid: route.params.serviceId,
-                    username:route.params.username
-                  },
-           })
-          setPosts(apiresponse.data.posts); 
+            apiresponse = await axios.post("http://192.168.218.163:8080/api/v1/feedback/fetch");
+            setfeedback(apiresponse.data);
           } catch (error) {
             
           }
         };
-        if (serviceId !==undefined) {
-            fetchPosts();
-        }
-      }, [serviceId]);
+        
 
       const navigation = useNavigation();
 
@@ -57,23 +39,23 @@ const Postorganizerdonor = ({route}) => {
         <View style={styles.container}>
             <SearchBar style={styles.SearchBartop} />
 
-            <FlatList data={posts}
+            <FlatList data={feedback}
                 renderItem={({ index, item }) =>
 
-                    <Pressable onPress={() => navigation.navigate("PostDetailviewdonor", { post_title:item.post_title ,post_desc:item.post_desc , receiver:item.username , postid:item.postid })}>
+                    <Pressable onPress={() => navigation.navigate("FeedbackDetailView", { feedback:item.feedback , giver:item.giver , taker:item.taker })}>
                     <View style={styles.serviceboxflat}>
 
-                        <View style={styles.postinfoboxwithdelete}>
-                            <View style={styles.postinfobox}>
-                                <Pressable>
+                        <View style={styles.feedbackinfoboxwithdelete}>
+                            <View style={styles.feedbackinfobox}>
+                                <Pressable onPress={() => navigation.navigate('ProfilePublicScreen',{username:item.taker})}>
                                 <Image source={require("../assets/usericon.png")} style={styles.image} />
                                 </Pressable>
-                                <Text style={styles.postheadingtext}>{item.post_title}</Text>
+                                <Text style={styles.feedbackheadingtext}>{item.taker}</Text>
                             </View>
                         </View>
 
                         <View>
-                            <Text style={styles.paratext}>{truncateDescription(item.post_desc, 300)}</Text>
+                            <Text style={styles.paratext}>{item.giver} : {truncateDescription(item.feedback, 300)}</Text>
                         </View>
 
                     </View>
@@ -84,17 +66,17 @@ const Postorganizerdonor = ({route}) => {
                 showsVerticalScrollIndicator={false}
 
             />
-            <NavBarbottom />
         </View>
     )
 }
 
-export default Postorganizerdonor;
+export default Feedbackorganizer;
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "white",
+        backgroundColor: "#FFFFFF",
+
     },
 
     SearchBartop: {
@@ -117,12 +99,9 @@ const styles = StyleSheet.create({
 
     flatstyle: {
         alignItems: 'center',
-        // backgroundColor:"blue",
-        paddingTop:"5%",
-        paddingBottom:"25%"
     },
 
-    postheadingtext: {
+    feedbackheadingtext: {
         color: "black",
         fontSize: 20,
         fontWeight: 'bold',
@@ -138,7 +117,7 @@ const styles = StyleSheet.create({
 
     },
 
-    postinfobox: {
+    feedbackinfobox: {
         flexDirection: "row",
         // backgroundColor:"yellow",
         justifyContent: "flex-start",
@@ -153,7 +132,7 @@ const styles = StyleSheet.create({
         fontWeight: "300"
     },
 
-    postinfoboxwithdelete: {
+    feedbackinfoboxwithdelete: {
         flexDirection: "row",
         // backgroundColor:"red",
         justifyContent: "center",

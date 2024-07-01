@@ -1,9 +1,8 @@
 const User = require('../models/userModel'); // Import the User model
 const Post = require('../models/postModel'); // Import the Post model
-
 const Service=require("../models/serviceModel")
-
 const adminModel = require("../models/adminModel");
+const commitment = require("../models/commitmentModel");
 
 
 const JWT = require("jsonwebtoken");
@@ -17,14 +16,8 @@ const requireSignIn = jwt({
   algorithms: ["HS256"],
 });
 
-
 const fetchDatavalues = async (req, res) => {
   try {
-
-
-    console.log("hellooooooo");
-
-
     // Query the database to find the total number of donors
     const totalDonors = await User.countDocuments({
       $or: [
@@ -44,13 +37,12 @@ const fetchDatavalues = async (req, res) => {
 
     // Query the database to find the total number of posts
     const totalPosts = await Post.countDocuments();
+    const totalConnections = await commitment.countDocuments();
 
     // Return the fetched data
-    return res.status(200).send({ totalDonors, totalReceivers, totalPosts });
+    return res.status(200).send({ totalDonors, totalReceivers, totalPosts, totalConnections});
 
   } catch (error) {
-    // Handle errors
-    console.error('Error fetching all data needed for adminScreen:', error);
     throw error; // Re-throwing the error for the caller to handle
   }
 };
@@ -58,7 +50,6 @@ const fetchDatavalues = async (req, res) => {
 
 const fetchallDonors = async (req, res) => {
   try {
-    console.log("inside fetchAllDonors function.....");
 
     // Query the database to find all users with usertype 'donor'
     const donors = await User.find({
@@ -67,14 +58,10 @@ const fetchallDonors = async (req, res) => {
         { usertype: 'both' }
       ]
     });
-    
 
-    console.log("this is list of donors", donors);
     // Send the list of donors in the response
     return res.status(200).send(donors);
   } catch (error) {
-    // Handle errors
-    console.error('Error fetching all data needed for donorlistScreen:', error);
     throw error; // Re-throwing the error for the caller to handle
   }
 };
@@ -82,7 +69,6 @@ const fetchallDonors = async (req, res) => {
 
 const fetchallReceivers = async (req, res) => {
   try {
-    console.log("inside fetchAllReceivers function.....");
 
     // Query the database to find all users with usertype 'donor'
     const receivers = await User.find({
@@ -91,14 +77,9 @@ const fetchallReceivers = async (req, res) => {
         { usertype: 'both' }
       ]
     });
-    
-
-    console.log("this is list of receivers", receivers);
     // Send the list of donors in the response
     return res.status(200).send(receivers);
   } catch (error) {
-    // Handle errors
-    console.error('Error fetching all data needed for donorlistScreen:', error);
     throw error; // Re-throwing the error for the caller to handle
   }
 };
@@ -140,7 +121,6 @@ const adminloginController = async (req, res) => {
 
       //match password
       const matchadmin = (password === admin.password);
-      // console.log(matchadmin);
       if (matchadmin) {
         return res.status(200).send({
           success: true,
@@ -152,8 +132,6 @@ const adminloginController = async (req, res) => {
     }
 
   } catch (error) {
-    console.log(error);
-    console.log("hereeeeeeeeeeeeeeee");
     return res.status(500).send({
       success: false,
       message: "error in adminlogin api",
@@ -187,30 +165,23 @@ const addingnewservice = async (req, res) => {
     // Send success response
     return res.status(201).send({ message: 'New service added successfully.' });
   } catch (error) {
-    // Handle errors
-    console.error('Error adding new service:', error);
     return res.status(500).send({ error: 'Internal Server Error' });
   }
 };
 
 const deleteUserByUsername = async (req, res) => {
   try {
-    console.log("inside deleteDonorByUsername function.....");
 
     // Extract username from query parameters
     const { username } = req.query;
-    console.log(username);
 
     // Delete the donor from the database by username
     const deletedDonor = await User.findOneAndDelete({ username });
-
-    console.log("Deleted donor:", deletedDonor);
+    const deletedCount = await commitmentModel.deleteMany({ username });
 
     // Send success response
     return res.status(200).send({ message: 'Donor deleted successfully' });
   } catch (error) {
-    // Handle errors
-    console.error('Error deleting donor:', error);
     return res.status(500).send({ error: 'Internal server error' });
   }
 };

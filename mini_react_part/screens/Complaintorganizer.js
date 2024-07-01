@@ -6,7 +6,7 @@ import NavBarbottom from '../components/NavBarbottom';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from '@react-navigation/native';
 let apiresponse;
-const Complaintorganizerdonor = () => {
+const Complaintorganizer = () => {
 
     const [complaint,setComplaint] = useState(null);
 
@@ -25,10 +25,10 @@ const Complaintorganizerdonor = () => {
 
         const fetchcomplaints = async () => {
           try {
-            apiresponse = await axios.post("https://danasetu-backend.onrender.com/api/v1/complaint/fetch");
+            apiresponse = await axios.post("http://192.168.218.163:8080/api/v1/complaint/fetch");
             setComplaint(apiresponse.data);
           } catch (error) {
-            console.error("Error fetching complaints:", error.message);
+            
           }
         };
         
@@ -42,7 +42,7 @@ const Complaintorganizerdonor = () => {
             <FlatList data={complaint}
                 renderItem={({ index, item }) =>
 
-                    //<Pressable onPress={() => navigation.navigate("complaintDetailviewdonor", { complaint:item.complaint , giver:item.giver , taker:item.taker })}>
+                    <Pressable onPress={() => navigation.navigate("ComplaintDetailView", { complaint:item.complaint , giver:item.giver , taker:item.taker })}>
                     <View style={styles.serviceboxflat}>
 
                         <View style={styles.complaintinfoboxwithdelete}>
@@ -59,7 +59,7 @@ const Complaintorganizerdonor = () => {
                         </View>
 
                     </View>
-                    //</Pressable>
+                    </Pressable>
                 }
 
                 contentContainerStyle={styles.flatstyle}  // for styling flatlist we need to use like this
@@ -70,7 +70,7 @@ const Complaintorganizerdonor = () => {
     )
 }
 
-export default Complaintorganizerdonor;
+export default Complaintorganizer;
 
 const styles = StyleSheet.create({
     container: {

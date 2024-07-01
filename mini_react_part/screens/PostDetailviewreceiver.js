@@ -1,16 +1,20 @@
-import { StyleSheet, Text, View, ScrollView, Image, Pressable } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Image, Pressable,Alert } from 'react-native';
 import {React,useEffect,useState} from 'react';
 import NavBarbottom from '../components/NavBarbottom';
+let apiresponse;
 
 const PostDetailviewreciever = ({route}) => {
 
     const [title, setTitle] = useState('');
+    const [postid, setPostid] = useState('');
     const [content, setContent] = useState('');
     const [username, setUsername] = useState('');
 
     useEffect(() => {
         const posttitle  = route.params.post_title;
         setTitle(posttitle);
+        const postid  = route.params.postid;
+        setPostid(postid);
         const desc = route.params.post_desc;
         setContent(desc);
         const user = route.params.username;
@@ -25,20 +29,23 @@ const PostDetailviewreciever = ({route}) => {
         return username;
     };
 
+    const displayid = () => {
+        return postid;
+    };
+
+
     const displaycontent = () => {
         return content;
     };
 
-    const deleteUserPost = async(postid) => {
+    const deleteUserPost = async(pid) => {
         try{
-            console.log(postid);
-            console.log(typeof(postid));
-            apiresponse =  await axios.delete("https://danasetu-backend.onrender.com/api/v1/postdesc/delete", {
+            apiresponse =  await axios.delete("http://192.168.218.163:8080/api/v1/postdesc/delete", {
                headers:{
                 "Content-Type":'application/json'
               },
               params:{
-                postid:postid
+                postid:pid
               }
             })
             alert(apiresponse.data.message);
@@ -47,18 +54,14 @@ const PostDetailviewreciever = ({route}) => {
         {
             if(error.response)
             {
-                console.log(error.response.data.message);
                 alert(error.response.data.message);
-            }
-            else{
-                console.log('Error:', error);
             }
         }
         
     };
 
     
-    const confirmDelete = (postid) => {
+    const confirmDelete = (pid) => {
         Alert.alert(
             "Confirm Deletion",
             `Are you sure you want to delete this post?`,
@@ -69,7 +72,7 @@ const PostDetailviewreciever = ({route}) => {
                 },
                 {
                     text: "Delete",
-                    onPress: () => deleteUserPost(postid)
+                    onPress: () => deleteUserPost(pid)
                 }
             ]
         );
@@ -80,41 +83,29 @@ const PostDetailviewreciever = ({route}) => {
         <View style={styles.maincontainer}>
             <View style={styles.scrollcontainer}>
 
-            <View style={{ paddingHorizontal: 25,/*backgroundColor:"yellow",*/width:"100%",marginTop:"8%" }}>
+            <View style={{ paddingHorizontal: 25,width:"100%",marginTop:"15%" }}>
                     <View style={{ flexDirection: "row", alignItems: "center",/*backgroundColor:"green"*/ }}>
                         <Image source={require("../assets/usericongreyback.png")} style={styles.usericongrey} />
                         <View>
                             <Text style={{ fontSize: 20, fontWeight: "600" }}>{displayuser()}</Text>
-                            {/* <Text style={{ fontSize: 10, fontWeight: "400" }}>9 days ago</Text> */}
                         </View>
 
                         <View style={{/*backgroundColor:"red",*/flexDirection: "row", marginLeft: 80, }}>
                             <Image source={require("../assets/editpost.png")} style={{ height: 22, width: 22, marginRight: 25, marginLeft : 40 }} />
-                            <Pressable onPress={()=>confirmDelete(item.postid)}>
+                            <Pressable onPress={()=>confirmDelete(postid)}>
                                 <Image source={require("../assets/deletepost.png")} style={{ height: 25, width: 25 }} />
                             </Pressable>
                         </View>
 
                     </View>
+                </View>
 
 
                     <ScrollView style={styles.maincontentbox}>
                         <Text style={{ fontSize: 25, fontWeight: "600",/*padding:20,backgroundColor:"violet"*/ }}>{displaytitle()}</Text>
                         <Text style={{ fontSize: 16, fontWeight: "400", color: "#575757", marginTop: 15, marginBottom:500  }}>{displaycontent()}</Text>
                     </ScrollView>
-                </View>
-
-
-                {/* earlier the connect box was placed here */}
-
-
             </View>
-
-            {/* <View style={styles.connectbox}>
-                <Pressable style={styles.tbutton} >
-                    <Text style={styles.tbuttontext}>Published</Text>
-                </Pressable>
-            </View> */}
             <NavBarbottom />
         </View>
 
@@ -140,6 +131,12 @@ const styles = StyleSheet.create({
 
     },
 
+    usericongrey: {
+        height: 38,
+        width: 38,
+        marginRight: 15,
+    },
+
     userHeader: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -149,17 +146,13 @@ const styles = StyleSheet.create({
         marginTop:"8%",
       },
 
-    usericongrey: {
-        height: 38,
-        width: 38,
-        marginRight: 15,
-    },
 
-    maincontentbox: {
+
+      maincontentbox: {
         marginTop: "5%",
         backgroundColor: "#F8FEFD",
         width:"90%",
-        padding:"5%",
+        paddingTop:"5%",
 
     },
 

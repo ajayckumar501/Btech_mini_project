@@ -22,7 +22,7 @@ const Serviceorganizerreceiver = ({ route }) => {
         //const userData = JSON.parse(usrData);
         if (usrData) {
           user = JSON.parse(usrData);
-          const apiresponse = await axios.post("https://danasetu-backend.onrender.com/api/v1/service/fetch", user.services, {
+          const apiresponse = await axios.post("http://192.168.218.163:8080/api/v1/service/fetch", user.services, {
             headers: {
               "Content-Type": 'application/json'
             }
@@ -32,14 +32,11 @@ const Serviceorganizerreceiver = ({ route }) => {
             name: service.name,
             id: service.id
           }));
-          console.log(updatedServices);
           AsyncStorage.setItem("@Services", JSON.stringify(updatedServices));
           setServices(updatedServices);
-        } else {
-          console.log('No user data found.');
         }
       } catch (error) {
-        console.log('Error retrieving data:', error);
+        
       }
     };
 
@@ -47,7 +44,6 @@ const Serviceorganizerreceiver = ({ route }) => {
   }, []);
 
   const handleListItemPress = async(item) => {
-    console.log(usertype + "        "+(usertype==="Donor"));
 
     if(usertype === "Donor"){
 
@@ -106,6 +102,9 @@ const styles = StyleSheet.create({
   },
   flatstyle: {
     alignItems: 'center',
+    // backgroundColor:"red",
+    paddingTop:"5%",
+    paddingBottom:"17%"
   },
   servicetext: {
     color: "white",

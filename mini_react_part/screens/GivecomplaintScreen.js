@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View,TextInput,TouchableOpacity } from 'react-native';
 import React, { useState,useEffect } from 'react';
+import { ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 let apiresponse;
 import axios from 'axios';
@@ -23,22 +24,17 @@ const GivecomplaintScreen = ({route}) => {
             const Data = await AsyncStorage.getItem("@userData");
             if (Data) {
                 const data = JSON.parse(Data);
-                console.log(data);
                 const username = data.username;
                 if (username) {
                     setGiver(username);
-                } else {
-                    console.error("Username not found in data:", data);
-                }
-            } else {
-                console.error("No data found in AsyncStorage");
+                } 
             }
         } catch (error) {
-            console.error("Error fetching data:", error);
+            
         }
     };
 
-    if (user) {
+    if (route.params) {
         fetchData();
     }
 
@@ -47,18 +43,17 @@ const GivecomplaintScreen = ({route}) => {
 useEffect(() => {
   const getData = async () => {
           try{ 
-              apiresponse =  await axios.get("https://danasetu-backend.onrender.com/api/v1/complaint/count",{
+              apiresponse =  await axios.get("http://192.168.218.163:8080/api/v1/complaint/count",{
               headers:{
                       "Content-Type":'application/json'
               }
               })
-                            if(apiresponse){  
-                                  setCount(apiresponse.data.count);
-                            }
-  }
-  catch (error) {
-      console.log('Error retrieving data:', error);
-  }
+              if(apiresponse){  
+                 setCount(apiresponse.data.count);
+              }
+           }
+           catch (error) {
+          }
 };
 if (apiresponse === undefined) {
   getData();
@@ -85,27 +80,23 @@ if (apiresponse === undefined) {
          giver:giver,
          taker:taker,
        };
-       apiresponse = await axios.post("https://danasetu-backend.onrender.com/api/v1/complaint/create",payload,{
+       apiresponse = await axios.post("http://192.168.218.163:8080/api/v1/complaint/create",payload,{
         headers:{
           "Content-Type":'application/json'
         }
       })
         alert(apiresponse.data.message);
+        setComplaint('');
     }
     catch (error) {
       if(error.response){
          alert(error.response.data.message);
-         console.log(error.response.data.message);
-      }
-      else{
-         alert(error);
-         console.log(error);
       }
     }
   };
 
   return (
-    <ScrollView style={styles.maincontainer}>
+    <View style={styles.maincontainer}>
       <Text style={{fontSize:24,fontWeight:"500",marginTop:30,color:"#575757"}}>Complaint</Text>
         <TextInput
                 style={styles.input}
@@ -124,7 +115,7 @@ if (apiresponse === undefined) {
           </TouchableOpacity>
           
       
-    </ScrollView>
+    </View>
   )
 }
 

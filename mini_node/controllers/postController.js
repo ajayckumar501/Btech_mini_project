@@ -8,14 +8,12 @@ const countPosts = async(req,res) => {
     const cid = maxPost.postid+1;
     return res.status(200).send({ count: cid });
   } catch (error) {
-    console.error('Error counting entries:', error);
     return res.status(500).send({ message: "Internal server error" });
   }
 };
 
 const deleteUserPost = async(req,res) => {
   const { postid } = req.query; // Assuming postid is passed in the request body
-  console.log(postid);
   try {
     // Find the post by its ID and delete it
     const deletedPost = await postModel.findOneAndDelete({postid});
@@ -26,7 +24,6 @@ const deleteUserPost = async(req,res) => {
 
     return res.status(200).json({ message: 'Post deleted successfully' });
   } catch (error) {
-    console.error('Error deleting post:', error);
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
@@ -35,7 +32,6 @@ const fetchPosts = async (req, res) => {
   const { serviceid, username } = req.query; // Rename to excludeUsername
 
   try {
-    console.log(serviceid);
     let query = {};
     
     if (serviceid != undefined) {
@@ -45,15 +41,11 @@ const fetchPosts = async (req, res) => {
     if (username !== undefined) {
       query.username = { $ne: username }; // Exclude posts with the specified username
     }
-    console.log(query);
     
 
     const posts = await postModel.find(query);
-
-    console.log(posts);
     return res.status(200).send({ posts });
   } catch (error) {
-    console.error('Error fetching posts:', error);
     return res.status(500).send({ message: "Internal server error" });
   }
 };
@@ -62,7 +54,6 @@ const fetchPosts = async (req, res) => {
 
 const fetchreceiverPosts = async (req, res) => {
   const { serviceid, username } = req.query;
-  console.log(serviceid, username); // Log the values for debugging
   try {
     let query1 = {};
     
@@ -76,10 +67,8 @@ const fetchreceiverPosts = async (req, res) => {
 
     const posts = await postModel.find(query1);
     
-    console.log(posts);
     return res.status(200).send({ posts });
   } catch (error) {
-    console.error('Error fetching posts:', error);
     return res.status(500).send({ message: "Internal server error" });
   }
 };
@@ -137,7 +126,7 @@ const postcreator = async (req, res) => {
       console.log(error);
       return res.status(500).send({
         success: false,
-        message: error.message,
+        message: "Post already stored!!\n\nPlease refresh for new post",
         error:error.message
       });
     }

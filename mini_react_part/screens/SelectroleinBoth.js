@@ -5,14 +5,9 @@ const SelectroleinBoth = ({navigation}) => {
 
     const handleRoleSelection = async(role) => {
         try {
-            // Update the user role in local storage
-            // const data = await AsyncStorage.getItem('@userData');
-            // data.usertype = role;
-            // await AsyncStorage.setItem("@userData",JSON.stringify(data));
-            // console.log('User role updated successfully:', role);
             await AsyncStorage.setItem("@usertype",JSON.stringify(role));
         } catch (error) {
-            console.error('Error:', error);
+            
         }
         alert("Login successfull!!");
         navigation.navigate("Serviceorganizerreceiver",{usertype:role});

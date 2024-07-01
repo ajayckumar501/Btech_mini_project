@@ -1,15 +1,17 @@
 import { View, Text, StyleSheet,Image,TextInput,TouchableOpacity } from "react-native";
-import React, {useState} from "react";
+import React, {useState,useEffect} from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from '@react-navigation/native';
 import axios from "axios";
 let apiresponse,user;
-const Login = ({ navigation }) => {
+const Login = ({ route }) => {
+
+  const navigation = useNavigation();
 
   const [username, setusername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  //function
-  // btn funcn
+
   const handleSubmit = async() =>{
     try {
       setLoading(true);
@@ -23,9 +25,8 @@ const Login = ({ navigation }) => {
         username:username,
         password:password
       }
-
       setLoading(false);
-      apiresponse =  await axios.post("https://danasetu-backend.onrender.com/api/v1/auth/login", payload,{
+      apiresponse =  await axios.post("http://192.168.218.163:8080/api/v1/auth/login", payload,{
         headers:{
           "Content-Type":'application/json'
         }
@@ -33,10 +34,9 @@ const Login = ({ navigation }) => {
       .then((response) => {
       
       AsyncStorage.setItem("@userData", JSON.stringify(response.data.user));
-      console.log(response.data.user);
 
       if (response.data.isAdmin) {
-        navigation.navigate("AdminScreen"); // Navigate to AdminHomeScreen if admin login is successful
+        navigation.navigate("AdminScreen"); 
       } 
 
       if(response.data.user.usertype === "both")
@@ -51,16 +51,19 @@ const Login = ({ navigation }) => {
       {
         navigation.navigate("Serviceorganizerreceiver",{usertype:"Receiver"});
       }
-      console.log("Login Data==> ", { username, password });
     })  
       .catch((error) =>{
-        console.error(error.response.data.message);
+        if(error.response.data){
+          alert(error.response.data.message);
+          setLoading(false);
+       }      
       });  
     }
-    catch (error) {
-      alert(error.response.data.message);
-      setLoading(false);
-      console.log(error.response.data.message);
+    catch(error) {
+      if(error.response){
+         alert(error.response);
+         setLoading(false);
+      }
     }
   };
   

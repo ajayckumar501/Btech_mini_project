@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Modal, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
 import axios from 'axios';
-
-
 
 
 const AdminScreen = () => {
@@ -14,6 +11,7 @@ const AdminScreen = () => {
   const [totalDonors, setTotalDonors] = useState(0);
   const [totalReceivers, setTotalReceivers] = useState(0);
   const [totalPosts, setTotalPosts] = useState(0);
+  const [totalConnections, setTotalConnections] = useState(0);
 
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -33,18 +31,17 @@ const AdminScreen = () => {
   const fetchData = async () => {
     try {
       // Make API calls to fetch data from the backend
-      const apiresponse = await axios.get("https://danasetu-backend.onrender.com/api/v1/admin/fetchDatavalues");
+      const apiresponse = await axios.get("http://192.168.218.163:8080/api/v1/admin/fetchDatavalues");
       
       // Access data directly from the response
       const data = apiresponse.data;
-  
-      console.log(data);
       // Update state with fetched data
       setTotalDonors(data.totalDonors);
       setTotalReceivers(data.totalReceivers);
       setTotalPosts(data.totalPosts);
+      setTotalConnections(data.totalConnections);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      
     }
   };
   
@@ -54,27 +51,16 @@ const AdminScreen = () => {
     try {
       // Check if the new service name is not empty
       if (!newServiceName) {
-        console.error('Service name is required.');
         return;
       }
   
-      // Perform actions here to add the new service
-      console.log("Adding new service:", newServiceName);
-  
       // Make an API call to add the new service
-      await axios.post("https://danasetu-backend.onrender.com/api/v1/admin/addingnewservice", { serviceName: newServiceName });
-      
-      // If the service is added successfully, you can perform additional actions like updating UI or fetching data again
-      // Example:
-      // fetchData();
-  
-      // Reset the new service name and close the modal
+      await axios.post("http://192.168.218.163:8080/api/v1/admin/addingnewservice", { serviceName: newServiceName });
+
       setNewServiceName('');
       setModalVisible(false);
     } catch (error) {
-      // Handle errors
-      console.error('Error adding new service:', error);
-      // You can display an error message or take other actions as needed
+
     }
   };
   
@@ -120,30 +106,27 @@ const AdminScreen = () => {
 
 
 
-          <TouchableOpacity style={{ width: 324, height: 125, backgroundColor: "#02BF9D", justifyContent: "center", alignItems: "center", borderRadius: 8, flexDirection: "row" }} >
+          <View style={{ width: 324, height: 125, backgroundColor: "#02BF9D", justifyContent: "center", alignItems: "center", borderRadius: 8, flexDirection: "row" }} >
             <Text style={{ fontSize: 24, fontWeight: "bold", color: "white", marginRight: 15 }}>Total no of posts</Text>
             <Text style={{ fontSize: 24, fontWeight: "bold", color: "white" }}>{totalPosts}</Text>
-          </TouchableOpacity>
+          </View>
+
+          <View style={{ width: 324, height: 66, backgroundColor: "#656565", justifyContent: "center", alignItems: "center", borderRadius: 8 }} >
+            <Text style={{ fontSize: 16, fontWeight: "bold", color: "white" }}>Total no of connections {totalConnections}</Text>
+          </View>
 
           <TouchableOpacity style={{ width: 324, height: 66, backgroundColor: "#FF4444", justifyContent: "center", alignItems: "center", borderRadius: 8 
             
-          }} onPress={() => navigation.navigate("Complaintorganizerdonor")}>
+          }} onPress={() => navigation.navigate("Complaintorganizer")}>
             <Text style={{ fontSize: 16, fontWeight: "bold", color: "white" }}>User complaints</Text>
           </TouchableOpacity>
 
 
-          <TouchableOpacity style={{ width: 324, height: 66, backgroundColor: "#02BF9D", justifyContent: "center", alignItems: "center", borderRadius: 8 }} >
-            <Text style={{ fontSize: 16, fontWeight: "bold", color: "white" }}>User Requests</Text>
+          <TouchableOpacity style={{ width: 324, height: 66, backgroundColor: "#02BF9D", justifyContent: "center", alignItems: "center", borderRadius: 8 
+
+          }} onPress={() => navigation.navigate("Feedbackorganizer")}>
+            <Text style={{ fontSize: 16, fontWeight: "bold", color: "white" }}>User feedbacks</Text>
           </TouchableOpacity>
-
-          <TouchableOpacity style={{ width: 324, height: 66, backgroundColor: "#656565", justifyContent: "center", alignItems: "center", borderRadius: 8 }} >
-            <Text style={{ fontSize: 16, fontWeight: "bold", color: "white" }}>Suspended accounts</Text>
-          </TouchableOpacity>
-
-          {/* <TouchableOpacity style={{ width: 324, height: 66, backgroundColor: "#02BF9D", justifyContent: "center", alignItems: "center", borderRadius: 8 }} >
-            <Text style={{ fontSize: 16, fontWeight: "bold", color: "white" }}>Add new service</Text>
-          </TouchableOpacity> */}
-
 
           <TouchableOpacity
             style={{ width: 324, height: 66, backgroundColor: "#02BF9D", justifyContent: "center", alignItems: "center", borderRadius: 8 }}

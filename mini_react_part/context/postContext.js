@@ -17,7 +17,6 @@ const PostProvider = ({ children }) => {
       setLoading(false);
       setPosts(data?.posts);
     } catch (error) {
-      console.log(error);
       setLoading(false);
     }
   };

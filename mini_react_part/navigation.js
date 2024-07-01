@@ -18,14 +18,15 @@ import WaitingfromAdmin from './screens/WaitingfromAdmin';
 import SelectroleinBoth from './screens/SelectroleinBoth';
 import DonorlistScreen from './screens/DonorlistScreen';
 import ReceiverlistScreen from './screens/ReceiverlistScreen';
-//import userrequestScreen from './screens/UserrequestScreen';
-//import UserrequestdetailedScreen from './screens/UserrequestdetailedScreen';
 import ProfileEdit1 from './screens/ProfileEdit1';
 import ProfileEdit2 from './screens/ProfileEdit2';
 import ProfilePublicScreen from './screens/ProfilePublicScreen';
 import GivecomplaintScreen from './screens/GivecomplaintScreen';
 import GivefeedbackScreen from './screens/GivefeedbackScreen';
-import Complaintorganizerdonor from './screens/Complaintorganizerdonor';
+import Complaintorganizer from './screens/Complaintorganizer';
+import ComplaintDetailView from './screens/ComplaintDetailView';
+import Feedbackorganizer from './screens/Feedbackorganizer';
+import FeedbackDetailView from './screens/FeedbackDetailView';
 //import { Connection } from 'mongoose';
 
 const Stack = createStackNavigator();
@@ -79,10 +80,15 @@ const AppNavigator = () => {
         component={Postorganizerreceiver} 
       />
 
-      {/* <Stack.Screen
-        name="Commitedrecievers" 
-        component={Commitedrecievers} 
-      /> */}
+      <Stack.Screen
+        name="ComplaintDetailView" 
+        component={ComplaintDetailView} 
+      />
+
+      <Stack.Screen
+        name="FeedbackDetailView" 
+        component={FeedbackDetailView} 
+      />
       
       <Stack.Screen
       name="PostDetailviewdonor" 
@@ -90,8 +96,13 @@ const AppNavigator = () => {
     />
 
     <Stack.Screen
-      name="Complaintorganizerdonor" 
-      component={Complaintorganizerdonor} 
+      name="Complaintorganizer" 
+      component={Complaintorganizer} 
+    />
+
+    <Stack.Screen
+      name="Feedbackorganizer" 
+      component={Feedbackorganizer} 
     />
 
     <Stack.Screen

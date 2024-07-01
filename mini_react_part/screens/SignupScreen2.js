@@ -41,7 +41,7 @@ const SignupScreen2 = ({ navigation }) => {
               return;
             }
             setLoading(false);
-            apiresponse = await axios.post("https://danasetu-backend.onrender.com/api/v1/auth/register2",payload,{
+            apiresponse = await axios.post("http://192.168.218.163:8080/api/v1/auth/register2",payload,{
               headers:{
                 "Content-Type":'application/json'
               }
@@ -49,11 +49,6 @@ const SignupScreen2 = ({ navigation }) => {
             //.then((response) => {
               alert(apiresponse.data.message);
               navigation.navigate("LoginScreen");
-              console.log("Register Data==> ", {payload});
-            //})
-            //.catch((error) =>{
-               // console.error(error.response.data.message);
-            //});
             
           }
           catch (error) {
@@ -61,13 +56,11 @@ const SignupScreen2 = ({ navigation }) => {
             {
                alert(error.response.data.message);
                setLoading(false);
-               console.log(error.response.data.message);
             }
             else
             {
                 alert(error);
                setLoading(false);
-               console.log(error);
             }
           }
     };
@@ -139,7 +132,7 @@ const styles = StyleSheet.create({
         flex: 1,
         // justifyContent: "center",
         alignItems: "center",
-        // backgroundColor: "lightgreen",
+        backgroundColor: "white",
         marginTop: 40,
         textAlign: "center"
     },
@@ -171,86 +164,3 @@ const styles = StyleSheet.create({
 })
 
 
-// const styles = StyleSheet.create({
-
-//     // maincontainer: {
-//     //     flex: 1,
-//     //     justifyContent: "center",
-//     //     alignItems: "center",
-//     //     // backgroundColor:"red",
-//     //     marginTop: 150,
-//     // },
-
-//     scrollViewContent: {
-//         // backgroundColor:"blue",
-//         justifyContent: "center",
-//         alignItems: "center",
-//         marginTop: 50,
-//         // flex:1,
-
-//     },
-
-//     image: {
-//         height: 58,
-//         width: 58,
-//         marginTop: 5,
-
-//     },
-
-//     uploadview: {
-//         marginTop: 45,
-//         marginBottom: 45,
-//         width: 314,
-//         borderRadius: 11,
-//         backgroundColor: "#DDEEEB",
-//         height: 213,
-//         alignItems: 'center',
-//         justifyContent: 'center',
-//     },
-
-//     selectserviceview: {
-//         alignItems: 'center',
-//         justifyContent: 'center',
-//         // backgroundColor:'red',
-//     },
-
-//     textinput: {
-//         width: 282,
-//         height: 48,
-//         marginTop: "8",
-//         backgroundColor: "#E6FBF7",
-//         borderRadius: 8,
-//         padding: 10,
-//     },
-
-
-//     tbutton: {
-//         width: 216,
-//         height: 51,
-//         backgroundColor: "#02BF9D",
-//         justifyContent: "center",
-//         alignItems: "center",
-//         borderRadius: 61,
-
-
-//     },
-
-//     tbuttontext: {
-//         color: "white",
-//         fontWeight: "900"
-//     },
-
-//     bottombuttonfield: {
-//         width: 360,
-//         height: 92,
-//         backgroundColor: "white",
-//         zIndex:5,
-//         bottom:0,  // BY USING THIS ONLY THAT BAR APPEARS
-//         position:"absolute", // this also
-//         justifyContent:"center",
-//         alignItems:"center",
-        
-//     }
-
-
-// })

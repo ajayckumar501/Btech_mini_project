@@ -47,18 +47,17 @@ const PostDetailviewdonor = ({route}) => {
                 if(Data){
                     data = JSON.parse(Data);
                     const donor = data.username;
-                    console.log("mail is "+data.email);
                     setDonor(donor);
                 }
 
-                apiresp = await axios.get("https://danasetu-backend.onrender.com/api/v1/commitment/count", {
+                apiresp = await axios.get("http://192.168.218.163:8080/api/v1/commitment/count", {
                     headers: {
                         "Content-Type": "application/json"
                     }
                 });
                 setCount(apiresp.data.count);
             } catch (error) {
-                console.error("Error fetching count:", error);
+                
             }
         };
 
@@ -69,7 +68,7 @@ const PostDetailviewdonor = ({route}) => {
 
     const deleteUserPost = async(postid) => {
         try{
-            apiresponse =  await axios.delete("https://danasetu-backend.onrender.com/api/v1/postdesc/delete", {
+            apiresponse =  await axios.delete("http://192.168.218.163:8080/api/v1/postdesc/delete", {
                headers:{
                 "Content-Type":'application/json'
               },
@@ -80,13 +79,6 @@ const PostDetailviewdonor = ({route}) => {
         }
         catch(error)
         {
-            if(error.response)
-            {
-                console.log(error.response.data.message);
-            }
-            else{
-                console.log('Error:', error);
-            }
         }
         
     };
@@ -95,13 +87,11 @@ const PostDetailviewdonor = ({route}) => {
         try {
 
             if (count === null) {
-                // Count is not available yet, wait for it
-                console.log("Count is not available yet.");
                 return;
             }
             const receiver = route.params.receiver;
 
-                const resp = await axios.get("https://danasetu-backend.onrender.com/api/v1/auth/fetchUser", {
+                const resp = await axios.get("http://192.168.218.163:8080/api/v1/auth/fetchUser", {
                     headers: {
                         "Content-Type": 'application/json'
                     },
@@ -126,7 +116,7 @@ const PostDetailviewdonor = ({route}) => {
                 };
                 
 
-            const createResponse = await axios.post("https://danasetu-backend.onrender.com/api/v1/commitment/create", payload, {
+            const createResponse = await axios.post("http://192.168.218.163:8080/api/v1/commitment/create", payload, {
                 headers: {
                     "Content-Type": "application/json"
                 }
@@ -137,61 +127,16 @@ const PostDetailviewdonor = ({route}) => {
 
             // Alert and log the response message from the second API call
             alert(createResponse.data.message);
-            console.log(createResponse.data.message);
         }
         } catch (error) {
             // Handle errors
             if (error.response) {
                 alert(error.response.data.message);
-                console.log(error.response.data.message);
             } else {
                 alert("An error occurred while processing your request.");
-                console.log(error);
             }
         }
     };
-
-
-    // const handlePress = async() => {
-    //     try{
-
-    //         apiresp = await axios.get("https://danasetu-backend.onrender.com/api/v1/commitment/count",{
-    //             headers:{
-    //                     "Content-Type":'application/json'
-    //             }
-    //         });
-
-    //         if(apiresp){  
-    //             console.log(apiresp.data.count);
-    //             setCount(apiresp.data.count);
-    //         }
-
-    //         const Data = await AsyncStorage.getItem("@userData");
-    //         //const dataa = JSON.parse(Data);
-    //         const data = JSON.parse(Data);
-    //         const username = data.username;
-    //         const payload = {
-    //             user1:username,
-    //             user2:user,
-    //             commitmentid:count,
-    //             postid:postid,
-
-    //         }
-
-    //         apiresponse =  await axios.post("https://danasetu-backend.onrender.com/api/v1/commitment/create", payload,{
-    //         headers:{
-    //           "Content-Type":'application/json'
-    //     }
-    //   })
-    //   alert(apiresponse.data.message);
-    //   console.log(apiresponse.data.message);
-
-    //     }
-    //     catch (error) {
-    //         alert(error.response.data.message);
-    //         console.log(error.response);
-    //     }
-    // };
 
     const handleProfilePress = () => {
         navigation.navigate("ProfilePublicScreen",{ username: displayreceiver() });
@@ -268,7 +213,8 @@ const styles = StyleSheet.create({
         // marginTop: 15,
         backgroundColor: "#F8FEFD",
         paddingHorizontal: 25,
-        paddingTop:"-5%"
+        paddingTop:"5%",
+        marginTop:"2%"
     },
 
     connectbox: {
@@ -302,8 +248,6 @@ const styles = StyleSheet.create({
     //     backgroundColor:"green",
     //     paddingBottom:100,
     // }
-
-
 
 
 })

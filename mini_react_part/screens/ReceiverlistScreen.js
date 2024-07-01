@@ -15,23 +15,23 @@ const ReceiverlistScreen = () => {
 
     const fetchReceivers = async () => {
         try {
-            const apiresponse = await axios.get('https://danasetu-backend.onrender.com/api/v1/admin/fetchallReceivers');
+            const apiresponse = await axios.get('http://192.168.218.163:8080/api/v1/admin/fetchallReceivers');
             const data = apiresponse.data;
             // Update the receivers state with the fetched data
             setReceivers(data);
         } catch (error) {
-            console.error('Error fetching receivers:', error);
+            
         }
     };
 
     const deleteReceiver = async (username) => {
         try {
             // Send request to delete the receiver with the given username
-            await axios.delete(`https://danasetu-backend.onrender.com/api/v1/admin/deleteUserByUsername?username=${username}`);
+            await axios.delete(`http://192.168.218.163:8080/api/v1/admin/deleteUserByUsername?username=${username}`);
             // Remove the deleted receiver from the state
             setReceivers(receivers.filter(receiver => receiver.username !== username));
         } catch (error) {
-            console.error('Error deleting receiver:', error);
+            
         }
     };
 

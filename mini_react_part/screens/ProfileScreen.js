@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, Pressable } from 'react-native';
+import { StyleSheet, TouchableWithoutFeedback, Text, View, Image, ScrollView, TouchableOpacity, Pressable } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
@@ -9,6 +9,7 @@ const ProfileScreen = () => {
   const [location, setLocation] = useState(null);
   const [phoneno, setPhoneno] = useState(null);
   const [services, setServices] = useState([]);
+  const [user, setUser] = useState(null);
   
   useEffect(() => {
     const getData = async () => {
@@ -18,17 +19,15 @@ const ProfileScreen = () => {
         const servicenames = await AsyncStorage.getItem("@Services");
         if (usrData !== null) {
           const detail = JSON.parse(usrData);
+          setUser(detail);
           setUsername(detail.username);
           setEmail(detail.email);
           setPhoneno(detail.phoneno);
           setLocation(detail.location);
           setServices(JSON.parse(servicenames));
-          console.log(servicenames);
-        } else {
-          console.log('No data found for key: userData');
-        }
+        } 
       } catch (error) {
-        console.log('Error retrieving data:', error);
+        
       }
     };
     getData();
@@ -38,27 +37,33 @@ const ProfileScreen = () => {
   const [showMenu, setShowMenu] = useState(false); // State for menu visibility
 
   const menuOptions = [  // Array for menu options
-    { text: 'Edit', onPress: () => { navigation.navigate('ProfileEdit1'); setShowMenu(false); } },
+    { text: 'Edit', onPress: () => { navigation.navigate('ProfileEdit1',{user:user}); setShowMenu(false); } },
     { text: 'Logout', onPress: () => { navigation.navigate('LoginScreen'); setShowMenu(false); } },
   ];
+  const hideMenu = () => {
+    if (showMenu) {
+      setShowMenu(false);
+    }
+  };
 
   return (
+    <TouchableWithoutFeedback onPress={hideMenu}>
     <View style={{ marginTop: -25 }}>
       <ScrollView showsVerticalScrollIndicator={false} nestedScrollEnabled={true}>
         <View style={styles.maincontainer}>
           <Pressable
             onPress={() => setShowMenu(!showMenu)}  // Toggle menu visibility on press
-            style={{ height: 39, width: 39, marginTop: "15%", zIndex: 5, left: "40%" }}
+            style={{ height: 39, width: 39, marginTop: "25%", zIndex: 5, left: "40%" }}
           >
             <Image source={require("../assets/Menu Vertical(1).png")} style={{ height: 39, width: 39 }} />
             {showMenu && (
               <View style={{ position: 'absolute', top: -5, left: -135, backgroundColor: 'transparent', padding: 10, borderRadius: 5, height: 142, width: 175 }}>
-                {menuOptions.map((option, index) => (
+                {menuOptions.map((option, index) => (                 
                   <View key={index} style={option.text === 'Edit' ? styles.editOption : styles.logoutOption}>
                     <TouchableOpacity onPress={option.onPress}>
                       <Text style={{ fontSize: 13, fontWeight: "bold", color: "white" }}>{option.text}</Text>
                     </TouchableOpacity>
-                  </View>
+                  </View>                 
                 ))}
               </View>
             )}
@@ -86,18 +91,15 @@ const ProfileScreen = () => {
           <View style={styles.intrestedservices}>
             <Text style={{ fontSize: 20, fontWeight: "700", marginBottom: 10,textAlign:"center",color:"black"}}>Interested services</Text>
             {services.map((service, index) => (
-              <View key={index} style={styles.serviceboxflat}>
+              <View key={service.id || index} style={styles.serviceboxflat}>
                 <Text style={styles.servicetext}>{service.name}</Text>
               </View>
             ))}
           </View>
-
-          {/* <TouchableOpacity style={{ marginBottom: 120, marginTop: 30 }}> */}
-            {/* <Image source={require("../assets/messageroundicon.png")} style={{ height: 39, width: 39 }} /> */}
-          {/* </TouchableOpacity> */}
         </View>
       </ScrollView>
     </View>
+    </TouchableWithoutFeedback>
   );
 };
 

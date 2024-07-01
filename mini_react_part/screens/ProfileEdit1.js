@@ -1,17 +1,28 @@
 import { View, Text, StyleSheet, TextInput, Alert,ScrollView,Image,TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import { useNavigation } from "@react-navigation/native";
 let apiresponse,payload;
-const ProfileEdit1 = ({ navigation }) => {
+const ProfileEdit1 = ({ route }) => {
   // states
-  //const [username, setUsername] = useState("");
+
+  const navigation = useNavigation();
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [phoneno, setPhoneno] = useState("");
   const [location, setLocation] = useState("");
   const [password, setPassword] = useState("");
   const [confpasswd, setConfpasswd] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setEmail(route.params.user.email); 
+    setUsername(route.params.user.username);
+    setPhoneno(route.params.user.phoneno);
+    setLocation(route.params.user.location);
+
+  }, [route.params]);
   //function
   // btn funcn
   const handleSubmit = async() => {
@@ -19,7 +30,6 @@ const ProfileEdit1 = ({ navigation }) => {
       
       const userData = await AsyncStorage.getItem("@userData");
       const userdata = JSON.parse(userData);
-      console.log(userdata.username);
       setLoading(true);
       if (!email || !phoneno|| !location|| !password|| !confpasswd) {
         Alert.alert("Please Fill All Fields");
@@ -35,31 +45,25 @@ const ProfileEdit1 = ({ navigation }) => {
         confirmpassword:confpasswd
       }
       setLoading(false);
-      apiresponse = axios.post("https://danasetu-backend.onrender.com/api/v1/auth/Profile_edit1",payload,{
+      apiresponse = axios.post("http://192.168.218.163:8080/api/v1/auth/Profile_edit1",payload,{
         headers:{
           "Content-Type":'application/json'
         }
       })
       .then((response) => {
         alert(response.data.message);
-        navigation.navigate("ProfileEdit2");
-        console.log("Register Data==> ", { email,phoneno,location,password,confpasswd, });
+        navigation.navigate("ProfileEdit2",{user:route.params.user});
       })
       .catch((error) =>{
         if(error.response)
           {
-              console.log(error.response.data.message);
               alert(error.response.data.message);
-          }
-          else{
-              console.log('Error:', error);
           }
       });
 
     } catch (error) {
       alert(error.response.data.message);
       setLoading(false);
-      console.log(error.response.data.message);
     }
   };
   return (
@@ -155,13 +159,14 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     // padding: 20,
     backgroundColor: '#02BF9D',
+    height:"100%",
   },
 
   basebox: {
     borderTopLeftRadius: 44,
     borderTopRightRadius: 44,
     marginTop: "10.%",
-    height: "84%",
+    height: "100%",
 
     width: "100%",
     backgroundColor: "#FFFFFF",

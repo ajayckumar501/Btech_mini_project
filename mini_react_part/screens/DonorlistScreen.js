@@ -16,12 +16,12 @@ const DonorlistScreen = () => {
     const fetchDonors = async () => {
         try {
             // Query the database to find all users with usertype 'donor'
-            const apiresponse = await axios.post('https://danasetu-backend.onrender.com/api/v1/admin/fetchallDonors');
+            const apiresponse = await axios.post('http://192.168.218.163:8080/api/v1/admin/fetchallDonors');
             const data = apiresponse.data;
             // Update the donors state with the fetched data
             setDonors(data);
         } catch (error) {
-            console.error('Error fetching donors:', error);
+            
         }
     };
 
@@ -29,12 +29,11 @@ const DonorlistScreen = () => {
     const deleteDonor = async (username) => {
         try {
             // Send request to delete the donor with the given username
-            console.log("in donorlistscreen", username);
-            await axios.delete(`https://danasetu-backend.onrender.com/api/v1/admin/deleteUserByUsername?username=${username}`);
+            await axios.delete(`http://192.168.218.163:8080/api/v1/admin/deleteUserByUsername?username=${username}`);
             // Remove the deleted donor from the state
             setDonors(donors.filter(donor => donor.username !== username));
         } catch (error) {
-            console.error('Error deleting donor:', error);
+            
         }
     };
     

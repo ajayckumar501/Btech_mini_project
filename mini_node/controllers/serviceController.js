@@ -3,7 +3,6 @@ const serviceModel = require("../models/serviceModel");
 
 const serviceController = async (req, res) => {
   const serviceIds = req.body;
-  console.log(serviceIds);
   try {
     // Fetch services based on the provided service IDs
     const services = await serviceModel.find({ serviceid: { $in: serviceIds } });
@@ -13,12 +12,10 @@ const serviceController = async (req, res) => {
       id: service.serviceid,
       name: service.servicename
     }));
-    console.log(formattedServices);
 
     // Send the array of objects in the response
     return res.status(200).send({ services: formattedServices });
   } catch (error) {
-    console.error(error);
     res.status(500).send({ error: 'Internal server error' });
   }
 };
@@ -35,7 +32,6 @@ const createService = async (req, res) => {
 
     res.status(201).json({ message: 'Service added successfully', service: newService });
   } catch (error) {
-    console.error('Error adding service:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 };
@@ -48,7 +44,6 @@ const FetchallServices = async (req,res) => {
     const serviceNames = services.map(service => service.servicename);
     return res.status(200).send({ services: serviceNames });
   } catch (error) {
-    console.error(error);
     res.status(500).send({ error: 'Internal server error' });
   }
 };

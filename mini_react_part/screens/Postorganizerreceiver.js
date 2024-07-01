@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SafeAreaView, FlatList, Image, ViewBase, Pressable } from 'react-native';
+import { StyleSheet, Text, View, RefreshControl, FlatList, Image, ViewBase, Pressable } from 'react-native';
 import {React,useState,useEffect} from 'react';
 import SearchBar from '../components/SearchBar';
 import { useNavigation } from '@react-navigation/native';
@@ -12,9 +12,10 @@ const Postorganizerreceiver = ({route}) => {
     const [serviceName, setServiceName] = useState(null);
     const [posts, setPosts] = useState([]); // State to store fetched posts
     const [username,setUsername] = useState(null);
+    const [refreshing, setRefreshing] = useState(false);
+
   
     useEffect(() => {
-      console.log(route.params);
       const var1 = route.params.serviceId;
       const var2 = route.params.serviceName;
       const var3 = route.params.username;
@@ -22,6 +23,22 @@ const Postorganizerreceiver = ({route}) => {
       setServiceName(var2);
       setUsername(var3);
     }, [route.params]);
+
+    const onRefresh = async() => {
+        setRefreshing(true); // Show the refresh indicator
+        try {
+            const response = await axios.get("http://192.168.218.163:8080/api/v1/postdesc/fetchreceiver", {
+                params: {
+                    serviceid: serviceId,
+                    username: username
+                }
+            });
+            setPosts(response.data.posts);
+        } catch (error) {
+        }
+        setRefreshing(false); // Hide the refresh indicator after fetching
+      };
+      
       
 
     const truncateDescription = (description, maxLength) => {
@@ -35,36 +52,31 @@ const Postorganizerreceiver = ({route}) => {
     useEffect(() => {
         const fetchPosts = async () => {
           try {
-              apiresponse = await axios.get("https://danasetu-backend.onrender.com/api/v1/postdesc/fetchreceiver",{
+              apiresponse = await axios.get("http://192.168.218.163:8080/api/v1/postdesc/fetchreceiver",{
                 params: {
                     serviceid: route.params.serviceId, 
                     username:route.params.username// Assuming serviceId has a value
                   },
            })// Replace with your API endpoint
           setPosts(apiresponse.data.posts); // Update state with fetched posts
-          console.log(apiresponse.data.posts);
           } catch (error) {
-            console.error("Error fetching posts:", error.message);
-            // Handle errors (e.g., display an error message)
           }
         };
         if (serviceId!=undefined) {
             fetchPosts();
         }
-      }, [serviceId]);
+      }, [serviceId,refreshing]);
 
 
     const navigation = useNavigation();
     
     const navigateToPostCreate = () => {
-       navigation.navigate('PostCreate',{serviceId:serviceId});
+       navigation.navigate('PostCreate',{serviceId:serviceId,username:username});
     }
 
     const deleteUserPost = async(postid) => {
         try{
-            console.log(postid);
-            console.log(typeof(postid));
-            apiresponse =  await axios.delete("https://danasetu-backend.onrender.com/api/v1/postdesc/delete", {
+            apiresponse =  await axios.delete("http://192.168.218.163:8080/api/v1/postdesc/delete", {
                headers:{
                 "Content-Type":'application/json'
               },
@@ -78,11 +90,7 @@ const Postorganizerreceiver = ({route}) => {
         {
             if(error.response)
             {
-                console.log(error.response.data.message);
                 alert(error.response.data.message);
-            }
-            else{
-                console.log('Error:', error);
             }
         }
         
@@ -111,9 +119,11 @@ const Postorganizerreceiver = ({route}) => {
         <View style={styles.container}>
             <SearchBar style={styles.SearchBartop} />
 
-            <FlatList data={posts}
+            <FlatList refreshControl={
+                     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                    }data={posts}
                 renderItem={({ index, item }) =>
-                <Pressable onPress={() => navigation.navigate("PostDetailviewreciever", { post_title:item.post_title ,post_desc:item.post_desc , username:item.username})}>
+                <Pressable onPress={() => navigation.navigate("PostDetailviewreciever", { postid:item.postid,post_title:item.post_title ,post_desc:item.post_desc , username:item.username})}>
                      <View style={styles.serviceboxflat}>
 
                         <View style={styles.postinfoboxwithdelete}>
@@ -163,90 +173,90 @@ const Postorganizerreceiver = ({route}) => {
 
 export default Postorganizerreceiver;
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#FFFFFF",
-
-    },
-
-    SearchBartop: {
-        // zIndex:5,
-        marginTop: "90%",
-    },
-
-    serviceboxflat: {
-        width: 343,
-        height: 170,
-        backgroundColor: "#F5F5F5",
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        borderRadius: 13,
-        marginBottom: 15,
-        flexDirection: "column",
-        padding: 15,
-    },
-
-    flatstyle: {
-        alignItems: 'center',
-    },
-
-    postheadingtext: {
-        color: "black",
-        fontSize: 20,
-        fontWeight: 'bold',
-        marginLeft: 10,
-        width:"85%",
-    },
-
-    image: {
-
-        backgroundColor: "white",
-        height: 30,
-        width: 30,
-        borderRadius: 15,
-
-    },
-
-    postinfobox: {
-        flexDirection: "row",
-        // backgroundColor:"yellow",
-        justifyContent: "flex-start",
-        width: 280,
-    },
-
-    paratext: {
-        height: 67,
-        width: 271,
-        // backgroundColor:"red",
-        color: "#575757",
-        fontWeight: "300",
-        // paddingLeft : 5 ,
-        // paddingRight:10,
-        // paddingTop:10,
-    },
-
-    postinfoboxwithdelete: {
-        flexDirection: "row",
-        // backgroundColor:"red",
-        justifyContent: "center",
-    },
-
-    deleteimage: {
-        height: 25,
-        width: 25,
-        padding:2,
-    },
-
-    addpostimage: {
-        height: 66,
-        width: 66,
-        bottom: "12%",
-        left: 25,
-        zIndex: 5,
-        position:"absolute"
-
-
-    }
-
-});
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            backgroundColor: "#FFFFFF",
+    
+        },
+    
+        SearchBartop: {
+            // zIndex:5,
+            marginTop: "90%",
+        },
+    
+        serviceboxflat: {
+            width: 343,
+            height: 170,
+            backgroundColor: "#F5F5F5",
+            justifyContent: 'space-around',
+            alignItems: 'center',
+            borderRadius: 13,
+            marginBottom: 15,
+            flexDirection: "column",
+            padding: 15,
+        },
+    
+        flatstyle: {
+            alignItems: 'center',
+        },
+    
+        postheadingtext: {
+            color: "black",
+            fontSize: 20,
+            fontWeight: 'bold',
+            marginLeft: 10,
+            width:"85%",
+        },
+    
+        image: {
+    
+            backgroundColor: "white",
+            height: 30,
+            width: 30,
+            borderRadius: 15,
+    
+        },
+    
+        postinfobox: {
+            flexDirection: "row",
+            // backgroundColor:"yellow",
+            justifyContent: "flex-start",
+            width: 280,
+        },
+    
+        paratext: {
+            height: 67,
+            width: 271,
+            // backgroundColor:"red",
+            color: "#575757",
+            fontWeight: "300",
+            // paddingLeft : 5 ,
+            // paddingRight:10,
+            // paddingTop:10,
+        },
+    
+        postinfoboxwithdelete: {
+            flexDirection: "row",
+            // backgroundColor:"red",
+            justifyContent: "center",
+        },
+    
+        deleteimage: {
+            height: 25,
+            width: 25,
+            padding:2,
+        },
+    
+        addpostimage: {
+            height: 66,
+            width: 66,
+            bottom: "12%",
+            left: 25,
+            zIndex: 5,
+            position:"absolute"
+    
+    
+        }
+    
+    });

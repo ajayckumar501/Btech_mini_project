@@ -14,30 +14,6 @@ const requireSignIn = jwt({
   algorithms: ["HS256"],
 });
 
-// const sendEmail = async (email, subject, text) => {
-//   const transporter = nodemailer.createTransport({
-//       service: 'gmail',
-//       auth: {
-//           user: process.env.EMAIL_USERNAME,
-//           pass: process.env.EMAIL_PASSWORD,
-//       },
-//   });
-
-//   const mailOptions = {
-//       from: process.env.EMAIL_USERNAME,
-//       to: email,
-//       subject: subject,
-//       text: text,
-//   };
-
-//   try {
-//       await transporter.sendMail(mailOptions);
-//       console.log('Email sent successfully');
-//   } catch (error) {
-//       console.error('Failed to send email:', error);
-//   }
-// };
-
 function isValidEmail(email) {
   return validator.isEmail(email);
 }
@@ -109,7 +85,6 @@ const registerController = async (req, res) => {
       message: "Navigating to next page",
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).send({
       success: false,
       message: "Error in register api",
@@ -152,7 +127,7 @@ const registerSubmitController = async (req, res) => {
       flag:flag,
     }).save();
 
-    await sendEmail(
+    sendEmail(
       email,
       "Welcome to Our Platform!",
       `Hello ${username}, welcome to DanaSetu! Your user type is ${usertype}.`
@@ -163,7 +138,6 @@ const registerSubmitController = async (req, res) => {
       message: "Registration successful..Please login",
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).send({
       success: false,
       message: "Error in Register API",
@@ -178,7 +152,6 @@ const fetchUserDetails = async (req, res) => {
     const { username } = req.query;
     //validation
     if (username === undefined) {
-      console.log("hi");
       return res.status(500).send({
         success: false,
         message: "Username not passed",
@@ -198,7 +171,6 @@ const fetchUserDetails = async (req, res) => {
       user:user
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).send({
       success: false,
       message: "error in user details api",
@@ -206,58 +178,6 @@ const fetchUserDetails = async (req, res) => {
     });
   }
 };
-
-//login
-// const loginController = async (req, res) => {
-//   try {
-//     const { username, password } = req.body;
-//     //validation
-//     if (!username || !password) {
-//       return res.status(500).send({
-//         success: false,
-//         message: "Fill all the fields",
-//       });
-//     }
-//     // find user
-//     const user = await userModel.findOne({ username});
-//     if (!user) {
-//       return res.status(500).send({
-//         success: false,
-//         message: "User Not Found",
-//       });
-//     }
-//     //match password
-//     const match = await comparePassword(password, user.password);
-//     if (!match) {
-//       return res.status(500).send({
-//         success: false,
-//         message: "Invalid username or password",
-//       });
-//     }
-//     //TOKEN JWT
-//     const token = JWT.sign({ _id: user._id }, process.env.JWT_SECRET, {
-//       expiresIn: "7d",
-//     });
-
-//     // undefined password
-//     user.password = undefined;
-//     return res.status(200).send({
-//       success: true,
-//       message: "login successful",
-//       token,
-//       user,
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     return res.status(500).send({
-//       success: false,
-//       message: "error in login api",
-//       error,
-//     });
-//   }
-// };
-
-// login here
 const loginController = async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -300,9 +220,6 @@ const loginController = async (req, res) => {
       });
     }
 
-
-    console.log("this is the user",user);
-
     //match password
      
     const matchUser = await comparePassword(password, user.password);
@@ -324,7 +241,6 @@ const loginController = async (req, res) => {
     }
 
   } catch (error) {
-    console.log(error);
     return res.status(500).send({
       success: false,
       message: "Error in login api",
@@ -352,10 +268,17 @@ const profile_edit1 = async (req, res) => {
       });
     }
 
-    if (!phone) {
+    if (!isValidEmail(email)) {
       return res.status(400).send({
         success: false,
-        message: "Phone number is required",
+        message: "Enter valid email!!",
+      });
+    }
+
+    if (!phone || phone.length != 10) {
+      return res.status(400).send({
+        success: false,
+        message: "Enter valid phone number",
       });
     }
 
@@ -378,21 +301,12 @@ const profile_edit1 = async (req, res) => {
         message: "Passwords doesn't match",
       });
     }
-    //exisiting user
-    // const exisitingUser = await userModel.findOne({ username });
-    // if (exisitingUser) {
-    //   return res.status(500).send({
-    //     success: false,
-    //     message: "User already registered with this username",
-    //   });
-    // }
 
     return res.status(200).send({
       success: true,
       message: "Navigating to next page",
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).send({
       success: false,
       message: "Error in Register API",
@@ -405,7 +319,6 @@ const profile_edit1 = async (req, res) => {
 const profile_edit2 = async (req, res) => {
   try {
     const { username, email, phone, location, password, confirmpassword, usertype, services, flag } = req.body;
-    console.log(username);
     // Validation
     if (!usertype) {
       return res.status(400).send({
@@ -423,7 +336,6 @@ const profile_edit2 = async (req, res) => {
 
     // Hash password
     const hashedPassword = await hashPassword(password);
-    console.log(username);
     // Update user profile
     const updatedUser = await userModel.findOneAndUpdate(
       { username: username }, // Find user by username
@@ -452,7 +364,6 @@ const profile_edit2 = async (req, res) => {
       user: updatedUser,
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).send({
       success: false,
       message: "Error in updating profile",

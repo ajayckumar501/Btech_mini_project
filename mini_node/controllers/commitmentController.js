@@ -16,8 +16,6 @@ const fetchCommitments = async (req, res) => {
 
     return res.status(200).send(user);
   } catch (error) {
-    // Handle errors
-    console.error('Error fetching all data needed for CommitmentScreen:', error);
     throw error; // Re-throwing the error for the caller to handle
   }
 };
@@ -39,7 +37,6 @@ const deleteCommitment = async (req, res) => {
       message: `Deleted ${deletedCount.deletedCount} commitment(s) with ${username1}`,
     });
   } catch (error) {
-    console.error('Error deleting commitments:', error);
     return res.status(500).send({ error: 'Internal server error' });
   }
 };
@@ -48,14 +45,12 @@ const deleteCommitment = async (req, res) => {
 const countCommitments = async(req,res) => {
     try {
       const maxCommitment = await commitmentModel.findOne({}, { commitmentid: 1 }).sort({ commitmentid: -1 });
-      console.log(maxCommitment);
       if (!maxCommitment) {
         return res.status(200).send({ count: 1 });
       }
       const cid =  maxCommitment.commitmentid+1;
       return res.status(200).send({ count : cid});
     } catch (error) {
-      console.error('Error counting commitments:', error);
       return res.status(500).send({ message: "Internal server error" });
     }
   };
@@ -111,17 +106,17 @@ const commitmentcreator = async(req,res) => {
       postid:postid,
     }).save();
 
-    await sendEmail(
+    sendEmail(
       email,
       "New Connection!!!",
       `Hello ${user1},\n\nYour new connection is ${receiverdata.username}.\nDetails:\nPhone number: ${receiverdata.phoneno},\nLocation: ${receiverdata.location}`
     );
     
 
-  await sendEmail(
+  sendEmail(
     receiverdata.email,
     "New Connection!!!",
-    `Hello ${receiverdata.username}, Your new connection is ${user1} for post:${posttitle}.`
+    `Hello ${receiverdata.username}, \n\nYour new connection is ${user1} \nPost title:"${posttitle}".`
 );
 
 
@@ -134,13 +129,8 @@ const commitmentcreator = async(req,res) => {
    catch(error){
     if(error.response)
       {
-          console.log(error.response.data.message);
           alert(error.response.data.message);
       }
-      else{
-          console.log('Error:', error);
-      }
-      //return res.status(500).send({message:"Internal server error"});
    }
 };
 

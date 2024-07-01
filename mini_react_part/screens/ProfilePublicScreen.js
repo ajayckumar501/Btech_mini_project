@@ -1,6 +1,6 @@
 
 
-import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, FlatList, Pressable,Modal } from 'react-native';
+import { StyleSheet, Text, View, TouchableWithoutFeedback, Image, ScrollView, TouchableOpacity, FlatList, Pressable,Modal } from 'react-native';
 import React, { useState,useEffect } from 'react';
 import ServiceList from "../data/ServiceList.json";
 import axios from 'axios';
@@ -20,7 +20,7 @@ import { useNavigation } from '@react-navigation/native';
         
         const fetchData = async () => {
             try {
-                const resp = await axios.get("https://danasetu-backend.onrender.com/api/v1/auth/fetchUser", {
+                const resp = await axios.get("http://192.168.218.163:8080/api/v1/auth/fetchUser", {
                     headers: {
                         "Content-Type": 'application/json'
                     },
@@ -36,7 +36,7 @@ import { useNavigation } from '@react-navigation/native';
                 setLocation(userData.location)
   
 
-                const apiresponse = await axios.post("https://danasetu-backend.onrender.com/api/v1/service/fetch", userData.services, {
+                const apiresponse = await axios.post("http://192.168.218.163:8080/api/v1/service/fetch", userData.services, {
                     headers: {
                         "Content-Type": 'application/json'
                     }
@@ -46,12 +46,9 @@ import { useNavigation } from '@react-navigation/native';
                     name: service.name,
                     id: service.id
                 }));
-                
-                console.log(updatedServices);
                 AsyncStorage.setItem("@Services", JSON.stringify(updatedServices));
                 setServices(updatedServices);
             } catch (error) {
-                console.log('Error retrieving data:', error.message);
             }
         };
 
@@ -70,7 +67,14 @@ import { useNavigation } from '@react-navigation/native';
     { text: 'Give Feedback', onPress: () => {navigation.navigate('GivefeedbackScreen',{username}); setShowMenu(false); } },
   ];
 
+  const hideMenu = () => {
+    if (showMenu) {
+      setShowMenu(false);
+    }
+  };
+
   return (
+    <TouchableWithoutFeedback onPress={hideMenu}>
     <View style={{ marginTop: -25 }}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.maincontainer}>
@@ -78,7 +82,7 @@ import { useNavigation } from '@react-navigation/native';
           <View style={{ alignItems: "center", /*backgroundColor: "red",*/ width: "100%", }}>
           <Pressable
               onPress={() => setShowMenu(!showMenu)}  // Toggle menu visibility on press
-              style={{ height: 39, width: 39, marginTop: "15%", zIndex: 5, left: "40%" }}
+              style={{ height: 39, width: 39, marginTop: "25%", zIndex: 5, left: "40%" }}
             >
               <Image source={require("../assets/Menu Vertical(1).png")} style={{ height: 39, width: 39, }} />
               {showMenu && (  // Conditionally render menu items when showMenu is true
@@ -153,6 +157,7 @@ import { useNavigation } from '@react-navigation/native';
      
        
     </View>
+    </TouchableWithoutFeedback>
   )
 }
 

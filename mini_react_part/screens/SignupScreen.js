@@ -32,7 +32,7 @@ const Register = ({ navigation }) => {
         confirmpassword:confpasswd
       }
       setLoading(false);
-      apiresponse = axios.post("https://danasetu-backend.onrender.com/api/v1/auth/register",payload,{
+      apiresponse = axios.post("http://192.168.218.163:8080/api/v1/auth/register",payload,{
         headers:{
           "Content-Type":'application/json'
         }
@@ -40,16 +40,19 @@ const Register = ({ navigation }) => {
       .then((response) => {
         alert(response.data.message);
         navigation.navigate("SignupScreen2");
-        console.log("Register Data==> ", { username,email,phoneno,location,password,confpasswd, });
       })
       .catch((error) =>{
-        console.error(error.response.data.message);
+        if(error.response.data){
+          alert(error.response.data.message);
+          setLoading(false);
+        }
       });
 
     } catch (error) {
-      alert(error.response.data.message);
-      setLoading(false);
-      console.log(error);
+      if(error.response.data){
+        alert(error.response.data.message);
+        setLoading(false);
+      }
     }
   };
   return (
@@ -118,12 +121,10 @@ const Register = ({ navigation }) => {
           <Text style={styles.tbuttontext}>next</Text>
         </TouchableOpacity>
 
-      <Text style={styles.linkText}>
-        Already registered ? please{" "}
-        <Text style={styles.link} onPress={() => navigation.navigate("LoginScreen")}>
-          LOGIN
-        </Text>{" "}
-      </Text>
+        <Text style={{ marginTop: "8%", fontSize: 17, fontWeight: "400" }}>Already registered ?</Text>
+                <TouchableOpacity onPress={() => navigation.navigate("LoginScreen")}>
+                    <Text style={{ fontSize: 20, fontWeight: "bold", color: "#02BF9D" }}>Login</Text>
+        </TouchableOpacity>
 
       
       </View>
@@ -157,8 +158,6 @@ const styles = StyleSheet.create({
 
   scrollViewContent: {  // this is used in case of scroll view one error occured ("ERROR  Invariant Violation: ScrollView child layout (["alignItems"]) must be applied through the contentContainerStyle prop.")
     alignItems: 'center',
-    // justifyContent: 'center',
-    // padding: 20,
     backgroundColor: '#02BF9D',
   },
 
@@ -166,7 +165,7 @@ const styles = StyleSheet.create({
 
     borderTopLeftRadius: 44,
     borderTopRightRadius: 44,
-    marginTop: "15%",
+    marginTop: "8%",
     //height: "84%",
     flex:1,
 
@@ -174,7 +173,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     //paddingTop: 20,
     alignItems: "center",
-    paddingBottom : "100%" ,
+    paddingBottom : "15%" ,
 
   },
 
@@ -199,14 +198,14 @@ const styles = StyleSheet.create({
   },
 
   tbutton: {
-    marginTop: "15%",
+    marginTop: "10%",
     width: 110,
     height: 44,
     backgroundColor: "#02BF9D",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 61,
-    marginLeft: "45%",
+    marginLeft: "0%",
     paddingBottom: 6,
 
   },
@@ -223,7 +222,7 @@ const styles = StyleSheet.create({
   image: {
     width: 160,
     height: 52,
-    marginTop:"25%",
+    marginTop:"5%",
 
 
   },

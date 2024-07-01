@@ -3,7 +3,6 @@ const feedbackModel = require("../models/feedbackModel");
 const countfeedbacks = async () => {
   try {
       const maxfeedback = await feedbackModel.findOne({}, { feedbackid: 1 }).sort({ feedbackid: -1 });
-      console.log(maxfeedback);
 
       if (!maxfeedback) {
           return 1; // Return count as 1 if no feedbacks found
@@ -12,7 +11,7 @@ const countfeedbacks = async () => {
       const cid = maxfeedback.feedbackid + 1;
       return cid; // Return the count
   } catch (error) {
-      console.error('Error counting feedbacks:', error);
+      
   }
 };
 
@@ -20,10 +19,8 @@ const countfeedbacks = async () => {
 const handleCountfeedbacks = async (req, res) => {
   try {
       const count = await countfeedbacks();
-      console.log(count);
       res.status(200).send({ count });
   } catch (error) {
-      console.error('Error:', error.message);
       res.status(500).send({ message: 'Internal server error' });
   }
 };
@@ -55,7 +52,20 @@ const feedbackcreator = async (req, res) => {
       message: "feedback registered",
     });
   } catch (error) {
-    console.log("Error creating feedback:", error);
+    return res.status(500).send({message: "Feedback stored\n\nPlease refresh to post new feedback"});
+  }
+};
+
+const fetchFeedbacks = async (req, res) => {
+
+  try {
+
+    let query = {};   
+
+    const posts = await feedbackModel.find(query);
+
+    return res.status(200).send( posts );
+  } catch (error) {
     return res.status(500).send({ message: "Internal server error" });
   }
 };
@@ -63,4 +73,5 @@ const feedbackcreator = async (req, res) => {
 module.exports = {
   feedbackcreator,
   handleCountfeedbacks,
+  fetchFeedbacks,
 };

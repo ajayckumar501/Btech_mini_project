@@ -22,6 +22,10 @@ const NavBarbottom = () => {
     navigation.navigate('ConnectionManager',{username:detail.username});
   };
 
+  const handlePress3 = async() => {
+    navigation.navigate('LoginScreen');
+  };
+
 
   return (
     <View style={styles.maincontainer}>
@@ -30,19 +34,16 @@ const NavBarbottom = () => {
       <View style={styles.navbar}>
 
         <Pressable onPress={handlePress1}>
-          <Image source={require("../assets/homebuttongrey.png")} style={styles.image} />
-        </Pressable>
-        <Pressable >
-          <Image source={require("../assets/sendbuttongrey.png")} style={styles.image} />
-
+          <Image source={require("../assets/homebuttongrey.png")} style = {{ height:35, width:35, marginTop:3}} />
         </Pressable>
         <Pressable onPress={handlePress2}>
-          <Image source={require("../assets/bellbuttongrey.png")} style={styles.image} />
-
+          <Image source={require("../assets/community2.png")} style = {{ height:35, width:35, marginTop:4}} />
         </Pressable>
         <Pressable onPress={handlePress}>
-          <Image source={require("../assets/usericongrey.png")} style={styles.image} />
-
+          <Image source={require("../assets/usericongrey.png")} style = {{ height:35, width:35, marginTop:5}}/>
+        </Pressable>
+        <Pressable onPress={handlePress3}>
+          <Image source={require("../assets/logout2.png")} style={styles.image} />
         </Pressable>
       </View>
     </View>

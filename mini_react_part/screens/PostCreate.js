@@ -12,7 +12,7 @@ const PostCreate = ({route}) => {
     const [count,setCount] = useState(0)
     const [serviceId, setServiceId] = useState(null);
     const navigation = useNavigation();
-  
+
     useEffect(() => {
        let serviceid  = route.params.serviceId;
        setServiceId(serviceid);
@@ -22,21 +22,20 @@ const PostCreate = ({route}) => {
     useEffect(() => {
         const getData = async () => {
                 try{ 
-                    const apiresponse =  await axios.get("https://danasetu-backend.onrender.com/api/v1/postdesc/count",{
+                    const apiresponse =  await axios.get("http://192.168.218.163:8080/api/v1/postdesc/count",{
                     headers:{
                             "Content-Type":'application/json'
                     }
                     })
                                   if(apiresponse){  
-                                        console.log(apiresponse.data.count);
                                         setCount(apiresponse.data.count);
                                   }
         }
         catch (error) {
-            console.log('Error retrieving data:', error);
+            
         }
     };
-    if (!count) {
+    if (!count || count === undefined) {
         getData();
     }
   }, [count]);
@@ -52,25 +51,18 @@ const PostCreate = ({route}) => {
                      title: title,
                      desc: content,
                   };
-            apiresponse = await axios.post("https://danasetu-backend.onrender.com/api/v1/postdesc/create",payload,{
+            apiresponse = await axios.post("http://192.168.218.163:8080/api/v1/postdesc/create",payload,{
               headers:{
                 "Content-Type":'application/json'
               }
             })
-            console.log(apiresponse.data.message);
             alert(apiresponse.data.message);
-
             
           }
           catch (error) {
             if(error.response){
                alert(error.response.data.message);
-               console.log(error.response.data.message);
             }
-            else{
-                alert(error);
-                console.log(error);
-             }
           }
     };
 
