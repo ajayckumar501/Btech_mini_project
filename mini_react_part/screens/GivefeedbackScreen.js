@@ -88,13 +88,11 @@ if (apiresponse === undefined) {
         }
       })
         alert(apiresponse.data.message);
+        navigation.navigate("ProfilePublicScreen",{ username: taker }); 
     }
     catch (error) {
       if(error.response){
          alert(error.response.data.message);
-      }
-      else{
-         alert(error);
       }
     }
   };

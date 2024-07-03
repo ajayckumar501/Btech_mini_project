@@ -236,7 +236,7 @@ const loginController = async (req, res) => {
     } else {
       return res.status(500).send({
         success: false,
-        message: "Invalid user credentials",
+        message: "Incorrect password",
       });
     }
 

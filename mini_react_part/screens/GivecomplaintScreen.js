@@ -87,6 +87,7 @@ if (apiresponse === undefined) {
       })
         alert(apiresponse.data.message);
         setComplaint('');
+        navigation.navigate("ProfilePublicScreen",{ username: taker });
     }
     catch (error) {
       if(error.response){

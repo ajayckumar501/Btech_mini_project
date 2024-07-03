@@ -71,7 +71,7 @@ const Postorganizerreceiver = ({route}) => {
     const navigation = useNavigation();
     
     const navigateToPostCreate = () => {
-       navigation.navigate('PostCreate',{serviceId:serviceId,username:username});
+       navigation.navigate('PostCreate',{serviceId:serviceId,username:username,serviceName:serviceName});
     }
 
     const deleteUserPost = async(postid) => {

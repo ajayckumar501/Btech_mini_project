@@ -177,7 +177,15 @@ const deleteUserByUsername = async (req, res) => {
 
     // Delete the donor from the database by username
     const deletedDonor = await User.findOneAndDelete({ username });
-    const deletedCount = await commitmentModel.deleteMany({ username });
+    const deletionQuery = {
+      $or: [
+        { user1: username }, 
+        { user2: username }, 
+      ],
+    };
+
+    const deletedCount = await commitment.deleteMany(deletionQuery);
+    const deletedCount1 = await Post.deleteMany({ username });
 
     // Send success response
     return res.status(200).send({ message: 'Donor deleted successfully' });

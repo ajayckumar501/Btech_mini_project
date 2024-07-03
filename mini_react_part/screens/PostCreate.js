@@ -57,6 +57,7 @@ const PostCreate = ({route}) => {
               }
             })
             alert(apiresponse.data.message);
+            navigation.navigate("Postorganizerreceiver",{ serviceId: serviceId,serviceName:route.params.serviceName,username:userdata.username });
             
           }
           catch (error) {

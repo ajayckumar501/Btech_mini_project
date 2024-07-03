@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "Mini_updated",
+    "name": "DanaSetu",
     "slug": "Mini_updated",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/danasetulogopng",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",

@@ -9,14 +9,15 @@ const ConnectionManager = ({route}) => {
     const [commitments, setCommitments] = useState([]); 
   
     useEffect(() => {
-      const var1 = route.params.username;
-      setUsername(var1);
-      fetchConnections();
-    }, [username]);
-
-    // useEffect(() => {
-    //     fetchConnections();
-    // }, []);
+        const var1 = route.params.username;
+        setUsername(var1);
+      }, [route.params.username]);
+      
+      useEffect(() => {
+        if (username) {
+          fetchConnections();
+        }
+      }, [username]);
 
         const fetchConnections = async () => {
             try {
