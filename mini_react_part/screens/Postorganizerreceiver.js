@@ -65,7 +65,7 @@ const Postorganizerreceiver = ({route}) => {
         if (serviceId!=undefined) {
             fetchPosts();
         }
-      }, [serviceId,refreshing]);
+      }, [serviceId]);
 
 
     const navigation = useNavigation();
@@ -131,7 +131,7 @@ const Postorganizerreceiver = ({route}) => {
                                 <Pressable>
                                 <Image source={require("../assets/usericon.png")} style={styles.image} />
                                 </Pressable>
-                                <Text style={styles.postheadingtext}>{item.post_title}</Text>
+                                <Text style={styles.postheadingtext}>{truncateDescription(item.post_title, 50)}</Text>
                             </View>
 
                             <View>
@@ -199,6 +199,8 @@ export default Postorganizerreceiver;
     
         flatstyle: {
             alignItems: 'center',
+            paddingTop:"5%",
+            paddingBottom:"25%",
         },
     
         postheadingtext: {

@@ -11,9 +11,12 @@ const PostDetailviewdonor = ({route}) => {
     const [content, setContent] = useState('');
     const [receiver, setReceiver] = useState('');
     const [donor, setDonor] = useState('');
+    const [role, setRole] = useState('');
     const [postid, setPostid] = useState('');
     const [count,setCount] = useState(0);
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
+    const navigation = useNavigation();
 
     useEffect(() => {
         const posttitle  = route.params.post_title;
@@ -48,6 +51,7 @@ const PostDetailviewdonor = ({route}) => {
                     data = JSON.parse(Data);
                     const donor = data.username;
                     setDonor(donor);
+                    setRole(data.usertype);
                 }
 
                 apiresp = await axios.get("http://192.168.218.163:8080/api/v1/commitment/count", {
@@ -127,13 +131,13 @@ const PostDetailviewdonor = ({route}) => {
 
             // Alert and log the response message from the second API call
             alert(createResponse.data.message);
+            navigation.navigate("Serviceorganizerreceiver",{usertype:role});
+      
         }
         } catch (error) {
             // Handle errors
             if (error.response) {
                 alert(error.response.data.message);
-            } else {
-                alert("An error occurred while processing your request.");
             }
         }
     };
@@ -142,7 +146,6 @@ const PostDetailviewdonor = ({route}) => {
         navigation.navigate("ProfilePublicScreen",{ username: displayreceiver() });
     }
 
-    const navigation = useNavigation();
 
     return (
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, Alert, RefreshControl } from 'react-native';
 import SearchBar from '../components/SearchBar';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
@@ -7,6 +7,7 @@ import axios from 'axios';
 const ConnectionManager = ({route}) => {
     const [username, setUsername] = useState(null);
     const [commitments, setCommitments] = useState([]); 
+    const [refreshing, setRefreshing] = useState(false);
   
     useEffect(() => {
         const var1 = route.params.username;
@@ -18,6 +19,27 @@ const ConnectionManager = ({route}) => {
           fetchConnections();
         }
       }, [username]);
+
+      const onRefresh = async() => {
+        setRefreshing(true); // Show the refresh indicator
+        try {
+            const apiresponse = await axios.get('http://192.168.218.163:8080/api/v1/commitment/fetch',{
+                headers: {
+                    "Content-Type": 'application/json'
+                },
+                params: {
+                    user1:username
+                  },
+            });
+            const data = apiresponse.data;
+            // Update the donors state with the fetched data
+            setCommitments(data);
+        } catch (error) {
+            
+        }
+        
+        setRefreshing(false); // Hide the refresh indicator after fetching
+      };
 
         const fetchConnections = async () => {
             try {
@@ -43,6 +65,7 @@ const ConnectionManager = ({route}) => {
             const apiresponse = await axios.delete(`http://192.168.218.163:8080/api/v1/commitment/deleteConnection?username1=${user}&username2=${username}`);
             setCommitments(commitments.filter(commitments => commitments.user2 !== user));
             alert(apiresponse.data.message);
+            fetchConnections();
         } catch (error) {
             
         }
@@ -96,7 +119,9 @@ const ConnectionManager = ({route}) => {
     return (
         <View style={styles.container}>
             <SearchBar style={styles.SearchBartop} />
-            <FlatList
+            <FlatList refreshControl={
+                     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                    }
                 data={commitments}
                 renderItem={renderItem}
                 contentContainerStyle={styles.flatstyle}

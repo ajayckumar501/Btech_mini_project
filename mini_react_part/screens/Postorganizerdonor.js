@@ -9,14 +9,11 @@ let apiresponse;
 const Postorganizerdonor = ({route}) => {
 
     const[serviceId, setServiceId] = useState(null);
-    const [serviceName, setServiceName] = useState(null);
     const [posts, setPosts] = useState([]); // State to store fetched posts
   
     useEffect(() => {
       const var1 = route.params.serviceId;
-      const var2 = route.params.serviceName;
       setServiceId(var1);
-      setServiceName(var2);
     }, [route.params]);
 
     const truncateDescription = (description, maxLength) => {
@@ -60,7 +57,7 @@ const Postorganizerdonor = ({route}) => {
             <FlatList data={posts}
                 renderItem={({ index, item }) =>
 
-                    <Pressable onPress={() => navigation.navigate("PostDetailviewdonor", { post_title:item.post_title ,post_desc:item.post_desc , receiver:item.username , postid:item.postid })}>
+                    <Pressable onPress={() => navigation.navigate("PostDetailviewdonor", { post_title:item.post_title ,post_desc:item.post_desc , receiver:item.username , postid:item.postid, serviceId:route.params.serviceId })}>
                     <View style={styles.serviceboxflat}>
 
                         <View style={styles.postinfoboxwithdelete}>
@@ -68,7 +65,7 @@ const Postorganizerdonor = ({route}) => {
                                 <Pressable>
                                 <Image source={require("../assets/usericon.png")} style={styles.image} />
                                 </Pressable>
-                                <Text style={styles.postheadingtext}>{item.post_title}</Text>
+                                <Text style={styles.postheadingtext}>{truncateDescription(item.post_title, 70)}</Text>
                             </View>
                         </View>
 

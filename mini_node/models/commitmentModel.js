@@ -31,4 +31,6 @@ const commitmentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+commitmentSchema.index({ user1: 1, user2: 1, postid: 1 }, { unique: true });
+
 module.exports = mongoose.model("commitment", commitmentSchema);

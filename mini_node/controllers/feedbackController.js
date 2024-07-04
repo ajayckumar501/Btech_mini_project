@@ -34,7 +34,7 @@ const feedbackcreator = async (req, res) => {
     if (feedbackid == undefined || !feedback || !giver || !taker) {
       return res.status(400).send({
         success: false,
-        message: "Missing required fields",
+        message: "Server error!",
       });
     }
 

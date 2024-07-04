@@ -21,6 +21,7 @@ import ReceiverlistScreen from './screens/ReceiverlistScreen';
 import ProfileEdit1 from './screens/ProfileEdit1';
 import ProfileEdit2 from './screens/ProfileEdit2';
 import ProfilePublicScreen from './screens/ProfilePublicScreen';
+import ProfileViewAdmin from './screens/ProfileViewAdmin';
 import GivecomplaintScreen from './screens/GivecomplaintScreen';
 import GivefeedbackScreen from './screens/GivefeedbackScreen';
 import Complaintorganizer from './screens/Complaintorganizer';
@@ -171,6 +172,10 @@ const AppNavigator = () => {
     <Stack.Screen
       name="ProfilePublicScreen" 
       component={ProfilePublicScreen} 
+    />
+    <Stack.Screen
+      name="ProfileViewAdmin" 
+      component={ProfileViewAdmin} 
     />
 
     <Stack.Screen

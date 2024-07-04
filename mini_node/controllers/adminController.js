@@ -3,6 +3,8 @@ const Post = require('../models/postModel'); // Import the Post model
 const Service=require("../models/serviceModel")
 const adminModel = require("../models/adminModel");
 const commitment = require("../models/commitmentModel");
+const feedback = require("../models/feedbackModel");
+const complaint  = require("../models/complaintModel");
 
 
 const JWT = require("jsonwebtoken");
@@ -184,8 +186,17 @@ const deleteUserByUsername = async (req, res) => {
       ],
     };
 
+    const deletionQuery1 = {
+      $or: [
+        { giver: username }, 
+        { taker: username }, 
+      ],
+    };
+
     const deletedCount = await commitment.deleteMany(deletionQuery);
     const deletedCount1 = await Post.deleteMany({ username });
+    const deletedCount2 = await feedback.deleteMany( deletionQuery1 );
+    const deletedCount3 = await complaint.deleteMany( deletionQuery1 );
 
     // Send success response
     return res.status(200).send({ message: 'Donor deleted successfully' });

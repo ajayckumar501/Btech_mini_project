@@ -2,6 +2,7 @@ import { StyleSheet, Text, View,TextInput,TouchableOpacity } from 'react-native'
 import React, { useState,useEffect } from 'react';
 import { ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 let apiresponse;
 import axios from 'axios';
 
@@ -12,6 +13,8 @@ const GivecomplaintScreen = ({route}) => {
   const [taker,setTaker] = useState(null); 
   const [giver,setGiver] = useState(null); 
   const [count,setCount] = useState(null);
+
+  const navigation = useNavigation();
 
 
 
@@ -87,11 +90,24 @@ if (apiresponse === undefined) {
       })
         alert(apiresponse.data.message);
         setComplaint('');
+        console.log(taker);
         navigation.navigate("ProfilePublicScreen",{ username: taker });
     }
     catch (error) {
-      if(error.response){
+      if(error.response.status === 400){
          alert(error.response.data.message);
+         try{ 
+          apiresponse =  await axios.get("http://192.168.218.163:8080/api/v1/complaint/count",{
+          headers:{
+                  "Content-Type":'application/json'
+          }
+          })
+          if(apiresponse){  
+             setCount(apiresponse.data.count);
+          }
+       }
+       catch (error) {
+      }
       }
     }
   };

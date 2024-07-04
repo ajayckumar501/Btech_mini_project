@@ -4,7 +4,7 @@
     "slug": "Mini_updated",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/danasetulogopng",
+    "icon": "./assets/danasetulogopng.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",

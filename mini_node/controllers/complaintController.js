@@ -48,7 +48,7 @@ const complaintcreator = async (req, res) => {
     if (complaintid == undefined || !complaint || !giver || !taker) {
       return res.status(400).send({
         success: false,
-        message: "Missing required fields",
+        message: "Server error!!",
       });
     }
 

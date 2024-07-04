@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View,TextInput,TouchableOpacity,ScrollView } from 'react-native';
 import React, { useState,useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 let apiresponse;
 import axios from 'axios';
 
@@ -11,6 +12,8 @@ const GivefeedbackScreen = ({route}) => {
   const [taker,setTaker] = useState(null); 
   const [giver,setGiver] = useState(null); 
   const [count,setCount] = useState(null);
+
+  const navigation = useNavigation();
 
 
 
@@ -91,9 +94,21 @@ if (apiresponse === undefined) {
         navigation.navigate("ProfilePublicScreen",{ username: taker }); 
     }
     catch (error) {
-      if(error.response){
-         alert(error.response.data.message);
+      if(error.response.status === 400){
+        alert(error.response.data.message);
+        try{ 
+         apiresponse =  await axios.get("http://192.168.218.163:8080/api/v1/feedback/count",{
+         headers:{
+                 "Content-Type":'application/json'
+         }
+         })
+         if(apiresponse){  
+            setCount(apiresponse.data.count);
+         }
       }
+      catch (error) {
+     }
+     }
     }
   };
 

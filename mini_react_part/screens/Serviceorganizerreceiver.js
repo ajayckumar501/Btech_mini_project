@@ -47,7 +47,7 @@ const Serviceorganizerreceiver = ({ route }) => {
 
     if(usertype === "Donor"){
 
-      navigation.navigate("Postorganizerdonor", { serviceId: item.id,serviceName:item.name,username:user.username  });
+      navigation.navigate("Postorganizerdonor", { serviceId: item.id,username:user.username  });
       
     }
     else{

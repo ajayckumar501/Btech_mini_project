@@ -62,7 +62,7 @@ const DonorlistScreen = () => {
         <TouchableOpacity>
             <View style={styles.serviceboxflat}>
                 <View style={styles.usericonandname}>
-                <TouchableOpacity onPress={() => navigation.navigate('ProfilePublicScreen',{ username:item.username }) }>
+                <TouchableOpacity onPress={() => navigation.navigate('ProfileViewAdmin',{ username:item.username }) }>
                     <Image source={require("../assets/usericon.png")} style={styles.image}  />
                 </TouchableOpacity>
                     <Text style={styles.donornametxt}>{item.username}</Text>
