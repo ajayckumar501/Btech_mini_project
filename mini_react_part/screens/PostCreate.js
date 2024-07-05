@@ -61,8 +61,25 @@ const PostCreate = ({route}) => {
             
           }
           catch (error) {
-            if(error.response){
-               alert(error.response.data.message);
+            if(error.response.status === 500)
+            {
+                alert(apiresponse.data.message);
+            }
+            else if(error.response.status === 400){
+                alert("Server error!");
+                try{ 
+                    const apiresponse =  await axios.get("http://192.168.218.163:8080/api/v1/postdesc/count",{
+                    headers:{
+                            "Content-Type":'application/json'
+                    }
+                    })
+                                  if(apiresponse){  
+                                        setCount(apiresponse.data.count);
+                                  }
+                }
+                catch (error) {
+            
+                }
             }
           }
     };
