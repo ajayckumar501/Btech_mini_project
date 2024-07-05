@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, Text, View, FlatList, RefreshControl,Image, TouchableOpacity, Alert } from 'react-native';
 import SearchBar from '../components/SearchBar';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
@@ -7,6 +7,7 @@ import axios from 'axios';
 const DonorlistScreen = () => {
     const navigation = useNavigation();
     const [donors, setDonors] = useState([]);
+    const [refreshing, setRefreshing] = useState(false);
 
     useEffect(() => {
         // Fetch donor data from the backend
@@ -24,6 +25,20 @@ const DonorlistScreen = () => {
             
         }
     };
+
+    const onRefresh = async() => {
+        setRefreshing(true); // Show the refresh indicator
+        try {
+            // Query the database to find all users with usertype 'donor'
+            const apiresponse = await axios.post('http://192.168.218.163:8080/api/v1/admin/fetchallDonors');
+            const data = apiresponse.data;
+            // Update the donors state with the fetched data
+            setDonors(data);
+        } catch (error) {
+            
+        }
+        setRefreshing(false); // Hide the refresh indicator after fetching
+      };
 
     
     const deleteDonor = async (username) => {
@@ -77,7 +92,8 @@ const DonorlistScreen = () => {
     return (
         <View style={styles.container}>
             <SearchBar style={styles.SearchBartop} />
-            <FlatList
+            <FlatList refreshControl={
+                     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                 data={donors}
                 renderItem={renderItem}
                 contentContainerStyle={styles.flatstyle}

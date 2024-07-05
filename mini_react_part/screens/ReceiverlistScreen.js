@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, FlatList, Image, TouchableOpacity, Text, Alert } from 'react-native';
+import { StyleSheet, View, FlatList, RefreshControl, Image, TouchableOpacity, Text, Alert } from 'react-native';
 import SearchBar from '../components/SearchBar';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
@@ -7,6 +7,7 @@ import axios from 'axios';
 const ReceiverlistScreen = () => {
     const navigation = useNavigation();
     const [receivers, setReceivers] = useState([]);
+    const [refreshing, setRefreshing] = useState(false);
 
     useEffect(() => {
         // Fetch receiver data from the backend
@@ -23,6 +24,19 @@ const ReceiverlistScreen = () => {
             
         }
     };
+
+    const onRefresh = async() => {
+        setRefreshing(true); // Show the refresh indicator
+        try {
+            const apiresponse = await axios.get('http://192.168.218.163:8080/api/v1/admin/fetchallReceivers');
+            const data = apiresponse.data;
+            // Update the receivers state with the fetched data
+            setReceivers(data);
+        } catch (error) {
+            
+        }
+        setRefreshing(false); // Hide the refresh indicator after fetching
+      };
 
     const deleteReceiver = async (username) => {
         try {
@@ -71,7 +85,9 @@ const ReceiverlistScreen = () => {
     return (
         <View style={styles.container}>
             <SearchBar style={styles.SearchBartop} />
-            <FlatList
+            <FlatList refreshControl={
+                     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                    }
                 data={receivers}
                 renderItem={renderItem}
                 contentContainerStyle={styles.flatstyle}
